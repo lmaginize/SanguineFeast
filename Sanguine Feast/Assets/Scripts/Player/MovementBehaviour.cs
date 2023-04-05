@@ -9,7 +9,7 @@ public class MovementBehaviour : MonoBehaviour
     public Rigidbody rb;
     public CollisionBehaviour cb;
     public CapsuleCollider coll;
-    public Camera cam;
+    public CamBehaviour camBeh;
 
     private PlayerControls pcs;
 
@@ -82,8 +82,8 @@ public class MovementBehaviour : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cb = GetComponent<CollisionBehaviour>();
         coll = GetComponent<CapsuleCollider>();
-        cam = GetComponentInChildren<Camera>();
         gc = GameObject.Find("GameController").GetComponent<GameController>();
+        camBeh = GetComponent<CamBehaviour>();
     }
 
     private void OnEnable()
@@ -126,8 +126,6 @@ public class MovementBehaviour : MonoBehaviour
         if (canMove)
         {
             moveDir = transform.TransformDirection(new Vector3(move.ReadValue<Vector2>().x, 0, move.ReadValue<Vector2>().y));
-
-            CameraMovement();
         }
     }
 
@@ -140,18 +138,6 @@ public class MovementBehaviour : MonoBehaviour
         {
             Movement();
         }
-    }
-
-    private float xRotation = 0;
-
-    /// <summary>
-    /// Controls the camera
-    /// </summary>
-    void CameraMovement()
-    {
-        xRotation = Mathf.Clamp(xRotation - look.ReadValue<Vector2>().y * 5 * sensitivity * Time.deltaTime, minLook, maxLook);
-        cam.transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * look.ReadValue<Vector2>().x * 5 * sensitivity * Time.deltaTime);
     }
 
     /// <summary>
@@ -215,9 +201,14 @@ public class MovementBehaviour : MonoBehaviour
     {
         coll.height /= 1.5f;
         coll.center = new Vector3(0, -0.25f, 0);
-        camOffset = crouchOffset;
-        speedCap = crouchSpeed;
-        cam.transform.localPosition = camOffset;
+
+        if (camBeh.camMode == 0)
+        {
+            camOffset = crouchOffset;
+            speedCap = crouchSpeed;
+            camBeh.cam.transform.localPosition = camOffset;
+        }
+
         crouched = true;
     }
 
@@ -225,9 +216,14 @@ public class MovementBehaviour : MonoBehaviour
     {
         coll.height *= 1.5f;
         coll.center = new Vector3(0, 0, 0);
-        camOffset = standOffset;
-        speedCap = walkSpeed;
-        cam.transform.localPosition = camOffset;
+
+        if (camBeh.camMode == 0)
+        {
+            camOffset = standOffset;
+            speedCap = walkSpeed;
+            camBeh.cam.transform.localPosition = camOffset;
+        }
+
         crouched = false;
     }
 
@@ -244,6 +240,11 @@ public class MovementBehaviour : MonoBehaviour
         if (context.performed)
         {
             sprinting = true;
+
+            if (crouched)
+            {
+                UnCrouch();
+            }
         }
         else if (context.canceled)
         {
