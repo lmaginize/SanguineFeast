@@ -262,7 +262,7 @@ public class MovementBehaviour : MonoBehaviour
         {
             ungroundDouble = false;
             cb.grounded = true;
-            rb.AddForce(up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(up * jumpForce * ((moveDir != Vector3.zero) ? rb.velocity.magnitude * 0.1f + 1 : 1f), ForceMode.Impulse);
         }          
     }
 }
