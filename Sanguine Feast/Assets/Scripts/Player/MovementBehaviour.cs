@@ -11,10 +11,9 @@ public class MovementBehaviour : MonoBehaviour
     public CapsuleCollider coll;
     public CamBehaviour camBeh;
 
-    private PlayerControls pcs;
+    public PlayerControls pcs;
 
     private InputAction move;
-    private InputAction look;
     private InputAction sprint_;
     private InputAction jump_;
     private InputAction crouch;
@@ -64,9 +63,8 @@ public class MovementBehaviour : MonoBehaviour
 
     void Awake()
     {
-        pcs = InputManager.pcs;
+        pcs = new PlayerControls();
 
-        look = pcs.Gameplay.Look;
         move = pcs.Gameplay.Move;
         sprint_ = pcs.Gameplay.Sprint;
         jump_ = pcs.Gameplay.Jump;
@@ -88,7 +86,6 @@ public class MovementBehaviour : MonoBehaviour
 
     private void OnEnable()
     {
-        look.Enable();
         move.Enable();
         sprint_.Enable();
         jump_.Enable();
@@ -105,7 +102,6 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.canceled -= Sprint;
         jump_.performed -= Jump;
         crouch.performed -= OnCrouch;
-        look.Disable();
         move.Disable();
         sprint_.Disable();
         jump_.Disable();
@@ -125,7 +121,15 @@ public class MovementBehaviour : MonoBehaviour
     {
         if (canMove)
         {
-            moveDir = transform.TransformDirection(new Vector3(move.ReadValue<Vector2>().x, 0, move.ReadValue<Vector2>().y));
+            if (camBeh.camMode != 2)
+            {
+                moveDir = transform.TransformDirection(new Vector3(move.ReadValue<Vector2>().x, 0, move.ReadValue<Vector2>().y));
+            }
+            else
+            {
+                moveDir = new Vector3(move.ReadValue<Vector2>().x, 0, move.ReadValue<Vector2>().y);
+                transform.LookAt(new Vector3(transform.position.x + rb.velocity.x, transform.position.y, transform.position.z + rb.velocity.z));
+            }
         }
     }
 

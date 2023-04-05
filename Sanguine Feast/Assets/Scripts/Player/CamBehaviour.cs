@@ -10,9 +10,8 @@ public class CamBehaviour : MonoBehaviour
     private InputAction look;
     private InputAction changeCam;
 
-    private GameController gc;
     public GameObject[] camObjs;
-    private Camera[] cams;
+    public Camera[] cams;
 
     private Vector2 lookDir;
     public Vector3[] camPos;
@@ -29,15 +28,17 @@ public class CamBehaviour : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        pcs = InputManager.pcs;
+        pcs = GetComponent<MovementBehaviour>().pcs;
 
         changeCam = pcs.Gameplay.ToggleCamera;
         look = pcs.Gameplay.Look;
 
         changeCam.performed += ToggleCamera;
 
-        gc = GameObject.Find("GameController").GetComponent<GameController>();
         Cursor.lockState = CursorLockMode.Locked;
+
+        camObjs[1].SetActive(false);
+        camObjs[2].SetActive(false);
     }
 
     private void OnEnable()
@@ -101,6 +102,11 @@ public class CamBehaviour : MonoBehaviour
                 {
                     camObjs[x].SetActive(false);
                 }
+
+                if (camMode == x && x == 2)
+                {
+                    camObjs[2].transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
             }
 
             cam = cams[camMode];
@@ -113,7 +119,7 @@ public class CamBehaviour : MonoBehaviour
     void FirstPerson()
     {
         xRotation = Mathf.Clamp(xRotation - lookDir.y * sensitivity * Time.deltaTime, minLook, maxLook);
-        cams[0].transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        camObjs[0].transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         transform.Rotate(Vector3.up * lookDir.x * sensitivity * Time.deltaTime);
     }
 
@@ -131,10 +137,10 @@ public class CamBehaviour : MonoBehaviour
             cams[1].transform.localPosition = camPos[1];
         }
 
-        xRotation = Mathf.Clamp(xRotation - lookDir.y * sensitivity * Time.deltaTime, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation - lookDir.y * sensitivity * Time.deltaTime, minLook, maxLook);
         yRotation += lookDir.x * sensitivity * Time.deltaTime;
-        transform.Rotate(Vector3.up * lookDir.x * sensitivity * Time.deltaTime);
-        camObjs[1].transform.rotation = Quaternion.Euler(0f, yRotation, 0f);
+        transform.rotation = Quaternion.Euler(0, yRotation, 0);
+        camObjs[1].transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
     }
 
     private void OrthoCam()
@@ -151,6 +157,6 @@ public class CamBehaviour : MonoBehaviour
             cams[2].transform.localPosition = camPos[2];
         }
 
-        camObjs[2].transform.rotation = Quaternion.Euler(90f, transform.rotation.y, 0f);
+        camObjs[2].transform.LookAt(transform.position + Vector3.forward);
     }
 }

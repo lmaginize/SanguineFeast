@@ -373,18 +373,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c4788675c11914e9e75c4e7ce097ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parent: {fileID: 0}
   camObjs:
   - {fileID: 4871555642086868490}
   - {fileID: 1413167118}
   - {fileID: 1111552859}
+  cams:
+  - {fileID: 4871555642086868492}
+  - {fileID: 445191866}
+  - {fileID: 1857946555}
   camPos:
   - {x: 0, y: 0.5369999, z: 0}
   - {x: 0, y: 1.32, z: -3.83}
   - {x: 0, y: 19.91, z: 0}
   sensitivity: 50
-  maxLook: -90
-  minLook: 90
+  maxLook: 90
+  minLook: -90
+  camMode: 0
+  cam: {fileID: 0}
 --- !u!114 &4871555641258040515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -401,7 +406,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   cb: {fileID: 0}
   coll: {fileID: 0}
-  cam: {fileID: 0}
+  camBeh: {fileID: 0}
   sensitivity: 50
   maxLook: 90
   minLook: -60
