@@ -41,6 +41,7 @@ public class MovementBehaviour : MonoBehaviour
     public float walkSpeed = 6f;
     public float sprintSpeed = 12f;
     public float speedCap = 10f;
+    public float nightMultiplier;
 
     public Vector3 finalMove;
     public Vector3 jumpDir;
@@ -82,6 +83,7 @@ public class MovementBehaviour : MonoBehaviour
         cb = GetComponent<CollisionBehaviour>();
         coll = GetComponent<CapsuleCollider>();
         cam = GetComponentInChildren<Camera>();
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
     }
 
     private void OnEnable()
@@ -177,16 +179,16 @@ public class MovementBehaviour : MonoBehaviour
 
             finalMove = Vector3.ProjectOnPlane(moveDir, cb.groundNormal);
 
-            rb.AddForce(finalMove * moveForce, ForceMode.Acceleration);
+            rb.AddForce(finalMove * moveForce * (gc.night ? nightMultiplier : 1), ForceMode.Acceleration);
 
-            if (sideForward.magnitude > speedCap)
+            if (sideForward.magnitude > speedCap * (gc.night ? nightMultiplier : 1))
             {
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, speedCap);
             }
         }
         else
         {
-            airMoveSpeed = speedCap * 0.75f;
+            airMoveSpeed = speedCap * 0.75f * (gc.night ? nightMultiplier : 1);
 
             rb.AddForce(moveDir * airMoveForce, ForceMode.Acceleration);
 
@@ -194,11 +196,6 @@ public class MovementBehaviour : MonoBehaviour
             {
                 rb.velocity = Vector3.ClampMagnitude(transform.TransformDirection(sideForward), airMoveSpeed) + Vector3.up * rb.velocity.y;
             }
-        }
-
-        if (rb.velocity.magnitude < moveForce / rb.mass && moveDir != Vector3.zero)
-        {
-            rb.velocity = Vector3.ProjectOnPlane(moveDir * speedCap / 2, cb.groundNormal);
         }
     }
 

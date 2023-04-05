@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 390464245}
   - component: {fileID: 390464244}
+  - component: {fileID: 390464246}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -167,6 +168,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &390464246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390464243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e726010745639214a95e13afc9bd51ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  night: 0
 --- !u!1 &1027275457
 GameObject:
   m_ObjectHideFlags: 0
@@ -588,9 +602,11 @@ MonoBehaviour:
   moveForce: 100
   airMoveForce: 50
   airMoveSpeed: 6
+  crouchSpeed: 3
   walkSpeed: 6
   sprintSpeed: 12
   speedCap: 6
+  nightMultiplier: 0
   finalMove: {x: 0, y: 0, z: 0}
   jumpDir: {x: 0, y: 0, z: 0}
   crouched: 0
