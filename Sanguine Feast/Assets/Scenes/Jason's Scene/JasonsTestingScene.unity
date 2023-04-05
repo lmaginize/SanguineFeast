@@ -317,7 +317,7 @@ MonoBehaviour:
   seconds: 0
   deltaSeconds: 0
   sunObject: {fileID: 125582743}
-  moonObject: {fileID: 0}
+  moonObject: {fileID: 1701512868}
   isNight: 0
 --- !u!1 &1567422942
 GameObject:
@@ -529,7 +529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &1701512869
 Light:
   m_ObjectHideFlags: 0

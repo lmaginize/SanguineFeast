@@ -17,6 +17,7 @@ public class DayNightCycle : MonoBehaviour
     void Start()
     {
         sunObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+        isNight = true;
     }
 
     // Update is called once per frame
@@ -30,14 +31,17 @@ public class DayNightCycle : MonoBehaviour
             switch (seconds)
             {
                 case (120):
-                case (240):
                     StartCoroutine(ChangeCycle(135f));
-                    isNight = true;
+                    isNight = false;
                     break;
                 case (160):
                 case (200):
                     StartCoroutine(ChangeCycle(45f));
                     isNight = false;
+                    break;
+                case (240):
+                    StartCoroutine(ChangeCycle(135f));
+                    isNight = true;
                     break;
             }
         }
@@ -46,6 +50,15 @@ public class DayNightCycle : MonoBehaviour
         {
             deltaSeconds -= 240;
         }
+
+        /*if(isNight && !moonObject.activeInHierarchy)
+        {
+            moonObject.SetActive(true);
+        }
+        else if(!isNight && moonObject.activeInHierarchy)
+        {
+            moonObject.SetActive(false);
+        }*/
 
     }
 
