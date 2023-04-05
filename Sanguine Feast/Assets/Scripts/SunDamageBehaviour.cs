@@ -19,6 +19,15 @@ public class SunDamageBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameObject.Find("Cube").GetComponent<DayNightCycle>().isNight == false)
+        {
+            gameObject.SetActive(true);
+        }
+        else if(GameObject.Find("Cube").GetComponent<DayNightCycle>().isNight == true)
+        {
+            gameObject.SetActive(false);
+        }
+
         Vector3 forward = transform.TransformDirection(Vector3.forward) * 10;
         Debug.DrawRay(transform.position, forward, Color.green);
 

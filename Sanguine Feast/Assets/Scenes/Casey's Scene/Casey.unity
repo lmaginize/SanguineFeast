@@ -333,6 +333,7 @@ MonoBehaviour:
   seconds: 0
   deltaSeconds: 0
   sunObject: {fileID: 619745677}
+  moonObject: {fileID: 0}
   isNight: 0
 --- !u!1001 &283575829
 PrefabInstance:
@@ -562,7 +563,7 @@ GameObject:
   - component: {fileID: 2066108726}
   - component: {fileID: 2066108728}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: SunBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
