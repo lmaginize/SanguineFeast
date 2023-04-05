@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class DayNightCycle : MonoBehaviour
     private bool isChangingCycle;
     public GameObject sunObject;
     public GameObject moonObject;
+
+    public Slider dayNightCycleSlider;
 
     public bool isNight;
     // Start is called before the first frame update
@@ -27,6 +30,7 @@ public class DayNightCycle : MonoBehaviour
         {
             deltaSeconds += Time.deltaTime;
             seconds = (int)deltaSeconds;
+            dayNightCycleSlider.value = seconds;
 
             switch (seconds)
             {
