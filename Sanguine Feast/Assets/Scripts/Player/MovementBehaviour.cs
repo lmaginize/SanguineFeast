@@ -17,6 +17,7 @@ public class MovementBehaviour : MonoBehaviour
     private InputAction look;
     private InputAction sprint_;
     private InputAction jump_;
+    private InputAction crouch;
 
     public float sensitivity = 50;
     public float maxLook = 90;
@@ -36,8 +37,9 @@ public class MovementBehaviour : MonoBehaviour
     public float moveForce = 10;
     public float airMoveForce = 1;
     public float airMoveSpeed;
-    public float walkSpeed = 10f;
-    public float sprintSpeed = 20f;
+    public float crouchSpeed = 3f;
+    public float walkSpeed = 6f;
+    public float sprintSpeed = 12f;
     public float speedCap = 10f;
 
     public Vector3 finalMove;
@@ -67,10 +69,12 @@ public class MovementBehaviour : MonoBehaviour
         move = pcs.Gameplay.Move;
         sprint_ = pcs.Gameplay.Sprint;
         jump_ = pcs.Gameplay.Jump;
+        crouch = pcs.Gameplay.Crouch;
 
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
+        crouch.performed += OnCrouch;
 
         up = Vector3.up;
         gc = FindObjectOfType<GameController>();
@@ -86,9 +90,11 @@ public class MovementBehaviour : MonoBehaviour
         move.Enable();
         sprint_.Enable();
         jump_.Enable();
+        crouch.Enable();
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
+        crouch.performed += OnCrouch;
     }
 
     private void OnDisable()
@@ -96,10 +102,12 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.performed -= Sprint;
         sprint_.canceled -= Sprint;
         jump_.performed -= Jump;
+        crouch.performed -= OnCrouch;
         look.Disable();
         move.Disable();
         sprint_.Disable();
         jump_.Disable();
+        crouch.Disable();
     }
 
     void Start()
@@ -154,7 +162,11 @@ public class MovementBehaviour : MonoBehaviour
         if (cb.grounded)
         {
             //Set speed and jump distance
-            if (sprinting)
+            if (crouched)
+            {
+                ChangeSpeed(crouchSpeed);
+            }
+            else if (sprinting)
             {
                 ChangeSpeed(sprintSpeed);
             }
@@ -188,6 +200,38 @@ public class MovementBehaviour : MonoBehaviour
         {
             rb.velocity = Vector3.ProjectOnPlane(moveDir * speedCap / 2, cb.groundNormal);
         }
+    }
+
+    private void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.performed && !crouched)
+        {
+            Crouch();
+        }
+        else if (context.performed)
+        {
+            UnCrouch();
+        }
+    }
+
+    public void Crouch()
+    {
+        coll.height /= 1.5f;
+        coll.center = new Vector3(0, -0.25f, 0);
+        camOffset = crouchOffset;
+        speedCap = crouchSpeed;
+        cam.transform.localPosition = camOffset;
+        crouched = true;
+    }
+
+    public void UnCrouch()
+    {
+        coll.height *= 1.5f;
+        coll.center = new Vector3(0, 0, 0);
+        camOffset = standOffset;
+        speedCap = walkSpeed;
+        cam.transform.localPosition = camOffset;
+        crouched = false;
     }
 
     void ChangeSpeed(float speed)

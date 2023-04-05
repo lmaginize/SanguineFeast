@@ -26,8 +26,6 @@ public class CollisionBehaviour : MonoBehaviour
     public float maxSlope = 40;
     public bool grounded = false;
     public Vector3 groundNormal;
-    public Vector3 perpLeft;
-    public Vector3 perpRight;
 
     void Awake()
     {
