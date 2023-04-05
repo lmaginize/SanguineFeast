@@ -8,10 +8,11 @@ public class DayNightCycle : MonoBehaviour
     [SerializeField] private int seconds;
     [SerializeField] private float deltaSeconds;
     private const int MAX_TIME_FOR_DAY = 240;
-    //private List<int> timeIntervalChangePointsOfDay = new List<int> { 0, 40, 80, 120};
     private bool rotated;
     private bool isChangingCycle;
     public GameObject sunObject;
+
+    public bool isNight;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class DayNightCycle : MonoBehaviour
             deltaSeconds += Time.deltaTime;
             seconds = (int)deltaSeconds;
         }
+
         if (seconds >= MAX_TIME_FOR_DAY)
         {
             deltaSeconds -= 240;
@@ -39,10 +41,12 @@ public class DayNightCycle : MonoBehaviour
                 case (80):
                     StartCoroutine(ChangeCycle(45f));
                     rotated = true;
+                    isNight = false;
                     break;
                 case (120):
                     StartCoroutine(ChangeCycle(135f));
                     rotated = true;
+                    isNight = true;
                     break;
             }
         else
@@ -78,12 +82,4 @@ public class DayNightCycle : MonoBehaviour
         yield return null;
     }
 
-    /*private IEnumerator dayNight()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1);
-            sunObject.transform.Rotate(new Vector3(2.0f/3.0f, 0f, 0f));
-        }
-    }*/
 }
