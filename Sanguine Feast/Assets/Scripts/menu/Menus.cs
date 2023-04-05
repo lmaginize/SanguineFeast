@@ -13,7 +13,9 @@ public class Menus : MonoBehaviour
     public void OnButtonStartGame(){
         SceneManager.LoadScene("Main Scene");
     }
-
+    public void OnButtonMainMenu(){
+        SceneManager.LoadScene("Main Menu");
+    }
     public void OnButtonHelp(){
         mainScreen.SetActive(false);
         controlScreen.SetActive(true);
