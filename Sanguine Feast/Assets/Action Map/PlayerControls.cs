@@ -98,6 +98,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShadowStep"",
+                    ""type"": ""Button"",
+                    ""id"": ""4a2079a2-9376-45b8-aac0-60069830a208"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ToggleCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27cc0001-b649-45ec-a3f8-6154eb4ffc3f"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShadowStep"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -254,6 +274,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_Crouch = m_Gameplay.FindAction("Crouch", throwIfNotFound: true);
         m_Gameplay_Hold = m_Gameplay.FindAction("Hold", throwIfNotFound: true);
         m_Gameplay_ToggleCamera = m_Gameplay.FindAction("ToggleCamera", throwIfNotFound: true);
+        m_Gameplay_ShadowStep = m_Gameplay.FindAction("ShadowStep", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -321,6 +342,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Crouch;
     private readonly InputAction m_Gameplay_Hold;
     private readonly InputAction m_Gameplay_ToggleCamera;
+    private readonly InputAction m_Gameplay_ShadowStep;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -333,6 +355,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_Gameplay_Crouch;
         public InputAction @Hold => m_Wrapper.m_Gameplay_Hold;
         public InputAction @ToggleCamera => m_Wrapper.m_Gameplay_ToggleCamera;
+        public InputAction @ShadowStep => m_Wrapper.m_Gameplay_ShadowStep;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -366,6 +389,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ToggleCamera.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleCamera;
                 @ToggleCamera.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleCamera;
                 @ToggleCamera.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnToggleCamera;
+                @ShadowStep.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowStep;
+                @ShadowStep.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowStep;
+                @ShadowStep.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowStep;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -394,6 +420,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ToggleCamera.started += instance.OnToggleCamera;
                 @ToggleCamera.performed += instance.OnToggleCamera;
                 @ToggleCamera.canceled += instance.OnToggleCamera;
+                @ShadowStep.started += instance.OnShadowStep;
+                @ShadowStep.performed += instance.OnShadowStep;
+                @ShadowStep.canceled += instance.OnShadowStep;
             }
         }
     }
@@ -417,5 +446,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnHold(InputAction.CallbackContext context);
         void OnToggleCamera(InputAction.CallbackContext context);
+        void OnShadowStep(InputAction.CallbackContext context);
     }
 }

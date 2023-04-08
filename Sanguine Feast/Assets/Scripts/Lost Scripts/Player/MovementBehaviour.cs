@@ -17,6 +17,7 @@ public class MovementBehaviour : MonoBehaviour
     private InputAction sprint_;
     private InputAction jump_;
     private InputAction crouch;
+    private InputAction shadowStep;
 
     public float sensitivity = 50;
     public float maxLook = 90;
@@ -58,7 +59,7 @@ public class MovementBehaviour : MonoBehaviour
     public Vector3 crouchOffset = Vector3.zero;
 
     public Vector3 camOffset;
-
+    public bool isTping;
     // Start is called before the first frame update
 
     void Awake()
@@ -69,11 +70,13 @@ public class MovementBehaviour : MonoBehaviour
         sprint_ = pcs.Gameplay.Sprint;
         jump_ = pcs.Gameplay.Jump;
         crouch = pcs.Gameplay.Crouch;
+        shadowStep = pcs.Gameplay.ShadowStep;
 
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
+        shadowStep.performed += ShadowStep;
 
         up = Vector3.up;
         gc = FindObjectOfType<GameController>();
@@ -90,10 +93,13 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.Enable();
         jump_.Enable();
         crouch.Enable();
+        shadowStep.Enable();
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
+        shadowStep.performed += ShadowStep;
+        shadowStep.canceled += ShadowStep;
     }
 
     private void OnDisable()
@@ -106,6 +112,7 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.Disable();
         jump_.Disable();
         crouch.Disable();
+        shadowStep.Disable();
     }
 
     void Start()
@@ -264,5 +271,33 @@ public class MovementBehaviour : MonoBehaviour
             cb.grounded = true;
             rb.AddForce(up * jumpForce * ((moveDir != Vector3.zero) ? rb.velocity.magnitude * 0.1f + 1 : 1f), ForceMode.Impulse);
         }          
+    }
+
+    private void ShadowStep(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isTping)
+        {
+            StartCoroutine(GoingToTp());
+            isTping = true;
+        }
+        else if(context.canceled)
+        {
+            StopCoroutine(GoingToTp());
+            isTping = false;
+        }
+    }
+
+    IEnumerator GoingToTp()
+    {
+        float time = 5.0f;
+        while(time > 0)
+        {
+            time -= Time.deltaTime;
+            Debug.DrawLine(transform.position, transform.position + (transform.forward * 3));
+            yield return new WaitForEndOfFrame();
+        }
+        transform.position = transform.position + (transform.forward * 3);
+        isTping = false;
+        yield return null;
     }
 }
