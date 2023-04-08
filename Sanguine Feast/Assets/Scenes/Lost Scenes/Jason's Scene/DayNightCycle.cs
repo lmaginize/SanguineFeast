@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DayNightCycle : MonoBehaviour
 {
     //2 minutes per 12 hours,
     [SerializeField] private int seconds;
     [SerializeField] private float deltaSeconds;
-    private const int MAX_TIME_FOR_DAY = 240;
-    //private List<int> timeIntervalChangePointsOfDay = new List<int> { 0, 40, 80, 120};
-    private bool rotated;
+    private const int MAX_TIME_FOR_DAY = 241;
     private bool isChangingCycle;
     public GameObject sunObject;
+    public GameObject moonObject;
+
+    public Slider dayNightCycleSlider;
+    public bool isNight = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(dayNight());
+        sunObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
+        isNight = true;
     }
 
     // Update is called once per frame
@@ -25,40 +30,39 @@ public class DayNightCycle : MonoBehaviour
         {
             deltaSeconds += Time.deltaTime;
             seconds = (int)deltaSeconds;
-        }
-        if (seconds >= MAX_TIME_FOR_DAY)
-        {
-            deltaSeconds -= 240;
-        }
+            //dayNightCycleSlider.value = seconds;
 
-        if (!rotated)
+            if (seconds >= MAX_TIME_FOR_DAY)
+            {
+                deltaSeconds -= 240;
+            }
+
             switch (seconds)
             {
-                case (0):
-                case (40):
-                case (80):
-                    StartCoroutine(ChangeCycle(45f));
-                    rotated = true;
-                    break;
                 case (120):
                     StartCoroutine(ChangeCycle(135f));
-                    rotated = true;
+                    isNight = false;
                     break;
-            }
-        else
-        {
-            switch (seconds)
-            {
-                case (1):
-                case (41):
-                case (81):
-                case (121):
-                    rotated = false;
+                case (160):
+                case (200):
+                    StartCoroutine(ChangeCycle(45f));
+                    isNight = false;
                     break;
-                default:
+                case (240):
+                    StartCoroutine(ChangeCycle(135f));
+                    isNight = true;
                     break;
             }
         }
+
+        /*if (isNight && !moonObject.activeInHierarchy)
+        {
+            moonObject.SetActive(true);
+        }
+        else if (!isNight && moonObject.activeInHierarchy)
+        {
+            moonObject.SetActive(false);
+        }*/
 
 
     }
@@ -74,16 +78,8 @@ public class DayNightCycle : MonoBehaviour
             yield return new WaitForSeconds(.1f);
             totalRotation += amountRotation / 50f;
         }
+        yield return new WaitForSeconds(1);
+        deltaSeconds += 1;
         isChangingCycle = false;
-        yield return null;
     }
-
-    /*private IEnumerator dayNight()
-    {
-        while(true)
-        {
-            yield return new WaitForSeconds(1);
-            sunObject.transform.Rotate(new Vector3(2.0f/3.0f, 0f, 0f));
-        }
-    }*/
 }
