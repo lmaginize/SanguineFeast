@@ -28,7 +28,7 @@ public class CamBehaviour : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        pcs = GetComponent<MovementBehaviour>().pcs;
+        pcs = new PlayerControls();
 
         changeCam = pcs.Gameplay.ToggleCamera;
         look = pcs.Gameplay.Look;
@@ -39,6 +39,7 @@ public class CamBehaviour : MonoBehaviour
 
         camObjs[1].SetActive(false);
         camObjs[2].SetActive(false);
+        cam = cams[camMode];
     }
 
     private void OnEnable()
