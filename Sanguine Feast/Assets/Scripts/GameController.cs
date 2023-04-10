@@ -8,7 +8,6 @@ public class GameController : MonoBehaviour
 {
     #region Variables
     public bool night;
-    public GameObject im;
     [SerializeField] private int seconds;
     [SerializeField] private float deltaSeconds;
     private const int MAX_TIME_FOR_DAY = 241;
@@ -23,7 +22,6 @@ public class GameController : MonoBehaviour
     {
         sunObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
         night = true;
-        Instantiate(im);
     }
 
 
