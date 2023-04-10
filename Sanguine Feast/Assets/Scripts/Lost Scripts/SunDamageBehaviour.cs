@@ -29,23 +29,30 @@ public class SunDamageBehaviour : MonoBehaviour
 
         hitDetect = Physics.BoxCast(col.bounds.center, transform.localScale * 4, transform.forward, out hit, transform.rotation, distance, mask);
 
-        if (hitDetect)
+        if(GameObject.Find("GameController").GetComponent<GameController>().night == false)
         {
-            if(player.GetComponent<PlayerHealth>().inShade == false)
+            if (hitDetect)
             {
-                Debug.Log("hitting");
-                player.GetComponent<PlayerHealth>().weak = true;
+                if (player.GetComponent<PlayerHealth>().inShade == false)
+                {
+                    Debug.Log("hitting");
+                    player.GetComponent<PlayerHealth>().weak = true;
+                }
+                else
+                {
+                    Debug.Log("not hitting");
+                    player.GetComponent<PlayerHealth>().weak = true;
+                }
             }
             else
             {
-                Debug.Log("not hitting");
+                Debug.Log("hitting");
                 player.GetComponent<PlayerHealth>().weak = true;
             }
         }
         else
         {
-            Debug.Log("hitting");
-            player.GetComponent<PlayerHealth>().weak = true;
+            return;
         }
     }
 }
