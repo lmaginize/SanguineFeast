@@ -43,7 +43,7 @@ public class PatrollerBehaviour : MonoBehaviour
 
     void PatrolLoop()
     {
-        if (nma.isStopped)
+        if (nma.velocity.magnitude < 0.1f)
         {
             loopPos++;
 
@@ -54,5 +54,10 @@ public class PatrollerBehaviour : MonoBehaviour
 
             nma.destination = patrolLoop[loopPos];
         }
+    }
+
+    public void StartPatrol()
+    {
+        nma.destination = patrolLoop[0];
     }
 }

@@ -21,6 +21,8 @@ public class PatrollerManager : MonoBehaviour
             {
                 patrollers[x].patrolLoop[y] = patrolMarkers[x].route[y].transform.position;
             }
+
+            patrollers[x].StartPatrol();
         }
     }
 
