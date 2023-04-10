@@ -24,7 +24,7 @@ public class BatAbility : MonoBehaviour
     public float slowRate;
 
     public bool isActive = false;
-    private bool speedControl;
+    public bool speedControl = false;
 
     void Awake()
     {
@@ -36,11 +36,11 @@ public class BatAbility : MonoBehaviour
         sprint = pcs.Gameplay.Sprint;
         shapeShift = pcs.Gameplay.ShapeShift;
 
-        jump_.performed += _ => moveDir += Vector3.up;
-        jump_.canceled += _ => moveDir -= Vector3.up;
-        crouch.performed += _ => moveDir -= Vector3.up;
-        crouch.canceled += _ => moveDir += Vector3.up;
-        sprint.performed += _ => speedControl = !speedControl;
+        jump_.started += OnJump;
+        jump_.canceled += OnJump;
+        crouch.started += OnCrouch;
+        crouch.canceled += OnCrouch;
+        sprint.started += OnSprint;
         shapeShift.performed += ShapeShift;
 
         gc = FindObjectOfType<GameController>();
@@ -57,21 +57,21 @@ public class BatAbility : MonoBehaviour
         crouch.Enable();
         sprint.Enable();
         shapeShift.Enable();
-        jump_.performed += _ => moveDir += Vector3.up;
-        jump_.canceled += _ => moveDir -= Vector3.up;
-        crouch.performed += _ => moveDir -= Vector3.up;
-        crouch.canceled += _ => moveDir += Vector3.up;
-        sprint.performed += _ => speedControl = !speedControl;
+        jump_.performed += OnJump;
+        jump_.canceled += OnJump;
+        crouch.performed += OnCrouch;
+        crouch.canceled += OnCrouch;
+        sprint.performed += OnSprint;
         shapeShift.performed += ShapeShift;
     }
 
     private void OnDisable()
     {
-        jump_.performed -= _ => moveDir += Vector3.up;
-        jump_.canceled -= _ => moveDir -= Vector3.up;
-        crouch.performed -= _ => moveDir -= Vector3.up;
-        crouch.canceled -= _ => moveDir += Vector3.up;
-        sprint.performed -= _ => speedControl = !speedControl;
+        jump_.performed -= OnJump;
+        jump_.canceled -= OnJump;
+        crouch.performed -= OnCrouch;
+        crouch.canceled -= OnCrouch;
+        sprint.performed -= OnSprint;
         shapeShift.performed -= ShapeShift;
         move.Disable();
         jump_.Disable();
@@ -115,6 +115,38 @@ public class BatAbility : MonoBehaviour
         }
     }
 
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            moveDir += Vector3.up;
+        }
+        else if (context.canceled)
+        {
+            moveDir -= Vector3.up;
+        }
+    }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            moveDir -= Vector3.up;
+        }
+        else if (context.canceled)
+        {
+            moveDir += Vector3.up;
+        }
+    }
+
+    private void OnSprint(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            speedControl = !speedControl;
+        }
+    }
+
     void BatMovement()
     {
         if (rb.useGravity)
@@ -126,7 +158,7 @@ public class BatAbility : MonoBehaviour
 
         if (speedControl && camBeh.camMode != 2)
         {
-            finalMove = camBeh.cam.gameObject.transform.TransformDirection(moveDir);
+            finalMove = camBeh.camObjs[camBeh.camMode].gameObject.transform.TransformDirection(moveDir);
         }
         else
         {
