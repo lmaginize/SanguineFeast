@@ -124,7 +124,7 @@ public class BatAbility : MonoBehaviour
 
         Vector3 finalMove;
 
-        if (speedControl)
+        if (speedControl && camBeh.camMode != 2)
         {
             finalMove = camBeh.cam.gameObject.transform.TransformDirection(moveDir);
         }
@@ -152,6 +152,8 @@ public class BatAbility : MonoBehaviour
             mb.canMove = false;
 
             gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z);
+
+            camBeh.SetCamMode(1);
         }
         else
         {
@@ -162,6 +164,8 @@ public class BatAbility : MonoBehaviour
             mb.canMove = true;
 
             gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z);
+
+            camBeh.SetCamMode(0);
         }
     }
 }
