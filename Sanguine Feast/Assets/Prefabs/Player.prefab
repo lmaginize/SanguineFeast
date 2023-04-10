@@ -424,7 +424,7 @@ MonoBehaviour:
   walkSpeed: 6
   sprintSpeed: 12
   speedCap: 6
-  nightMultiplier: 0
+  nightMultiplier: 1.1
   finalMove: {x: 0, y: 0, z: 0}
   jumpDir: {x: 0, y: 0, z: 0}
   crouched: 0
