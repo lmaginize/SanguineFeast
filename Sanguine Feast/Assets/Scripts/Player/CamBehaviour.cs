@@ -82,7 +82,7 @@ public class CamBehaviour : MonoBehaviour
         }
     }
 
-    private void ToggleCamera(InputAction.CallbackContext context)
+    public void ToggleCamera(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
@@ -112,6 +112,30 @@ public class CamBehaviour : MonoBehaviour
 
             cam = cams[camMode];
         }
+    }
+
+    public void SetCamMode(int mode)
+    {
+        camMode = mode;
+
+        for (int x = 0; x < camObjs.Length; x++)
+        {
+            if (x == camMode)
+            {
+                camObjs[x].SetActive(true);
+            }
+            else
+            {
+                camObjs[x].SetActive(false);
+            }
+
+            if (camMode == x && x == 2)
+            {
+                camObjs[2].transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
+        cam = cams[camMode];
     }
 
     /// <summary>
