@@ -15,6 +15,8 @@ public class PatrollerManager : MonoBehaviour
     {
         for (int x = 0; x < patrollers.Count; x++)
         {
+            patrollers[x].patrolLoop = new Vector3[patrolMarkers[x].route.Length];
+
             for (int y = 0; y < patrolMarkers[x].route.Length; y++)
             {
                 patrollers[x].patrolLoop[y] = patrolMarkers[x].route[y].transform.position;

@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: eb05d3af785377e4f9a5b11bdb2259e6, type: 2}
+--- !u!114 &499160336 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
+  m_PrefabInstance: {fileID: 5689520863134561720}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ad09045092b9d45b8c74053e448f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &692335868 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8289682971752394557, guid: d9fd7dab018efbc468e6d8d6095acd30, type: 3}
@@ -737,6 +748,14 @@ PrefabInstance:
       propertyPath: patrollerPrefab
       value: 
       objectReference: {fileID: 5689520863457550513, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
+    - target: {fileID: 1093059806732845002, guid: 64d93a9d7c9b9e8419db5a6d9352df3b, type: 3}
+      propertyPath: patrollers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1093059806732845002, guid: 64d93a9d7c9b9e8419db5a6d9352df3b, type: 3}
+      propertyPath: patrollers.Array.data[0]
+      value: 
+      objectReference: {fileID: 499160336}
     - target: {fileID: 1093059806732845002, guid: 64d93a9d7c9b9e8419db5a6d9352df3b, type: 3}
       propertyPath: patrolMarkers.Array.data[0]
       value: 
