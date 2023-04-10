@@ -461,6 +461,10 @@ PrefabInstance:
       propertyPath: im
       value: 
       objectReference: {fileID: 7202421172348872699, guid: 1cf22b3bc8ff56044a7e4876175ca930, type: 3}
+    - target: {fileID: 752292914078463911, guid: 8b3c912fba7d6e34180f98646767e584, type: 3}
+      propertyPath: sunObject
+      value: 
+      objectReference: {fileID: 1830503626}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b3c912fba7d6e34180f98646767e584, type: 3}
 --- !u!1001 &4871555642720734992
@@ -545,6 +549,10 @@ PrefabInstance:
     - target: {fileID: 4871555641258040514, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: nightMultiplier
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 4871555641258040541, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: m_Name

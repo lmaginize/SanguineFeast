@@ -24,6 +24,7 @@ public class MovementBehaviour : MonoBehaviour
     public float minLook = -60;
 
     public bool canMove = true;
+    private bool abilityActive = false;
     private bool sprinting = false;
 
     public Vector3 up;
@@ -174,7 +175,7 @@ public class MovementBehaviour : MonoBehaviour
                 ChangeSpeed(walkSpeed);
             }
 
-            finalMove = Vector3.ProjectOnPlane(moveDir, cb.groundNormal);
+            finalMove = Vector3.ProjectOnPlane(moveDir.normalized, cb.groundNormal);
 
             rb.AddForce(finalMove * moveForce * (gc.night ? nightMultiplier : 1), ForceMode.Acceleration);
 
@@ -198,13 +199,16 @@ public class MovementBehaviour : MonoBehaviour
 
     private void OnCrouch(InputAction.CallbackContext context)
     {
-        if (context.performed && !crouched)
+        if (canMove)
         {
-            Crouch();
-        }
-        else if (context.performed)
-        {
-            UnCrouch();
+            if (context.performed && !crouched)
+            {
+                Crouch();
+            }
+            else if (context.performed)
+            {
+                UnCrouch();
+            }
         }
     }
 
