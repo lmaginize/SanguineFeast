@@ -42,7 +42,9 @@ public class MovementBehaviour : MonoBehaviour
     public float walkSpeed = 6f;
     public float sprintSpeed = 12f;
     public float speedCap = 10f;
-    public float nightMultiplier;
+    public float nightMultiplier = 1;
+
+    public const int MAX_DISTANCETP = 50;
 
     public Vector3 finalMove;
     public Vector3 jumpDir;
@@ -61,6 +63,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public Vector3 camOffset;
     public bool isTping;
+    RaycastHit[] h;
     // Start is called before the first frame update
 
     void Awake()
@@ -139,6 +142,8 @@ public class MovementBehaviour : MonoBehaviour
                 transform.LookAt(new Vector3(transform.position.x + rb.velocity.x, transform.position.y, transform.position.z + rb.velocity.z));
             }
         }
+
+        h = Physics.BoxCastAll(coll.bounds.center, transform.localScale, Camera.main.transform.forward, transform.rotation, 100);
     }
 
     /// <summary>
@@ -293,14 +298,27 @@ public class MovementBehaviour : MonoBehaviour
 
     IEnumerator GoingToTp()
     {
+        GameObject k = null;
         float time = 5.0f;
-        while(time > 0)
+        foreach(RaycastHit rh in h)
         {
-            time -= Time.deltaTime;
-            Debug.DrawLine(transform.position, transform.position + (transform.forward * 3));
-            yield return new WaitForEndOfFrame();
+            if(rh.collider.gameObject.tag.Equals("Shade") && rh.point != Vector3.zero && Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP)
+            {
+                print(Vector3.Distance(transform.position, rh.point));
+                
+                k = rh.collider.gameObject;
+            }
         }
-        transform.position = transform.position + (transform.forward * 3);
+        if (k != null)
+        {
+            while (time > 0)
+            {
+                time -= Time.deltaTime;
+                Debug.DrawLine(transform.position, k.transform.position);
+                yield return new WaitForEndOfFrame();
+            }
+            transform.position = k.transform.position;
+        }
         isTping = false;
         yield return null;
     }
