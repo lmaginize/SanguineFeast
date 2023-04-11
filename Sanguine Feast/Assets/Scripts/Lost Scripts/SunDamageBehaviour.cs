@@ -31,7 +31,7 @@ public class SunDamageBehaviour : MonoBehaviour
 
         if(GameObject.Find("GameController").GetComponent<GameController>().night == false)
         {
-            if (hitDetect)
+            if (!hitDetect)
             {
                 if (player.GetComponent<PlayerHealth>().inShade == false)
                 {
@@ -41,13 +41,13 @@ public class SunDamageBehaviour : MonoBehaviour
                 else
                 {
                     Debug.Log("not hitting");
-                    player.GetComponent<PlayerHealth>().weak = true;
+                    player.GetComponent<PlayerHealth>().weak = false;
                 }
             }
             else
             {
-                Debug.Log("hitting");
-                player.GetComponent<PlayerHealth>().weak = true;
+                Debug.Log("not hitting");
+                player.GetComponent<PlayerHealth>().weak = false;
             }
         }
         else
