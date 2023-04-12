@@ -64,6 +64,11 @@ public class PatrollerBehaviour : MonoBehaviour
                 bs.yesButton.onClick.RemoveListener(TakingChances);
             }
         }
+
+        if (arr.Length == 0)
+        {
+            bs.yesButton.onClick.RemoveListener(TakingChances);
+        }
     }
 
     void PatrolLoop()
