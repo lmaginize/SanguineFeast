@@ -6,6 +6,7 @@ public class SunDamageBehaviour : MonoBehaviour
 {
     public float distance = 30f;
     public bool hitDetect = false;
+    public float t = 0;
 
     private GameObject player;
 
@@ -35,19 +36,22 @@ public class SunDamageBehaviour : MonoBehaviour
             {
                 if (player.GetComponent<PlayerHealth>().inShade == false)
                 {
+                    //t -= (int)Time.deltaTime;
                     Debug.Log("hitting");
-                    player.GetComponent<PlayerHealth>().weak = true;
+                    player.GetComponent<BloodSucking>().currentBlood -= 3*Time.deltaTime;
                 }
                 else
                 {
                     Debug.Log("not hitting");
-                    player.GetComponent<PlayerHealth>().weak = false;
+                    t = 0;
+                    //player.GetComponent<BloodSucking>().currentBlood -= 1;
                 }
             }
             else
             {
                 Debug.Log("not hitting");
-                player.GetComponent<PlayerHealth>().weak = false;
+                t = 0;
+                //player.GetComponent<PlayerHealth>().weak = false;
             }
         }
         else
