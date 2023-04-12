@@ -23,6 +23,13 @@ public class PatrollerBehaviour : MonoBehaviour
     public float catchChance;
     public float dayMultiplier;
 
+    public List<GameObject> beenThere;
+    public float wanderChance;
+    public float wanderDetectRange;
+    public float wanderRadius;
+    public float wanderTime;
+    public bool canWander;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -51,24 +58,9 @@ public class PatrollerBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange, LayerMask.GetMask("Player"));
+        CheckForPlayer();
 
-        for (int x = 0; x < arr.Length; x++)
-        {
-            if (arr[x].gameObject == player)
-            {
-                bs.yesButton.onClick.AddListener(TakingChances);
-            }
-            else
-            {
-                bs.yesButton.onClick.RemoveListener(TakingChances);
-            }
-        }
-
-        if (arr.Length == 0)
-        {
-            bs.yesButton.onClick.RemoveListener(TakingChances);
-        }
+        Wander();
     }
 
     void PatrolLoop()
@@ -89,6 +81,8 @@ public class PatrollerBehaviour : MonoBehaviour
     public void StartPatrol()
     {
         startPatrol = true;
+
+        StartCoroutine("Wander");
     }
 
     void PatrolStart()
@@ -102,6 +96,66 @@ public class PatrollerBehaviour : MonoBehaviour
         if (Random.Range(1f, 100f) <= catchChance * (gc.night ? 1 : dayMultiplier))
         {
             wb.battleBegin();
+        }
+    }
+
+    void CheckForPlayer()
+    {
+        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange, LayerMask.GetMask("Player"));
+
+        for (int x = 0; x < arr.Length; x++)
+        {
+            if (arr[x].gameObject == player)
+            {
+                bs.yesButton.onClick.AddListener(TakingChances);
+            }
+            else
+            {
+                bs.yesButton.onClick.RemoveListener(TakingChances);
+            }
+        }
+
+        if (arr.Length == 0)
+        {
+            bs.yesButton.onClick.RemoveListener(TakingChances);
+        }
+    }
+
+    IEnumerator Wander()
+    {
+        while (true)
+        {
+            if (canWander)
+            {
+                if (Random.Range(1f, 100f) < wanderChance)
+                {
+                    Collider[] arr = Physics.OverlapSphere(transform.position, wanderDetectRange, LayerMask.GetMask("WanderPoints"));
+
+                    for (int x = 0; x < arr.Length; x++)
+                    {
+                        bool breakFlag = false;
+
+                        for (int y = 0; y < beenThere.Count; y++)
+                        {
+                            if (arr[x].gameObject == beenThere[y])
+                            {
+                                breakFlag = true;
+                                break;
+                            }
+                        }
+
+                        if (!breakFlag)
+                        {
+                            Vector3 destination = (Random.insideUnitSphere * wanderRadius) + transform.position;
+                            NavMeshHit hit;
+                            NavMesh.SamplePosition(destination, out hit, wanderRadius, 1);
+                            nma.destination = hit.position;
+                        }
+                    }
+                }
+            }
+
+            yield return new WaitForSeconds(wanderTime);
         }
     }
 }
