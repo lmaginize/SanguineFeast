@@ -20,7 +20,7 @@ public class Menus : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        if (SceneManager.GetActiveScene().name == "Lose Scene")
+        if (SceneManager.GetActiveScene().name == "Lose Scene" || SceneManager.GetActiveScene().name == "Win Scene")
         {
 
             totalblood.text = endBlood.ToString();

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
     #region Variables
     public bool night;
+    public int numOfNights = 1;
     [SerializeField] private int seconds;
     [SerializeField] private float deltaSeconds;
     private const int MAX_TIME_FOR_DAY = 241;
@@ -49,6 +51,7 @@ public class GameController : MonoBehaviour
             if (seconds >= MAX_TIME_FOR_DAY)
             {
                 deltaSeconds -= 240;
+                numOfNights++;
             }
 
             switch (seconds)
@@ -78,6 +81,12 @@ public class GameController : MonoBehaviour
                     eveningShade.SetActive(false);
                     break;
             }
+        }
+
+        if (numOfNights == 3)
+        {
+            Menus.endBlood = FindObjectOfType<BloodSucking>().gameObject.GetComponent<BloodSucking>().totalBlood;
+            SceneManager.LoadScene("Win Scene");
         }
 
         /*if (isNight && !moonObject.activeInHierarchy)
