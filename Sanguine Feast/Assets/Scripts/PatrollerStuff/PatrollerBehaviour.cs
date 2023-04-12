@@ -8,22 +8,33 @@ public class PatrollerBehaviour : MonoBehaviour
     private NavMeshAgent nma;
     private GameObject player;
 
-    public Vector3[] patrolLoop;
+    public Route patrolLoop;
     private int loopPos;
     public float detectRange;
 
     private bool distracted = false;
     private Vector3 playerPos;
+    private bool startPatrol;
 
     // Start is called before the first frame update
     void Awake()
     {
         nma = GetComponent<NavMeshAgent>();
         player = GameObject.Find("Player");
+
+        if (startPatrol)
+        {
+            PatrolStart();
+        }
     }
 
     private void Update()
     {
+        if (startPatrol)
+        {
+            PatrolStart();
+        }
+
         PatrolLoop();
     }
 
@@ -43,21 +54,27 @@ public class PatrollerBehaviour : MonoBehaviour
 
     void PatrolLoop()
     {
-        if (nma.velocity.magnitude < 0.1f)
+        if (Vector3.Distance(nma.destination, transform.position) <= 1.2f)
         {
             loopPos++;
 
-            if (loopPos >= patrolLoop.Length)
+            if (loopPos >= patrolLoop.route.Length)
             {
                 loopPos = 0;
             }
 
-            nma.destination = patrolLoop[loopPos];
+            nma.destination = patrolLoop.route[loopPos].transform.position;
         }
     }
 
     public void StartPatrol()
     {
-        nma.destination = patrolLoop[0];
+        startPatrol = true;
+    }
+
+    void PatrolStart()
+    {
+        nma.destination = patrolLoop.route[0].transform.position;
+        startPatrol = false;
     }
 }
