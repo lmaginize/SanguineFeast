@@ -97,7 +97,7 @@ public class BloodSucking : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.tag.Equals("NPC"))
+        if(collision.collider.name.Contains("NPC"))
         {
             npc = collision.collider.gameObject;
             if (!isPrompting)
