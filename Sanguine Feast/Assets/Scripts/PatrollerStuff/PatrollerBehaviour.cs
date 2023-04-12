@@ -29,6 +29,7 @@ public class PatrollerBehaviour : MonoBehaviour
     public float wanderRadius;
     public float wanderTime;
     public bool canWander;
+    private bool wandered;
 
     // Start is called before the first frame update
     void Awake()
@@ -67,11 +68,19 @@ public class PatrollerBehaviour : MonoBehaviour
     {
         if (Vector3.Distance(nma.destination, transform.position) <= 1.2f)
         {
-            loopPos++;
-
-            if (loopPos >= patrolLoop.route.Length)
+            if (!wandered)
             {
-                loopPos = 0;
+                loopPos++;
+                canWander = true;
+
+                if (loopPos >= patrolLoop.route.Length)
+                {
+                    loopPos = 0;
+                }
+            }
+            else
+            {
+                wandered = false;
             }
 
             nma.destination = patrolLoop.route[loopPos].transform.position;
@@ -127,30 +136,20 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (canWander)
             {
+                print("Test");
                 if (Random.Range(1f, 100f) < wanderChance)
                 {
                     Collider[] arr = Physics.OverlapSphere(transform.position, wanderDetectRange, LayerMask.GetMask("WanderPoints"));
+                    print(arr.Length);
 
-                    for (int x = 0; x < arr.Length; x++)
+                    if (arr.Length > 0)
                     {
-                        bool breakFlag = false;
-
-                        for (int y = 0; y < beenThere.Count; y++)
-                        {
-                            if (arr[x].gameObject == beenThere[y])
-                            {
-                                breakFlag = true;
-                                break;
-                            }
-                        }
-
-                        if (!breakFlag)
-                        {
-                            Vector3 destination = (Random.insideUnitSphere * wanderRadius) + transform.position;
-                            NavMeshHit hit;
-                            NavMesh.SamplePosition(destination, out hit, wanderRadius, 1);
-                            nma.destination = hit.position;
-                        }
+                        Vector3 destination = (Random.insideUnitSphere * wanderRadius) + arr[0].gameObject.transform.position;
+                        NavMeshHit hit;
+                        NavMesh.SamplePosition(destination, out hit, wanderRadius, 1);
+                        nma.destination = hit.position;
+                        canWander = false;
+                        wandered = true;
                     }
                 }
             }
