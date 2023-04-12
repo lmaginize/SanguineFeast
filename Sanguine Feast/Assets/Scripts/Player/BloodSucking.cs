@@ -82,6 +82,7 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
+
     public void YesButtonClick()
     {
         Debug.Log("Yes button clicked!");
