@@ -66,6 +66,8 @@ public class MovementBehaviour : MonoBehaviour
     RaycastHit[] h;
     // Start is called before the first frame update
 
+    public GameObject tpIndicator;
+
     void Awake()
     {
         pcs = new PlayerControls();
@@ -130,6 +132,10 @@ public class MovementBehaviour : MonoBehaviour
     /// </summary>
     void Update()
     {
+        /*if(l != null)
+        {
+            Debug.DrawLine(transform.position, l);
+        }*/
         if (canMove)
         {
             if (camBeh.camMode != 2)
@@ -296,28 +302,43 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// On Call Decreases blood amount by set value and 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator GoingToTp()
     {
-        GameObject k = null;
-        float time = 5.0f;
+        //Decrease Blood Amount By X
+        Vector3 l = Vector3.zero;
+        float time = 2.0f;
+        float dist = MAX_DISTANCETP;
         foreach(RaycastHit rh in h)
         {
-            if(rh.collider.gameObject.tag.Equals("Shade") && rh.point != Vector3.zero && Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP)
+            //gc.sunObject.transform.forward
+            if(rh.collider.gameObject.tag.Equals("Shade") && rh.point != Vector3.zero && Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP 
+                && dist > Vector3.Distance(transform.position, rh.point))
             {
-                print(Vector3.Distance(transform.position, rh.point));
-                
-                k = rh.collider.gameObject;
+                //dist = Vector3.Distance(transform.position, rh.point);
+                l = rh.point;
             }
         }
-        if (k != null)
+
+        if (l != Vector3.zero)
         {
+            GameObject g = Instantiate(tpIndicator, l, Quaternion.identity);
             while (time > 0)
             {
+
                 time -= Time.deltaTime;
-                Debug.DrawLine(transform.position, k.transform.position);
+                Debug.DrawLine(transform.position, l);
                 yield return new WaitForEndOfFrame();
             }
-            transform.position = k.transform.position;
+            Vector3 h = l;
+            h.y = transform.position.y;
+            transform.position = h;
+            Destroy(g);
+            yield return new WaitForEndOfFrame();
+            
         }
         isTping = false;
         yield return null;
