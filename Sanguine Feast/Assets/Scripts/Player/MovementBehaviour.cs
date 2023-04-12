@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class MovementBehaviour : MonoBehaviour
 {
+    public LayerMask player;
     public GameController gc;
     public Rigidbody rb;
     public CollisionBehaviour cb;
@@ -66,7 +67,10 @@ public class MovementBehaviour : MonoBehaviour
     RaycastHit[] h;
     // Start is called before the first frame update
 
+
     public GameObject tpIndicator;
+
+    public BloodSucking bs;
 
     void Awake()
     {
@@ -91,6 +95,7 @@ public class MovementBehaviour : MonoBehaviour
         coll = GetComponent<CapsuleCollider>();
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         camBeh = GetComponent<CamBehaviour>();
+        bs = GetComponent<BloodSucking>();
     }
 
     private void OnEnable()
@@ -149,7 +154,24 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
-        h = Physics.BoxCastAll(coll.bounds.center, transform.localScale, Camera.main.transform.forward, transform.rotation, 100);
+        if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
+        {
+            if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000))
+            {
+
+                Debug.DrawLine(rh.point, f.point, Color.red);
+            }
+            Debug.DrawLine(transform.position, rh.point, Color.green);
+        }
+
+
+        /*h = Physics.RaycastAll(coll.bounds.center, Camera.main.transform.forward, 100, ~player );
+
+        foreach(RaycastHit k in h)
+        {
+            Debug.DrawLine(transform.position, k.point);
+        }*/
+        //h = Physics.BoxCastAll(coll.bounds.center, transform.localScale, Camera.main.transform.forward, transform.rotation, 100);
     }
 
     /// <summary>
@@ -309,26 +331,51 @@ public class MovementBehaviour : MonoBehaviour
     IEnumerator GoingToTp()
     {
         //Decrease Blood Amount By X
+        bs.currentBlood--;
         Vector3 l = Vector3.zero;
         float time = 2.0f;
         float dist = MAX_DISTANCETP;
-        foreach(RaycastHit rh in h)
+        if(Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
         {
+            if(Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck"))
+            {
+                //dist = Vector3.Distance(transform.position, rh.point);
+                l = rh.point;
+                print(f.collider.gameObject.name);
+            }
+            else if(rh.collider.gameObject.tag.Equals("Shade"))
+            {
+                l = rh.point;
+            }
+        }
+        /*
+        foreach (RaycastHit rh in h)
+        {
+            if (Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP && dist > Vector3.Distance(transform.position, rh.point))
+            {
+                if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000))
+                {
+                    dist = Vector3.Distance(transform.position, rh.point);
+                    l = f.point;
+                }
+            }
             //gc.sunObject.transform.forward
+            /*
             if(rh.collider.gameObject.tag.Equals("Shade") && rh.point != Vector3.zero && Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP 
                 && dist > Vector3.Distance(transform.position, rh.point))
             {
                 //dist = Vector3.Distance(transform.position, rh.point);
                 l = rh.point;
             }
-        }
+        }*/
 
         if (l != Vector3.zero)
         {
-            GameObject g = Instantiate(tpIndicator, l, Quaternion.identity);
+            GameObject g = null;
+            if (tpIndicator != null)
+                g = Instantiate(tpIndicator, l, Quaternion.identity);
             while (time > 0)
             {
-
                 time -= Time.deltaTime;
                 Debug.DrawLine(transform.position, l);
                 yield return new WaitForEndOfFrame();
