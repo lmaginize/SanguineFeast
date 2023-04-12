@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+
 
 
 public class BloodSucking : MonoBehaviour
 {
     public float maxSuckDistance = 1.0f;
     public int bloodGainAmount = 100;
-    public float currentBlood = 5;
+    public int currentBlood = 5;
     public int totalBlood = 0;
+    public int nightChance = 95;
+    public int dayChance = 60;
     public TMP_Text promptText;
     public Button yesButton;
     public Button noButton;
@@ -21,8 +25,21 @@ public class BloodSucking : MonoBehaviour
     private GameObject npc;
     private bool isPrompting = false;
 
+    public PlayerControls pcs;
+    private InputAction attack;
+
+    private GameController gc;
+    private weirdBattle wb;
+
+    private void Awake()
+    {
+        pcs = new PlayerControls();
+        attack = pcs.Gameplay.Attack1;
+    }
     private void Start()
     {
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
+        wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
         currentBloodText.text = "Blood: " + currentBlood.ToString();
         totalBloodText.text = "Total Blood: " + totalBlood.ToString();
@@ -30,30 +47,37 @@ public class BloodSucking : MonoBehaviour
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
     }
-    /*
-    private void Update()
+
+    private void OnEnable()
     {
-        if (Input.GetMouseButton(0))
+        attack.Enable();
+        attack.performed += OnAttackPerformed;
+    }
+    private void OnDisable()
+    {
+        attack.Disable();
+        attack.performed -= OnAttackPerformed;
+    }
+
+    public void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
+            if (hit.transform.gameObject.name.Contains("NPC"))
             {
-                if (hit.transform.gameObject.name.Contains("NPC"))
+                npc = hit.transform.gameObject;
+                if (!isPrompting)
                 {
-                    npc = hit.transform.gameObject;
-                    if (!isPrompting)
-                    {
-                        Time.timeScale = 0f;
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-                        promptText.enabled = true;
-                        yesButton.gameObject.SetActive(true);
-                        noButton.gameObject.SetActive(true);
-                        isPrompting = true;
-                    }
+                    Time.timeScale = 0f;
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    promptText.enabled = true;
+                    yesButton.gameObject.SetActive(true);
+                    noButton.gameObject.SetActive(true);
+                    isPrompting = true;
                 }
             }
-           
         }
         else
         {
@@ -66,11 +90,10 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
-    */
+
     public void YesButtonClick()
     {
-        Debug.Log("Yes button clicked!");
-        currentBlood = (int)currentBlood;
+        
         currentBlood += bloodGainAmount;
         totalBlood += bloodGainAmount;
         currentBloodText.text = "Blood: " + currentBlood.ToString();
@@ -83,6 +106,21 @@ public class BloodSucking : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if(gc.night)
+        {
+            if(Random.Range(0, 101) <= nightChance)
+            {
+                wb.battleBegin();
+            }
+        }
+        else
+        {
+            if(Random.Range(0, 101) <= dayChance)
+            {
+                wb.battleBegin();
+            }
+        }
     }
 
     public void NoButtonClick()
@@ -95,7 +133,7 @@ public class BloodSucking : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.name.Contains("NPC"))
@@ -123,5 +161,5 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
-    
+    */
 }
