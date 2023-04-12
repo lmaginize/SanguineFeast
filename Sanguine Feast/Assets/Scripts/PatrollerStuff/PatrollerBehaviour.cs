@@ -16,6 +16,8 @@ public class PatrollerBehaviour : MonoBehaviour
     private Vector3 playerPos;
     private bool startPatrol;
 
+    public float catchChance;
+
     // Start is called before the first frame update
     void Awake()
     {
