@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 
 public class BloodSucking : MonoBehaviour
@@ -21,6 +22,14 @@ public class BloodSucking : MonoBehaviour
     private GameObject npc;
     private bool isPrompting = false;
 
+    public PlayerControls pcs;
+    private InputAction attack;
+
+    private void Awake()
+    {
+        pcs = new PlayerControls();
+        attack = pcs.Gameplay.Attack1;
+    }
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -30,30 +39,37 @@ public class BloodSucking : MonoBehaviour
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
     }
-    /*
-    private void Update()
+
+    private void OnEnable()
     {
-        if (Input.GetMouseButton(0))
+        attack.Enable();
+        attack.performed += OnAttackPerformed;
+    }
+    private void OnDisable()
+    {
+        attack.Disable();
+        attack.performed -= OnAttackPerformed;
+    }
+
+    public void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
+            if (hit.transform.gameObject.name.Contains("NPC"))
             {
-                if (hit.transform.gameObject.name.Contains("NPC"))
+                npc = hit.transform.gameObject;
+                if (!isPrompting)
                 {
-                    npc = hit.transform.gameObject;
-                    if (!isPrompting)
-                    {
-                        Time.timeScale = 0f;
-                        Cursor.lockState = CursorLockMode.None;
-                        Cursor.visible = true;
-                        promptText.enabled = true;
-                        yesButton.gameObject.SetActive(true);
-                        noButton.gameObject.SetActive(true);
-                        isPrompting = true;
-                    }
+                    Time.timeScale = 0f;
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    promptText.enabled = true;
+                    yesButton.gameObject.SetActive(true);
+                    noButton.gameObject.SetActive(true);
+                    isPrompting = true;
                 }
             }
-           
         }
         else
         {
@@ -66,7 +82,6 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
-    */
     public void YesButtonClick()
     {
         Debug.Log("Yes button clicked!");
@@ -94,7 +109,7 @@ public class BloodSucking : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.collider.name.Contains("NPC"))
@@ -122,5 +137,5 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
-    
+    */
 }
