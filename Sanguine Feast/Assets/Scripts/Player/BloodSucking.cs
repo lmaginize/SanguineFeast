@@ -6,12 +6,15 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 
+
 public class BloodSucking : MonoBehaviour
 {
     public float maxSuckDistance = 1.0f;
     public int bloodGainAmount = 100;
     public int currentBlood = 5;
     public int totalBlood = 0;
+    public int nightChance = 95;
+    public int dayChance = 60;
     public TMP_Text promptText;
     public Button yesButton;
     public Button noButton;
@@ -25,6 +28,9 @@ public class BloodSucking : MonoBehaviour
     public PlayerControls pcs;
     private InputAction attack;
 
+    private GameController gc;
+    private weirdBattle wb;
+
     private void Awake()
     {
         pcs = new PlayerControls();
@@ -32,6 +38,8 @@ public class BloodSucking : MonoBehaviour
     }
     private void Start()
     {
+        gc = GameObject.Find("GameController").GetComponent<GameController>();
+        wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
         currentBloodText.text = "Blood: " + currentBlood.ToString();
         totalBloodText.text = "Total Blood: " + totalBlood.ToString();
@@ -84,7 +92,7 @@ public class BloodSucking : MonoBehaviour
     }
     public void YesButtonClick()
     {
-        Debug.Log("Yes button clicked!");
+        
         currentBlood += bloodGainAmount;
         totalBlood += bloodGainAmount;
         currentBloodText.text = "Blood: " + currentBlood.ToString();
@@ -97,6 +105,21 @@ public class BloodSucking : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        if(gc.night)
+        {
+            if(Random.Range(0, 101) <= nightChance)
+            {
+                wb.battleBegin();
+            }
+        }
+        else
+        {
+            if(Random.Range(0, 101) <= dayChance)
+            {
+                wb.battleBegin();
+            }
+        }
     }
 
     public void NoButtonClick()
