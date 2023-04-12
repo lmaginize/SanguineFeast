@@ -9,7 +9,7 @@ public class BloodSucking : MonoBehaviour
 {
     public float maxSuckDistance = 1.0f;
     public int bloodGainAmount = 100;
-    public int currentBlood = 5;
+    public float currentBlood = 5;
     public int totalBlood = 0;
     public TMP_Text promptText;
     public Button yesButton;
@@ -70,6 +70,7 @@ public class BloodSucking : MonoBehaviour
     public void YesButtonClick()
     {
         Debug.Log("Yes button clicked!");
+        currentBlood = (int)currentBlood;
         currentBlood += bloodGainAmount;
         totalBlood += bloodGainAmount;
         currentBloodText.text = "Blood: " + currentBlood.ToString();
