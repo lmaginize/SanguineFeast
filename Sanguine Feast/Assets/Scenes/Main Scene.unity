@@ -1435,10 +1435,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad879274cd5320f47a4edc251b2cdfaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSuckDistance: 1
+  maxSuckDistance: 2
   bloodGainAmount: 100
   currentBlood: 5
   totalBlood: 0
+  nightChance: 95
+  dayChance: 60
   promptText: {fileID: 56100901}
   yesButton: {fileID: 388373660}
   noButton: {fileID: 520314552}
