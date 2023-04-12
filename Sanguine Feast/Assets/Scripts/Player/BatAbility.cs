@@ -17,6 +17,7 @@ public class BatAbility : MonoBehaviour
     private MovementBehaviour mb;
     private CamBehaviour camBeh;
     private Rigidbody rb;
+    private CollisionBehaviour cb;
 
     public Vector3 moveDir;
     public float moveSpeed;
@@ -48,6 +49,7 @@ public class BatAbility : MonoBehaviour
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         camBeh = GetComponent<CamBehaviour>();
         mb = GetComponent<MovementBehaviour>();
+        cb = GetComponent<CollisionBehaviour>();
     }
 
     private void OnEnable()
@@ -154,6 +156,11 @@ public class BatAbility : MonoBehaviour
             rb.useGravity = false;
         }
 
+        if (mb.ungroundDouble)
+        {
+            mb.ungroundDouble = false;
+        }
+
         Vector3 finalMove;
 
         if (speedControl && camBeh.camMode != 2)
@@ -182,6 +189,8 @@ public class BatAbility : MonoBehaviour
             rb.useGravity = false;
 
             mb.canMove = false;
+
+            mb.ungroundDouble = false;
 
             gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z);
 

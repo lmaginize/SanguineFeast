@@ -7,6 +7,7 @@ public class CollisionBehaviour : MonoBehaviour
     public CapsuleCollider coll;
     public Rigidbody rb;
     public MovementBehaviour mb;
+    private BatAbility ba;
 
     /// <summary>
     /// Grounding Shit
@@ -32,6 +33,7 @@ public class CollisionBehaviour : MonoBehaviour
         mb = GetComponent<MovementBehaviour>();
         coll = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
+        ba = GetComponent<BatAbility>();
     }
 
     /// <summary>
@@ -156,7 +158,10 @@ public class CollisionBehaviour : MonoBehaviour
 
                 grounded = true;
 
-                mb.ungroundDouble = true;
+                if (!ba.isActive)
+                {
+                    mb.ungroundDouble = true;
+                }
 
                 coll.material = normal;
             }
