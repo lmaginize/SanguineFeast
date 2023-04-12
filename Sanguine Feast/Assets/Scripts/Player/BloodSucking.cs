@@ -90,6 +90,7 @@ public class BloodSucking : MonoBehaviour
             }
         }
     }
+
     public void YesButtonClick()
     {
         

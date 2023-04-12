@@ -15,12 +15,7 @@ public class PatrollerManager : MonoBehaviour
     {
         for (int x = 0; x < patrollers.Count; x++)
         {
-            patrollers[x].patrolLoop = new Vector3[patrolMarkers[x].route.Length];
-
-            for (int y = 0; y < patrolMarkers[x].route.Length; y++)
-            {
-                patrollers[x].patrolLoop[y] = patrolMarkers[x].route[y].transform.position;
-            }
+            patrollers[x].patrolLoop = patrolMarkers[x];
 
             patrollers[x].StartPatrol();
         }
@@ -40,12 +35,8 @@ public class PatrollerManager : MonoBehaviour
     void PlusOne()
     {
         patrollers.Add(Instantiate(patrollerPrefab, patrolMarkers[patrollers.Count - 1].route[0].transform.position, Quaternion.identity).GetComponent<PatrollerBehaviour>());
-        patrollers[patrollers.Count - 1].patrolLoop = new Vector3[patrolMarkers[patrollers.Count - 1].route.Length];
-
-        for (int x = 0; x < patrolMarkers[patrollers.Count - 1].route.Length; x++)
-        {
-            patrollers[patrollers.Count - 1].patrolLoop[x] = patrolMarkers[patrollers.Count - 1].route[0].transform.position;
-        }
+        patrollers[patrollers.Count - 1].patrolLoop = patrolMarkers[patrollers.Count - 1];
+        patrollers[patrollers.Count - 1].StartPatrol();
     }
 
     void AddRoute(GameObject[] markers)

@@ -151,5 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ad09045092b9d45b8c74053e448f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolLoop: []
-  detectRange: 0
+  patrolLoop: {fileID: 0}
+  detectRange: 7
+  catchChance: 5
+  dayMultiplier: 5
