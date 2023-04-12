@@ -16,7 +16,14 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (weak == true)
+        {
+
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 2f * Time.deltaTime;
+
+        }
+
     }
 
     void OnTriggerEnter(Collider collision)

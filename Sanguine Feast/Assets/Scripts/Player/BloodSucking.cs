@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
-
-
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BloodSucking : MonoBehaviour
 {
-    public float maxSuckDistance = 1.0f;
+    public float maxSuckDistance = 2.0f;
     public int bloodGainAmount = 100;
-    public int currentBlood = 5;
+    public float currentBlood = 5;
     public int totalBlood = 0;
     public int nightChance = 95;
     public int dayChance = 60;
@@ -20,10 +19,7 @@ public class BloodSucking : MonoBehaviour
     public Button noButton;
     public TMP_Text currentBloodText;
     public TMP_Text totalBloodText;
-
-    private GameObject player;
-    private GameObject npc;
-    private bool isPrompting = false;
+    public TMP_Text successText;
 
     public PlayerControls pcs;
     private InputAction attack;
@@ -31,17 +27,22 @@ public class BloodSucking : MonoBehaviour
     private GameController gc;
     private weirdBattle wb;
 
+    private GameObject player;
+    private GameObject npc;
+    private bool isPrompting = false;
+
     private void Awake()
     {
         pcs = new PlayerControls();
         attack = pcs.Gameplay.Attack1;
     }
+
     private void Start()
     {
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
-        currentBloodText.text = "Blood: " + currentBlood.ToString();
+        currentBloodText.text = "Blood: " + (int)currentBlood;
         totalBloodText.text = "Total Blood: " + totalBlood.ToString();
         promptText.enabled = false;
         yesButton.gameObject.SetActive(false);
@@ -59,7 +60,18 @@ public class BloodSucking : MonoBehaviour
         attack.performed -= OnAttackPerformed;
     }
 
-    public void OnAttackPerformed(InputAction.CallbackContext context)
+    public void Update()
+    {
+        currentBloodText.text = "Blood: " + (int)currentBlood;
+
+        if (currentBlood < 0)
+        {
+            Menus.endBlood = totalBlood;
+            SceneManager.LoadScene("Lose Scene");
+        }
+    }
+
+    private void OnAttackPerformed(InputAction.CallbackContext context)
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
@@ -75,9 +87,18 @@ public class BloodSucking : MonoBehaviour
                     promptText.enabled = true;
                     yesButton.gameObject.SetActive(true);
                     noButton.gameObject.SetActive(true);
+                    if (gc.night)
+                    {
+                        successText.text = "Success: " + nightChance + "%";
+                    }
+                    else
+                    {
+                        successText.text = "Success: " + dayChance + "%";
+                    }
                     isPrompting = true;
+
                 }
-            }
+            }    
         }
         else
         {
@@ -93,7 +114,7 @@ public class BloodSucking : MonoBehaviour
 
     public void YesButtonClick()
     {
-        
+        currentBlood = (int)currentBlood;
         currentBlood += bloodGainAmount;
         totalBlood += bloodGainAmount;
         currentBloodText.text = "Blood: " + currentBlood.ToString();
@@ -107,16 +128,16 @@ public class BloodSucking : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        if(gc.night)
+        if (gc.night)
         {
-            if(Random.Range(0, 101) <= nightChance)
+            if (Random.Range(0, 101) >= nightChance)
             {
                 wb.battleBegin();
             }
         }
         else
         {
-            if(Random.Range(0, 101) <= dayChance)
+            if (Random.Range(0, 101) >= dayChance)
             {
                 wb.battleBegin();
             }

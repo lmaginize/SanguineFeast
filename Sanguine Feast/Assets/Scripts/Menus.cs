@@ -4,11 +4,29 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class Menus : MonoBehaviour
 {
+    public static int endBlood;
+
     public GameObject mainScreen;
     public GameObject controlScreen;
+
+    public TMP_Text totalblood;
+
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        if (SceneManager.GetActiveScene().name == "Lose Scene")
+        {
+
+            totalblood.text = endBlood.ToString();
+
+        }
+    }
 
     public void OnButtonStartGame(){
         SceneManager.LoadScene("Main Scene");

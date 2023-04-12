@@ -330,8 +330,7 @@ public class MovementBehaviour : MonoBehaviour
     /// <returns></returns>
     IEnumerator GoingToTp()
     {
-        //Decrease Blood Amount By X
-        bs.currentBlood--;
+        
         Vector3 l = Vector3.zero;
         float time = 2.0f;
         float dist = MAX_DISTANCETP;
@@ -383,6 +382,7 @@ public class MovementBehaviour : MonoBehaviour
             Vector3 h = l;
             h.y = transform.position.y;
             transform.position = h;
+            bs.currentBlood -= 15;
             Destroy(g);
             yield return new WaitForEndOfFrame();
             

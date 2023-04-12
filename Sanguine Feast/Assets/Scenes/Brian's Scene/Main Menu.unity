@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571336, b: 0.3069219, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
-  m_sharedMaterial: {fileID: 8672281331602370856, guid: fadaf747a9139eb498d51453b6c4e6ff, type: 2}
+  m_sharedMaterial: {fileID: 8672281331602370856, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
-  m_sharedMaterial: {fileID: 8672281331602370856, guid: fadaf747a9139eb498d51453b6c4e6ff, type: 2}
+  m_sharedMaterial: {fileID: 8672281331602370856, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -559,6 +559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainScreen: {fileID: 1340358890}
   controlScreen: {fileID: 617618217}
+  totalblood: {fileID: 0}
 --- !u!4 &365321975
 Transform:
   m_ObjectHideFlags: 0
@@ -802,7 +803,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &617618218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,7 +925,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 600, y: 250}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &631823536
 MonoBehaviour:
@@ -946,7 +947,20 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Controls go here when we decide them
+  m_text: 'WASD - Move
+
+    Space - Jump
+
+    C - Crouch
+
+    Left Click - Drain
+    Blood
+
+    Q - Bat Form
+
+    R - Shadow Step
+
+    1 - Change Camera Angle'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2049,7 +2063,7 @@ MonoBehaviour:
   m_text: Controls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
-  m_sharedMaterial: {fileID: 8672281331602370856, guid: fadaf747a9139eb498d51453b6c4e6ff, type: 2}
+  m_sharedMaterial: {fileID: 8672281331602370856, guid: 7b60e5f8ec700bf42b4b5db50da0b5f8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
