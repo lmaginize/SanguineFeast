@@ -67,10 +67,11 @@ public class MovementBehaviour : MonoBehaviour
     RaycastHit[] h;
     // Start is called before the first frame update
 
-
-    public GameObject tpIndicator;
-
     public BloodSucking bs;
+
+    [Tooltip("Make sure it doesnt cast shadows and doesnt have a collider")]
+    public GameObject tpIndicator;
+    private bool tryingTp;
 
     void Awake()
     {
@@ -96,6 +97,7 @@ public class MovementBehaviour : MonoBehaviour
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         camBeh = GetComponent<CamBehaviour>();
         bs = GetComponent<BloodSucking>();
+        tpIndicator.SetActive(false);
     }
 
     private void OnEnable()
@@ -154,7 +156,20 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
-        if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
+        
+        if (isTping && Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
+        {
+            if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck"))
+            {
+                tpIndicator.transform.position = rh.point;
+            }
+            else if (rh.collider.gameObject.tag.Equals("Shade"))
+            {
+                tpIndicator.transform.position = rh.point;
+            }
+        }
+
+        /*if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
         {
             if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000))
             {
@@ -162,7 +177,7 @@ public class MovementBehaviour : MonoBehaviour
                 Debug.DrawLine(rh.point, f.point, Color.red);
             }
             Debug.DrawLine(transform.position, rh.point, Color.green);
-        }
+        }*/
 
 
         /*h = Physics.RaycastAll(coll.bounds.center, Camera.main.transform.forward, 100, ~player );
@@ -312,15 +327,26 @@ public class MovementBehaviour : MonoBehaviour
 
     private void ShadowStep(InputAction.CallbackContext context)
     {
-        if (context.performed && !isTping)
+        if (context.performed && bs.currentBlood - 15 > 0 && !gc.night)
         {
-            StartCoroutine(GoingToTp());
-            isTping = true;
+            if(isTping)
+            {
+                Vector3 h = tpIndicator.transform.position;
+                h.y = transform.position.y;
+                transform.position = h;
+                bs.currentBlood -= 15;
+                tpIndicator.SetActive(false);
+                isTping = false;
+            }
+            else if (!tryingTp)
+            {
+                tpIndicator.SetActive(true);
+                isTping = true;
+            }
+
         }
         else if(context.canceled)
         {
-            StopCoroutine(GoingToTp());
-            isTping = false;
         }
     }
 
@@ -328,66 +354,36 @@ public class MovementBehaviour : MonoBehaviour
     /// On Call Decreases blood amount by set value and 
     /// </summary>
     /// <returns></returns>
-    IEnumerator GoingToTp()
+    /*void GoingToTp()
     {
         
         Vector3 l = Vector3.zero;
         float time = 2.0f;
         float dist = MAX_DISTANCETP;
+
         if(Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
         {
             if(Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck"))
             {
-                //dist = Vector3.Distance(transform.position, rh.point);
+
                 l = rh.point;
-                print(f.collider.gameObject.name);
             }
             else if(rh.collider.gameObject.tag.Equals("Shade"))
             {
                 l = rh.point;
             }
         }
-        /*
-        foreach (RaycastHit rh in h)
-        {
-            if (Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP && dist > Vector3.Distance(transform.position, rh.point))
-            {
-                if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000))
-                {
-                    dist = Vector3.Distance(transform.position, rh.point);
-                    l = f.point;
-                }
-            }
-            //gc.sunObject.transform.forward
-            /*
-            if(rh.collider.gameObject.tag.Equals("Shade") && rh.point != Vector3.zero && Vector3.Distance(transform.position, rh.point) <= MAX_DISTANCETP 
-                && dist > Vector3.Distance(transform.position, rh.point))
-            {
-                //dist = Vector3.Distance(transform.position, rh.point);
-                l = rh.point;
-            }
-        }*/
-
+        
         if (l != Vector3.zero)
         {
-            GameObject g = null;
-            if (tpIndicator != null)
-                g = Instantiate(tpIndicator, l, Quaternion.identity);
-            while (time > 0)
-            {
-                time -= Time.deltaTime;
-                Debug.DrawLine(transform.position, l);
-                yield return new WaitForEndOfFrame();
-            }
             Vector3 h = l;
             h.y = transform.position.y;
             transform.position = h;
             bs.currentBlood -= 15;
-            Destroy(g);
-            yield return new WaitForEndOfFrame();
+            //yield return new WaitForEndOfFrame();
             
         }
         isTping = false;
-        yield return null;
-    }
+        //yield return null;
+    }*/
 }
