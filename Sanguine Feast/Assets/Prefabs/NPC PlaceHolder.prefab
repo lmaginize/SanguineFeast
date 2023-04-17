@@ -151,12 +151,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
-  healthBarObj: {fileID: 0}
-  healthBar: {fileID: 0}
-  stunBarObj: {fileID: 0}
-  stunBar: {fileID: 0}
-  canvas: {fileID: 0}
-  player: 
+  healthBarObj: {fileID: 2483466502515771612}
+  healthBar: {fileID: 2571957699566575460}
+  stunBarObj: {fileID: 7244675031436582636}
+  stunBar: {fileID: 4515460794901403308}
+  canvas: {fileID: 8749815911018402673}
   players: {fileID: 0}
   isStunned: 0
   maxStun: 0
