@@ -4,15 +4,46 @@ using UnityEngine;
 
 public class AttackBehaviour : MonoBehaviour
 {
+    
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Punch(float damage, float stun)
     {
-        
+
+    }
+
+    public void Punch(float damage)
+    {
+
+    }
+
+    public void Shoot(float damage, float stun)
+    {
+
+    }
+
+    public void Shoot(float damage)
+    {
+
+    }
+
+    public void SneakAttack()
+    {
+
+    }
+
+    public void DamagePlayer()
+    {
+
+    }
+
+    public void DamageNPC()
+    {
+
     }
 }

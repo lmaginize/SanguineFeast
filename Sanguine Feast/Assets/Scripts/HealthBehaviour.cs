@@ -17,6 +17,7 @@ public class HealthBehaviour : MonoBehaviour
     public string player;
     public Transform players;
 
+    public bool isStunned;
     private float stun;
     public float maxStun;
     public float stunLength;
@@ -25,6 +26,11 @@ public class HealthBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        healthBarObj = transform.GetChild(0).GetChild(0).gameObject;
+        healthBar = healthBarObj.GetComponent<Slider>();
+        stunBarObj = transform.GetChild(0).GetChild(1).gameObject;
+        stunBar = stunBarObj.GetComponent<Slider>();
+
         healthBar.maxValue = maxHealth;
         health = maxHealth;
         healthBar.value = health;
@@ -65,7 +71,13 @@ public class HealthBehaviour : MonoBehaviour
         }
         else if (stun >= maxStun)
         {
+            stunTime += Time.deltaTime;
 
+            if (stunTime > stunLength)
+            {
+                stun = 0;
+                isStunned = false;
+            }
         }
     }
 
@@ -78,6 +90,7 @@ public class HealthBehaviour : MonoBehaviour
         else
         {
             stun = maxStun;
+            isStunned = true;
         }
 
         stunBar.value = stun;
