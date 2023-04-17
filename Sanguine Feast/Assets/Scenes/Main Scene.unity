@@ -16916,34 +16916,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: canWander
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: wanderTime
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: wanderChance
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: wanderRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: wanderDetectRange
-      value: 15
-      objectReference: {fileID: 0}
     - target: {fileID: 5689520863457550513, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
       propertyPath: m_Name
       value: Patroller
       objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550517, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 648d5acdbe3904522891852dd711eba9, type: 2}
     - target: {fileID: 5689520863457550519, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
       propertyPath: m_RootOrder
       value: 2
