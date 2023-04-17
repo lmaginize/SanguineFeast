@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752292914078463906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.490069, y: -0.701112, z: -10.532565}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,3 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   night: 0
+  numOfNights: 1
+  seconds: 0
+  deltaSeconds: 0
+  sunObject: {fileID: 0}
+  moonObject: {fileID: 0}
+  dayNightCycleSlider: {fileID: 0}
+  morningShade: {fileID: 0}
+  noonShade: {fileID: 0}
+  eveningShade: {fileID: 0}
