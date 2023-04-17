@@ -19,6 +19,8 @@ public class MovementBehaviour : MonoBehaviour
     private InputAction jump_;
     private InputAction crouch;
     private InputAction shadowStep;
+    private InputAction cancelShadowStep;
+    private InputAction shadowCreation;
 
     public float sensitivity = 50;
     public float maxLook = 90;
@@ -68,10 +70,12 @@ public class MovementBehaviour : MonoBehaviour
     // Start is called before the first frame update
 
     public BloodSucking bs;
+    private BatAbility ba;
 
     [Tooltip("Make sure it doesnt cast shadows and doesnt have a collider")]
     public GameObject tpIndicator;
-    private bool tryingTp;
+    private bool isCreatingShadow;
+    public GameObject shadowCreationObj;
 
     void Awake()
     {
@@ -82,12 +86,16 @@ public class MovementBehaviour : MonoBehaviour
         jump_ = pcs.Gameplay.Jump;
         crouch = pcs.Gameplay.Crouch;
         shadowStep = pcs.Gameplay.ShadowStep;
+        cancelShadowStep = pcs.Gameplay.CancelShadowStep;
+        shadowCreation = pcs.Gameplay.ShadowCreation;
 
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
         shadowStep.performed += ShadowStep;
+        cancelShadowStep.performed += CancelShadowStep;
+        shadowCreation.performed += ShadowCreation;
 
         up = Vector3.up;
         gc = FindObjectOfType<GameController>();
@@ -97,6 +105,7 @@ public class MovementBehaviour : MonoBehaviour
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         camBeh = GetComponent<CamBehaviour>();
         bs = GetComponent<BloodSucking>();
+        ba = GetComponent<BatAbility>();
         tpIndicator.SetActive(false);
     }
 
@@ -107,12 +116,20 @@ public class MovementBehaviour : MonoBehaviour
         jump_.Enable();
         crouch.Enable();
         shadowStep.Enable();
+        cancelShadowStep.Enable();
+        shadowCreation.Enable();
+
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
         shadowStep.performed += ShadowStep;
         shadowStep.canceled += ShadowStep;
+        cancelShadowStep.performed += CancelShadowStep;
+        cancelShadowStep.canceled += CancelShadowStep;
+        shadowCreation.performed += ShadowCreation;
+        shadowCreation.canceled += ShadowCreation;
+
     }
 
     private void OnDisable()
@@ -156,17 +173,28 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
-        
-        if (isTping && Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
+        if (!ba.isActive)
         {
-            if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck"))
+            if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
             {
-                tpIndicator.transform.position = rh.point;
+                if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck") && isTping)
+                {
+                    tpIndicator.transform.position = rh.point;
+                }
+                else if (rh.collider.gameObject.tag.Equals("Shade") && isTping)
+                {
+                    tpIndicator.transform.position = rh.point;
+                }
+                else if(isCreatingShadow)
+                {
+                    tpIndicator.transform.position = rh.point;
+                }
             }
-            else if (rh.collider.gameObject.tag.Equals("Shade"))
-            {
-                tpIndicator.transform.position = rh.point;
-            }
+        }
+        else if (ba.isActive)
+        {
+            isTping = false;
+            tpIndicator.SetActive(false);
         }
 
         /*if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
@@ -325,9 +353,26 @@ public class MovementBehaviour : MonoBehaviour
         }          
     }
 
+    private void CancelShadowStep(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (isTping)
+            {
+                isTping = false;
+                tpIndicator.SetActive(false);
+            }
+            else if (isCreatingShadow)
+            {
+                isCreatingShadow = false;
+                tpIndicator.SetActive(false);
+            }
+        }
+
+    }
     private void ShadowStep(InputAction.CallbackContext context)
     {
-        if (context.performed && bs.currentBlood - 15 > 0 && !gc.night)
+        if (context.performed && bs.currentBlood - 15 > 0 && !gc.night && !ba.isActive)
         {
             if(isTping)
             {
@@ -338,15 +383,37 @@ public class MovementBehaviour : MonoBehaviour
                 tpIndicator.SetActive(false);
                 isTping = false;
             }
-            else if (!tryingTp)
+            else if(!isTping)
             {
-                tpIndicator.SetActive(true);
                 isTping = true;
+                isCreatingShadow = false;
+                tpIndicator.SetActive(true);
             }
 
         }
         else if(context.canceled)
         {
+
+        }
+    }
+    private void ShadowCreation(InputAction.CallbackContext context)
+    {
+        if(context.performed && bs.currentBlood - 5 > 0 && !ba.isActive)
+        {
+            if(isCreatingShadow)
+            {
+                Instantiate(shadowCreationObj, tpIndicator.transform.position, Quaternion.identity);
+                bs.currentBlood -= 5;
+                isCreatingShadow = false;
+                tpIndicator.SetActive(false);
+            }
+            else if(!isCreatingShadow)
+            {
+                tpIndicator.SetActive(true);
+                isCreatingShadow = true;
+                isTping = false;
+            }
+                
         }
     }
 

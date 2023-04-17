@@ -116,6 +116,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CancelShadowStep"",
+                    ""type"": ""Button"",
+                    ""id"": ""92e1735c-6a8b-4d1b-b746-cd5945e1522c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ShadowCreation"",
+                    ""type"": ""Button"",
+                    ""id"": ""4eb48cce-4a53-4aa5-a16a-892d3be569ce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -272,6 +290,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ShapeShift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""feffe368-ec34-4184-bace-eb72314f625a"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CancelShadowStep"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""166a7162-7992-41b8-979a-e0c000c00392"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ShadowCreation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -296,6 +336,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_ToggleCamera = m_Gameplay.FindAction("ToggleCamera", throwIfNotFound: true);
         m_Gameplay_ShadowStep = m_Gameplay.FindAction("ShadowStep", throwIfNotFound: true);
         m_Gameplay_ShapeShift = m_Gameplay.FindAction("ShapeShift", throwIfNotFound: true);
+        m_Gameplay_CancelShadowStep = m_Gameplay.FindAction("CancelShadowStep", throwIfNotFound: true);
+        m_Gameplay_ShadowCreation = m_Gameplay.FindAction("ShadowCreation", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -365,6 +407,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ToggleCamera;
     private readonly InputAction m_Gameplay_ShadowStep;
     private readonly InputAction m_Gameplay_ShapeShift;
+    private readonly InputAction m_Gameplay_CancelShadowStep;
+    private readonly InputAction m_Gameplay_ShadowCreation;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -379,6 +423,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ToggleCamera => m_Wrapper.m_Gameplay_ToggleCamera;
         public InputAction @ShadowStep => m_Wrapper.m_Gameplay_ShadowStep;
         public InputAction @ShapeShift => m_Wrapper.m_Gameplay_ShapeShift;
+        public InputAction @CancelShadowStep => m_Wrapper.m_Gameplay_CancelShadowStep;
+        public InputAction @ShadowCreation => m_Wrapper.m_Gameplay_ShadowCreation;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -418,6 +464,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShapeShift.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShapeShift;
                 @ShapeShift.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShapeShift;
                 @ShapeShift.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShapeShift;
+                @CancelShadowStep.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancelShadowStep;
+                @CancelShadowStep.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancelShadowStep;
+                @CancelShadowStep.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnCancelShadowStep;
+                @ShadowCreation.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
+                @ShadowCreation.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
+                @ShadowCreation.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -452,6 +504,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShapeShift.started += instance.OnShapeShift;
                 @ShapeShift.performed += instance.OnShapeShift;
                 @ShapeShift.canceled += instance.OnShapeShift;
+                @CancelShadowStep.started += instance.OnCancelShadowStep;
+                @CancelShadowStep.performed += instance.OnCancelShadowStep;
+                @CancelShadowStep.canceled += instance.OnCancelShadowStep;
+                @ShadowCreation.started += instance.OnShadowCreation;
+                @ShadowCreation.performed += instance.OnShadowCreation;
+                @ShadowCreation.canceled += instance.OnShadowCreation;
             }
         }
     }
@@ -477,5 +535,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnToggleCamera(InputAction.CallbackContext context);
         void OnShadowStep(InputAction.CallbackContext context);
         void OnShapeShift(InputAction.CallbackContext context);
+        void OnCancelShadowStep(InputAction.CallbackContext context);
+        void OnShadowCreation(InputAction.CallbackContext context);
     }
 }

@@ -94,6 +94,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CancelShadowStep",
+                    "type": "Button",
+                    "id": "92e1735c-6a8b-4d1b-b746-cd5945e1522c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ShadowCreation",
+                    "type": "Button",
+                    "id": "4eb48cce-4a53-4aa5-a16a-892d3be569ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -248,6 +266,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "ShapeShift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "feffe368-ec34-4184-bace-eb72314f625a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelShadowStep",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "166a7162-7992-41b8-979a-e0c000c00392",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShadowCreation",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
