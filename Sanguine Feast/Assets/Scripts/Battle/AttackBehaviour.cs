@@ -6,6 +6,8 @@ public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
 
+    private int type = 0;
+
     public float radius;
     public float damage;
     public float reach;
@@ -18,43 +20,55 @@ public class AttackBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if (CompareTag("Player"))
+        {
+            type = 1;
+        }
+
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
     }
 
-    public void Punch(float damage, float stun)
+    public void Punch()
     {
         RaycastHit hit;
 
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, reach))
         {
-            if (hit.collider.gameObject.CompareTag("NPC"))
+            switch (type)
             {
-                hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage, stun);
+                case 1:
+
+                    if (hit.collider.gameObject.CompareTag("NPC"))
+                    {
+                        hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage, stun);
+                    }
+
+                    break;
+
+                default:
+
+                    if (hit.collider.gameObject.CompareTag("Player"))
+                    {
+                        bs.currentBlood -= damage;
+                    }
+
+                    break;
             }
         }
     }
 
-    public void Punch(float damage)
+    public void Shoot(Vector3 dir)
     {
-        RaycastHit hit;
+        Rigidbody rb_ = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+        ProjectileBehaviour pb = rb_.gameObject.GetComponent<ProjectileBehaviour>();
+        pb.damage = damage;
 
-        if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, reach))
+        if (type == 1)
         {
-            if (hit.collider.gameObject.CompareTag("NPC"))
-            {
-                bs.currentBlood -= damage;
-            }
+            pb.stun = stun;
         }
-    }
 
-    public void Shoot(float damage, float stun)
-    {
-
-    }
-
-    public void Shoot(float damage)
-    {
-
+        rb_.velocity = dir * projectileSpeed;
     }
 
     public void SneakAttack()
@@ -62,12 +76,7 @@ public class AttackBehaviour : MonoBehaviour
 
     }
 
-    public void DamagePlayer()
-    {
-
-    }
-
-    public void DamageNPC()
+    public void StartDrain()
     {
 
     }
