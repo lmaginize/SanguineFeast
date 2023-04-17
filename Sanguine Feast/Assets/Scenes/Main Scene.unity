@@ -3415,6 +3415,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: noButton
+      value: 
+      objectReference: {fileID: 428804848}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: yesButton
+      value: 
+      objectReference: {fileID: 1520625768}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: promptText
+      value: 
+      objectReference: {fileID: 1000030632}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: successText
+      value: 
+      objectReference: {fileID: 1423000841}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: totalBloodText
+      value: 
+      objectReference: {fileID: 1706873521}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: currentBloodText
+      value: 
+      objectReference: {fileID: 1962783045}
     - target: {fileID: 4871555641258040514, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3485,35 +3509,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
---- !u!1 &242320256 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4871555641258040541, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+--- !u!114 &242320257 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
   m_PrefabInstance: {fileID: 242320255}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &242320257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 242320256}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad879274cd5320f47a4edc251b2cdfaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSuckDistance: 2
-  bloodGainAmount: 100
-  currentBlood: 5
-  totalBlood: 5
-  nightChance: 95
-  dayChance: 60
-  promptText: {fileID: 1000030632}
-  yesButton: {fileID: 1520625768}
-  noButton: {fileID: 428804848}
-  currentBloodText: {fileID: 1962783045}
-  totalBloodText: {fileID: 1706873521}
-  successText: {fileID: 1423000841}
 --- !u!1 &244186700
 GameObject:
   m_ObjectHideFlags: 0
@@ -21230,7 +21236,7 @@ GameObject:
   - component: {fileID: 1753450354}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647

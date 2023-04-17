@@ -13,8 +13,6 @@ public class HealthBehaviour : MonoBehaviour
     public GameObject stunBarObj;
     public Slider stunBar;
     public GameObject canvas;
-
-    public string player;
     public Transform players;
 
     public bool isStunned;
@@ -36,7 +34,7 @@ public class HealthBehaviour : MonoBehaviour
         healthBar.value = health;
         stunBar.maxValue = maxStun;
         stunBar.value = 0;
-        players = GameObject.Find("Player (Split)").transform;
+        players = GameObject.Find("Player").transform;
     }
 
     // Update is called once per frame
