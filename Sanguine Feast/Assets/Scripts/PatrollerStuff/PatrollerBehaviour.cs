@@ -136,7 +136,6 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (canWander)
             {
-                print("Test");
                 if (Random.Range(1f, 100f) < wanderChance)
                 {
                     Collider[] arr = Physics.OverlapSphere(transform.position, wanderDetectRange, LayerMask.GetMask("WanderPoints"));

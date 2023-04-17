@@ -119,7 +119,7 @@ public class BloodSucking : MonoBehaviour
         totalBlood += bloodGainAmount;
         currentBloodText.text = "Blood: " + currentBlood.ToString();
         totalBloodText.text = "Total Blood: " + totalBlood.ToString();
-        GameObject.Destroy(npc);
+        Destroy(npc);
         promptText.enabled = false;
         yesButton.gameObject.SetActive(false);
         noButton.gameObject.SetActive(false);
