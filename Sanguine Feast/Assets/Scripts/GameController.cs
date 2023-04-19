@@ -18,9 +18,9 @@ public class GameController : MonoBehaviour
     public GameObject moonObject;
     public Slider dayNightCycleSlider;
 
-    public GameObject morningShade;
-    public GameObject noonShade;
-    public GameObject eveningShade;
+    //public GameObject morningShade;
+    //public GameObject noonShade;
+    //public GameObject eveningShade;
 
     #endregion
 
@@ -30,9 +30,9 @@ public class GameController : MonoBehaviour
         sunObject.transform.rotation = Quaternion.Euler(270f, 0f, 0f);
         night = true;
 
-        morningShade.SetActive(false);
-        noonShade.SetActive(false);
-        eveningShade.SetActive(false);
+        //morningShade.SetActive(false);
+        //noonShade.SetActive(false);
+        //eveningShade.SetActive(false);
 
     }
 
@@ -59,26 +59,26 @@ public class GameController : MonoBehaviour
                 case (120):
                     StartCoroutine(ChangeCycle(135f));
                     night = false;
-                    morningShade.SetActive(true);
+                    //morningShade.SetActive(true);
                     break;
                 case (160):
                     StartCoroutine(ChangeCycle(45f));
                     night = false;
-                    noonShade.SetActive(true);
-                    morningShade.SetActive(false);
+                    //noonShade.SetActive(true);
+                    //morningShade.SetActive(false);
                     break;
                 case (200):
                     StartCoroutine(ChangeCycle(45f));
                     night = false;
-                    eveningShade.SetActive(true);
-                    noonShade.SetActive(false);
+                    //eveningShade.SetActive(true);
+                    //noonShade.SetActive(false);
                     break;
                 case (240):
                     StartCoroutine(ChangeCycle(135f));
                     night = true;
-                    morningShade.SetActive(false);
-                    noonShade.SetActive(false);
-                    eveningShade.SetActive(false);
+                    //morningShade.SetActive(false);
+                    //noonShade.SetActive(false);
+                    //eveningShade.SetActive(false);
                     break;
             }
         }
