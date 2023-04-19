@@ -45,6 +45,7 @@ public class MovementBehaviour : MonoBehaviour
     public float walkSpeed = 6f;
     public float sprintSpeed = 12f;
     public float speedCap = 10f;
+    public float superSpeedCap = 15f;
     public float nightMultiplier = 1;
 
     public const int MAX_DISTANCETP = 50;
@@ -57,6 +58,7 @@ public class MovementBehaviour : MonoBehaviour
     public float jumpForce = 200f;
 
     public bool ungroundDouble = true;
+    public bool superSpeed = false;
 
     /// <summary>
     /// Cam and Collider Shit
@@ -255,10 +257,14 @@ public class MovementBehaviour : MonoBehaviour
 
             rb.AddForce(finalMove * moveForce * (gc.night ? nightMultiplier : 1), ForceMode.Acceleration);
 
-            if (sideForward.magnitude > speedCap * (gc.night ? nightMultiplier : 1))
+            if (sideForward.magnitude > speedCap * (gc.night ? nightMultiplier : 1) && !superSpeed)
             {
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, speedCap);
             }
+            else{
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, superSpeedCap);
+            }
+                
         }
         else
         {
