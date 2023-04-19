@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3948352049351608076}
   - component: {fileID: 3948352049351608077}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: FightSuccessText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 3948352049841727780}
   - component: {fileID: 3948352049841727781}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: RunSuccessText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1198,7 +1198,7 @@ GameObject:
   - component: {fileID: 3948352050965777042}
   - component: {fileID: 3948352050965777043}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: CostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

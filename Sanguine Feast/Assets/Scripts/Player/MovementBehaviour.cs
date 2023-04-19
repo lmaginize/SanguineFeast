@@ -106,7 +106,7 @@ public class MovementBehaviour : MonoBehaviour
         camBeh = GetComponent<CamBehaviour>();
         bs = GetComponent<BloodSucking>();
         ba = GetComponent<BatAbility>();
-        tpIndicator.SetActive(false);
+       // tpIndicator.SetActive(false);
     }
 
     private void OnEnable()
