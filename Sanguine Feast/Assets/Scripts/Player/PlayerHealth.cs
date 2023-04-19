@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour
         if (weak == true)
         {
 
-            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 3f * Time.deltaTime;
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 7f * Time.deltaTime;
 
         }
 
