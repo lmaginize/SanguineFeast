@@ -20,13 +20,13 @@ public class PlayerHealth : MonoBehaviour
         if (weak == true)
         {
 
-            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 2f * Time.deltaTime;
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 3f * Time.deltaTime;
 
         }
 
     }
 
-    void OnTriggerEnter(Collider collision)
+    /*void OnTriggerEnter(Collider collision)
     {
         if(collision.gameObject.tag == "Shade")
         {
@@ -40,5 +40,5 @@ public class PlayerHealth : MonoBehaviour
         {
             inShade = false;
         }
-    }
+    }*/
 }

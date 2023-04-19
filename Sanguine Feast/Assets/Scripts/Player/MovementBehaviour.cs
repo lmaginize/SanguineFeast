@@ -199,6 +199,21 @@ public class MovementBehaviour : MonoBehaviour
             tpIndicator.SetActive(false);
         }
 
+        if (Physics.Raycast(coll.bounds.center, -Vector3.up, out RaycastHit rch, 100, ~player))
+        {
+            Debug.DrawRay(coll.bounds.center, -Vector3.up, Color.green);
+            if (Physics.Raycast(rch.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && f.collider.gameObject.name.Equals("SunHitCheck"))
+            {
+                gameObject.GetComponent<PlayerHealth>().weak = true;
+                Debug.Log("Not in shade");
+            }
+            else
+            {
+                gameObject.GetComponent<PlayerHealth>().weak = false;
+                Debug.Log("In Shade");
+            }
+        }
+
         /*if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
         {
             if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000))
