@@ -134,15 +134,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""a40842b4-9425-46e9-b54b-75097243a8e9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -321,17 +312,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""ShadowCreation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""74630188-7e7c-48e5-b365-41f956afbd3a"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -358,7 +338,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_ShapeShift = m_Gameplay.FindAction("ShapeShift", throwIfNotFound: true);
         m_Gameplay_CancelShadowStep = m_Gameplay.FindAction("CancelShadowStep", throwIfNotFound: true);
         m_Gameplay_ShadowCreation = m_Gameplay.FindAction("ShadowCreation", throwIfNotFound: true);
-        m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -430,7 +409,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_ShapeShift;
     private readonly InputAction m_Gameplay_CancelShadowStep;
     private readonly InputAction m_Gameplay_ShadowCreation;
-    private readonly InputAction m_Gameplay_Pause;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -447,7 +425,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @ShapeShift => m_Wrapper.m_Gameplay_ShapeShift;
         public InputAction @CancelShadowStep => m_Wrapper.m_Gameplay_CancelShadowStep;
         public InputAction @ShadowCreation => m_Wrapper.m_Gameplay_ShadowCreation;
-        public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -493,9 +470,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShadowCreation.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
                 @ShadowCreation.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
                 @ShadowCreation.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnShadowCreation;
-                @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -536,9 +510,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @ShadowCreation.started += instance.OnShadowCreation;
                 @ShadowCreation.performed += instance.OnShadowCreation;
                 @ShadowCreation.canceled += instance.OnShadowCreation;
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -566,6 +537,5 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnShapeShift(InputAction.CallbackContext context);
         void OnCancelShadowStep(InputAction.CallbackContext context);
         void OnShadowCreation(InputAction.CallbackContext context);
-        void OnPause(InputAction.CallbackContext context);
     }
 }
