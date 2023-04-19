@@ -11,7 +11,7 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject UI;
-    bool canPauseAgain;
+
     private void Awake()
     {
         pcs = new PlayerControls();
@@ -36,7 +36,7 @@ public class PauseMenu : MonoBehaviour
         {
             if (isPaused)
             {
-                if (canPauseAgain)
+                if (pausePanel.activeSelf == true)
                 {
                     Resume();
                 }
@@ -44,39 +44,37 @@ public class PauseMenu : MonoBehaviour
             else
             {
                 Pause();
+
+
             }
         }
-        checkPauseOpen();
     }
+
+    
 
 
     public void Resume()
     {
+        UI.SetActive(true);
         pausePanel.SetActive(false);
+
         isPaused = false;
         Time.timeScale = 1f;
-        UI.SetActive(true);
+       
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Pause()
     {
+        UI.SetActive(false);
         pausePanel.SetActive(true);
+
         isPaused = true;
         Time.timeScale = 0f;
-        UI.SetActive(false);
-    }
 
-
-    void checkPauseOpen()
-    {
-        if (pausePanel.activeSelf == true)
-        {
-            canPauseAgain = true;
-        }
-        else
-        {
-            canPauseAgain = false;
-        }
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void Menu()
