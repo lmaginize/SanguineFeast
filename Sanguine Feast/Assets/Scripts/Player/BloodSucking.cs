@@ -20,9 +20,11 @@ public class BloodSucking : MonoBehaviour
     public TMP_Text currentBloodText;
     public TMP_Text totalBloodText;
     public TMP_Text successText;
+    public bool ressurectionUpgrade = false;
 
     public PlayerControls pcs;
     private InputAction attack;
+    public GameObject ressurectmenu;
 
     private GameController gc;
     private weirdBattle wb;
@@ -64,10 +66,13 @@ public class BloodSucking : MonoBehaviour
     {
         currentBloodText.text = "Blood: " + (int)currentBlood;
 
-        if (currentBlood < 0)
+        if (currentBlood < 0 && !ressurectionUpgrade)
         {
             Menus.endBlood = totalBlood;
             SceneManager.LoadScene("Lose Scene");
+        }
+        else{
+            ressurectmenu.SetActive(true);
         }
     }
 
