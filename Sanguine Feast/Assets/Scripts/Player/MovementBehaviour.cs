@@ -183,10 +183,6 @@ public class MovementBehaviour : MonoBehaviour
                 {
                     tpIndicator.transform.position = rh.point;
                 }
-                else if (rh.collider.gameObject.tag.Equals("Shade") && isTping)
-                {
-                    tpIndicator.transform.position = rh.point;
-                }
                 else if(isCreatingShadow)
                 {
                     tpIndicator.transform.position = rh.point;

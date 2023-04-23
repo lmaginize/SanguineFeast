@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7086324629474762512}
   - component: {fileID: 7086324629474762513}
   - component: {fileID: 7086324629474762518}
+  - component: {fileID: 2917530728125294786}
   m_Layer: 0
   m_Name: BatParticles
   m_TagString: Untagged
@@ -3789,7 +3790,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
@@ -4812,3 +4813,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2917530728125294786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7086324629474762519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696498740d0d3024bb1da6aa2582eda9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hb: {fileID: 0}
+  pSFF: {fileID: 0}
+  pS: {fileID: 7086324629474762513}
+  damage: 0
+  patroller: {fileID: 0}
