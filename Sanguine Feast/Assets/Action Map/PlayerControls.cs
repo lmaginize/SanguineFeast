@@ -143,6 +143,33 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability1"",
+                    ""type"": ""Button"",
+                    ""id"": ""3d7bbad3-1e64-41b7-b1f2-c37732e692cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability2"",
+                    ""type"": ""Button"",
+                    ""id"": ""2adf9475-16c8-44c0-ad05-b02d62208a1d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ability3"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc4d0c55-f065-46bf-acc1-4753896d2045"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -332,6 +359,39 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e5421039-c5e4-47ce-a5c8-fd0c72bafca2"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""067365b4-75f0-45c1-a50d-b5a301040984"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""21de1d2f-d126-4601-9431-bce508845042"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ability3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -359,6 +419,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_CancelShadowStep = m_Gameplay.FindAction("CancelShadowStep", throwIfNotFound: true);
         m_Gameplay_ShadowCreation = m_Gameplay.FindAction("ShadowCreation", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
+        m_Gameplay_Ability1 = m_Gameplay.FindAction("Ability1", throwIfNotFound: true);
+        m_Gameplay_Ability2 = m_Gameplay.FindAction("Ability2", throwIfNotFound: true);
+        m_Gameplay_Ability3 = m_Gameplay.FindAction("Ability3", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -431,6 +494,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_CancelShadowStep;
     private readonly InputAction m_Gameplay_ShadowCreation;
     private readonly InputAction m_Gameplay_Pause;
+    private readonly InputAction m_Gameplay_Ability1;
+    private readonly InputAction m_Gameplay_Ability2;
+    private readonly InputAction m_Gameplay_Ability3;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -448,6 +514,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @CancelShadowStep => m_Wrapper.m_Gameplay_CancelShadowStep;
         public InputAction @ShadowCreation => m_Wrapper.m_Gameplay_ShadowCreation;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
+        public InputAction @Ability1 => m_Wrapper.m_Gameplay_Ability1;
+        public InputAction @Ability2 => m_Wrapper.m_Gameplay_Ability2;
+        public InputAction @Ability3 => m_Wrapper.m_Gameplay_Ability3;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -496,6 +565,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnPause;
+                @Ability1.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility1;
+                @Ability1.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility1;
+                @Ability1.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility1;
+                @Ability2.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility2;
+                @Ability2.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility2;
+                @Ability2.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility2;
+                @Ability3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
+                @Ability3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
+                @Ability3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -539,6 +617,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @Ability1.started += instance.OnAbility1;
+                @Ability1.performed += instance.OnAbility1;
+                @Ability1.canceled += instance.OnAbility1;
+                @Ability2.started += instance.OnAbility2;
+                @Ability2.performed += instance.OnAbility2;
+                @Ability2.canceled += instance.OnAbility2;
+                @Ability3.started += instance.OnAbility3;
+                @Ability3.performed += instance.OnAbility3;
+                @Ability3.canceled += instance.OnAbility3;
             }
         }
     }
@@ -567,5 +654,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnCancelShadowStep(InputAction.CallbackContext context);
         void OnShadowCreation(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnAbility1(InputAction.CallbackContext context);
+        void OnAbility2(InputAction.CallbackContext context);
+        void OnAbility3(InputAction.CallbackContext context);
     }
 }
