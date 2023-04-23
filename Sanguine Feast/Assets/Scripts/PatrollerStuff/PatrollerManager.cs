@@ -10,6 +10,7 @@ public class PatrollerManager : MonoBehaviour
     public List<PatrollerBehaviour> patrollers;
 
     public bool anotherOne = false;
+    public bool bloodSucking;
 
     private void Awake()
     {

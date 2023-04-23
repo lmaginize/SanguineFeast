@@ -9,14 +9,22 @@ public class PatrollerBehaviour : MonoBehaviour
     private NavMeshAgent nma;
     private GameController gc;
     private GameObject player;
+    private GameObject eyes;
     private BloodSucking bs;
     private weirdBattle wb;
+    private AttackBehaviour ab;
+    private PatrollerManager pm;
 
     public Route patrolLoop;
     private int loopPos;
     public float detectRange;
+    public float detectAngle;
 
     private bool distracted = false;
+    private bool playerSeen;
+    private bool playerHeard;
+    private Vector3 checkSpot = new Vector3(0, -100, 0);
+    private bool aggression;
     private Vector3 playerPos;
     private bool startPatrol;
 
@@ -39,6 +47,9 @@ public class PatrollerBehaviour : MonoBehaviour
         wb = gc.gameObject.GetComponent<weirdBattle>();
         player = GameObject.Find("Player");
         bs = player.GetComponent<BloodSucking>();
+        eyes = transform.GetChild(0).gameObject;
+        ab = GetComponent<AttackBehaviour>();
+        pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
 
         if (startPatrol)
         {
@@ -52,16 +63,64 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             PatrolStart();
         }
-
-        PatrolLoop();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        CheckForPlayer();
+        ListenForPlayer();
+        TheEyes();
+
+        RaycastHit hit;
+
+        if (playerHeard && playerSeen && !aggression)
+        {
+            WokeUpAndChoseAnger();
+        }
+        else if (playerHeard)
+        {
+            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) < detectAngle && Physics.Raycast(transform.position, transform.position - player.transform.position, out hit))
+            {
+                if (hit.collider.gameObject == player)
+                {
+                    playerSeen = true;
+                }
+            }
+        }
+
+        if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
+        {
+            FightingWords();
+        }
+        else
+        {
+            PatrolLoop();
+        }
 
         Wander();
+    }
+
+    void TheEyes()
+    {
+        RaycastHit hit;
+
+        if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange))
+        {
+            if (hit.collider.gameObject == player)
+            {
+                playerSeen = true;
+            }
+        }
+    }
+
+    void FightingWords()
+    {
+        transform.LookAt(transform.position + Vector3.ProjectOnPlane(transform.position - player.transform.position, Vector3.up));
+
+        if (Vector3.Distance(player.transform.position, transform.position) > .5f)
+        {
+            nma.destination = player.transform.position;
+        }
     }
 
     void PatrolLoop()
@@ -100,15 +159,7 @@ public class PatrollerBehaviour : MonoBehaviour
         startPatrol = false;
     }
 
-    void TakingChances()
-    {
-        if (Random.Range(1f, 100f) <= catchChance * (gc.night ? 1 : dayMultiplier))
-        {
-            wb.battleBegin();
-        }
-    }
-
-    void CheckForPlayer()
+    void ListenForPlayer()
     {
         Collider[] arr = Physics.OverlapSphere(transform.position, detectRange, LayerMask.GetMask("Player"));
 
@@ -116,17 +167,22 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (arr[x].gameObject == player)
             {
-                bs.yesButton.onClick.AddListener(TakingChances);
+                if (pm.bloodSucking)
+                {
+                    playerHeard = true;
+                    checkSpot = player.transform.position;
+                }
             }
             else
             {
-                bs.yesButton.onClick.RemoveListener(TakingChances);
+                playerHeard = false;
+
             }
         }
 
         if (arr.Length == 0)
         {
-            bs.yesButton.onClick.RemoveListener(TakingChances);
+            playerHeard = false;
         }
     }
 
@@ -134,7 +190,7 @@ public class PatrollerBehaviour : MonoBehaviour
     {
         while (true)
         {
-            if (canWander)
+            if (canWander && !playerHeard && !playerSeen)
             {
                 if (Random.Range(1f, 100f) < wanderChance)
                 {
@@ -154,6 +210,30 @@ public class PatrollerBehaviour : MonoBehaviour
             }
 
             yield return new WaitForSeconds(wanderTime);
+        }
+    }
+
+    public void WokeUpAndChoseAnger()
+    {
+        aggression = true;
+
+        StartCoroutine("Anger");
+    }
+
+    IEnumerator Anger()
+    {
+        while (aggression)
+        {
+            if (Vector3.Distance(player.transform.position, transform.position) <= ab.reach[0])
+            {
+                ab.attack[0] = true;
+            }
+            else
+            {
+                ab.attack[0] = false;
+            }
+
+            yield return null;
         }
     }
 }
