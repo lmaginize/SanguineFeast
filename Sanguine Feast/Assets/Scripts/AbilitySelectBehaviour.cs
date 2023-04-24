@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,10 @@ public class AbilitySelectBehaviour : MonoBehaviour
     public Button eButton;
     public Button rButton;
 
+    public void Continue()
+    {
+        print("would start game");
+    }
 
     public void QButton()
     {
@@ -63,19 +68,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Bat Transform";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Bat Transform";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Bat Transform";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Bat Transform";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Bat Transform";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Bat Transform";
 
         }
 
@@ -89,19 +94,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Shadow Step";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Shadow Step";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Shadow Step";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Shadow Step";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Shadow Step";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Shadow Step";
 
         }
 
@@ -115,19 +120,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Hypnotism";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Hypnotism";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Hypnotism";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Hypnotism";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Hypnotism";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Hypnotism";
 
         }
 
@@ -141,19 +146,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Turn NPC";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Turn NPC";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Turn NPC";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Turn NPC";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Turn NPC";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Turn NPC";
 
         }
 
@@ -167,19 +172,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Vampiric Speed";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Vampiric Speed";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Vampiric Speed";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Vampiric Speed";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Vampiric Speed";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Vampiric Speed";
 
         }
 
@@ -193,19 +198,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Resurection";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Resurection";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Resurection";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Resurection";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Resurection";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Resurection";
 
         }
 
@@ -219,19 +224,19 @@ public class AbilitySelectBehaviour : MonoBehaviour
         if (currentButton == "Q")
         {
 
-            qButton.GetComponentInChildren<Text>().text = "Shadow Creation";
+            qButton.GetComponentInChildren<TMP_Text>().text = "Shadow Creation";
 
         }
         else if (currentButton == "E")
         {
 
-            eButton.GetComponentInChildren<Text>().text = "Shadow Creation";
+            eButton.GetComponentInChildren<TMP_Text>().text = "Shadow Creation";
 
         }
         else if (currentButton == "R")
         {
 
-            rButton.GetComponentInChildren<Text>().text = "Shadow Creation";
+            rButton.GetComponentInChildren<TMP_Text>().text = "Shadow Creation";
 
         }
 
