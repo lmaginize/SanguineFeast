@@ -40,7 +40,7 @@ public class PatrollerManager : MonoBehaviour
         patrollers[patrollers.Count - 1].StartPatrol();
     }
 
-    void AddRoute(GameObject[] markers)
+    public void AddRoute(GameObject[] markers)
     {
         patrolMarkers.Add(new Route(markers));
     }

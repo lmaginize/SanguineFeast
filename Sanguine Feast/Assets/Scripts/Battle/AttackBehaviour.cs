@@ -1,11 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
     private LayerMask lm;
+
+    private PlayerControls pcs;
+
+    private InputAction attack_;
+    private InputAction interact;
+
+    private Vector3 npcDir;
 
     private int type = 0;
 
@@ -17,7 +25,6 @@ public class AttackBehaviour : MonoBehaviour
     public bool[] attack;
 
     public GameObject projectile;
-    public float rangeDamage;
     public float projectileSpeed;
 
     // Start is called before the first frame update
@@ -25,6 +32,14 @@ public class AttackBehaviour : MonoBehaviour
     {
         if (CompareTag("Player"))
         {
+            pcs = new PlayerControls();
+
+            attack_ = pcs.Gameplay.Attack1;
+            interact = pcs.Gameplay.Hold;
+
+            attack_.performed += _ => attack[0] = true;
+            interact.performed += _ => attack[3] = true;
+
             type = 1;
         }
 
@@ -104,30 +119,39 @@ public class AttackBehaviour : MonoBehaviour
         {
             if (attack[0])
             {
-                Punch();
+                if (type == 1)
+                {
+                    SneakAttack();
+                }
+                else
+                {
+                    Punch();
+                }
 
+                attack[0] = false;
                 yield return new WaitForSeconds(cooldown[0]);
             }
             else if (attack[1])
             {
-                Shoot(transform.forward);
+                Shoot(type == 1 ? transform.forward : npcDir);
 
+                attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
-            }
-            else if (attack[2])
-            {
-                SneakAttack();
-
-                yield return new WaitForSeconds(cooldown[2]);
             }
             else if (attack[3])
             {
                 StartDrain();
 
+                attack[3] = false;
                 yield return new WaitForSeconds(cooldown[3]);
             }
 
             yield return null;
         }
+    }
+
+    public void SetTarget(Vector3 target)
+    {
+        npcDir = transform.position - target;
     }
 }
