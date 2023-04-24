@@ -11,7 +11,7 @@ public class BatAbility : MonoBehaviour
     private InputAction jump_;
     private InputAction crouch;
     private InputAction sprint;
-    private InputAction shapeShift;
+    //private InputAction shapeShift;
 
     private GameController gc;
     private MovementBehaviour mb;
@@ -35,14 +35,14 @@ public class BatAbility : MonoBehaviour
         jump_ = pcs.Gameplay.Jump;
         crouch = pcs.Gameplay.Crouch;
         sprint = pcs.Gameplay.Sprint;
-        shapeShift = pcs.Gameplay.ShapeShift;
+        //shapeShift = pcs.Gameplay.ShapeShift;
 
         jump_.started += OnJump;
         jump_.canceled += OnJump;
         crouch.started += OnCrouch;
         crouch.canceled += OnCrouch;
         sprint.started += OnSprint;
-        shapeShift.performed += ShapeShift;
+        //shapeShift.performed += ShapeShift;
 
         gc = FindObjectOfType<GameController>();
         rb = GetComponent<Rigidbody>();
@@ -58,13 +58,13 @@ public class BatAbility : MonoBehaviour
         jump_.Enable();
         crouch.Enable();
         sprint.Enable();
-        shapeShift.Enable();
+        //shapeShift.Enable();
         jump_.performed += OnJump;
         jump_.canceled += OnJump;
         crouch.performed += OnCrouch;
         crouch.canceled += OnCrouch;
         sprint.performed += OnSprint;
-        shapeShift.performed += ShapeShift;
+        //shapeShift.performed += ShapeShift;
     }
 
     private void OnDisable()
@@ -74,11 +74,11 @@ public class BatAbility : MonoBehaviour
         crouch.performed -= OnCrouch;
         crouch.canceled -= OnCrouch;
         sprint.performed -= OnSprint;
-        shapeShift.performed -= ShapeShift;
+        //shapeShift.performed -= ShapeShift;
         move.Disable();
         jump_.Disable();
         crouch.Disable();
-        shapeShift.Disable();
+        //shapeShift.Disable();
     }
 
     // Update is called once per frame

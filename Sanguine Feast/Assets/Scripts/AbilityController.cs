@@ -18,13 +18,22 @@ public class AbilityController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //pcsMB = mb.pcs;
+        GameObject g = GameObject.FindGameObjectWithTag("Player");
+        mb = g.GetComponent<MovementBehaviour>();
+        ba = g.GetComponent<BatAbility>();
+        bs = mb.bs;
         pcsMB = mb.pcs;
+        //hyp = g.GetComponent<Hypnotism>();
         if (abilities.Count < 1)
         {
             abilities.Add(pcsMB.Gameplay.Ability1);
             abilities.Add(pcsMB.Gameplay.Ability2);
             abilities.Add(pcsMB.Gameplay.Ability3);
         }
+        SetKeyBind("shadowTp");
+        SetKeyBind("ShadowCreate");
+        SetKeyBind("batFly");
     }
 
     public void SetKeyBind(string name)
@@ -47,6 +56,8 @@ public class AbilityController : MonoBehaviour
                 break;
             case ("Ressurection"):
                 bs.ressurectionUpgrade = true;
+                break;
+            case ("Turning"):
                 break;
             default:
                 break;
