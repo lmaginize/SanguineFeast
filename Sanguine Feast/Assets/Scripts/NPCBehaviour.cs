@@ -71,7 +71,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         isWandering = true;
         isWalking = true;
-        yield return new WaitForSeconds(Random.Range(8, 10));
+        yield return new WaitForSeconds(Random.Range(6, 9));
         isWalking = false;
         yield return new WaitForSeconds(1);
 
