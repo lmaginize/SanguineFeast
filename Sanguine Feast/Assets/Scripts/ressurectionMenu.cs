@@ -23,6 +23,7 @@ public class ressurectionMenu : MonoBehaviour
     public void OnButtonRessurect(){
         if(BS.totalBlood >= 1000){
             BS.totalBlood = BS.totalBlood - 1000;
+            BS.currentBlood = BS.currentBlood + 1000;
             BS.ressurectionUpgrade = false;
             ressurectmenu.SetActive(false);
             Time.timeScale = 1f;
