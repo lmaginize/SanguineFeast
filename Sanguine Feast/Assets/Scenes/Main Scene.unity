@@ -27729,6 +27729,43 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4871555641258040541, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
   m_PrefabInstance: {fileID: 242320255}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2089060247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089060246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b0aaffb614e4242b5bac6ee2056e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  damage:
+  - 0
+  - 0
+  - 0
+  - 0
+  reach:
+  - 0
+  - 0
+  - 0
+  - 0
+  stun:
+  - 0
+  - 0
+  - 0
+  - 0
+  cooldown:
+  - 0
+  - 0
+  - 0
+  - 0
+  attack: 00000000
+  projectile: {fileID: 0}
+  rangeDamage: 0
+  projectileSpeed: 0
 --- !u!1001 &2090276701
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30199,12 +30236,46 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
   m_PrefabInstance: {fileID: 6173189724576115985}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 6173189724576115987}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86ad09045092b9d45b8c74053e448f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6173189724576115987 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5689520863457550513, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
+  m_PrefabInstance: {fileID: 6173189724576115985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6173189724576115988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6173189724576115987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b0aaffb614e4242b5bac6ee2056e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0.25
+  damage:
+  - 50
+  - 0
+  reach:
+  - 1
+  - 0
+  stun:
+  - 0
+  - 0
+  cooldown:
+  - 0.25
+  - 0.35
+  attack: 0000
+  projectile: {fileID: 0}
+  rangeDamage: 0
+  projectileSpeed: 0
 --- !u!1001 &7284126261516723392
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 8353253895135553131}
   - component: {fileID: 606309660229220378}
   - component: {fileID: 1590669522104084653}
+  - component: {fileID: 5096532143778078217}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -429,18 +430,22 @@ MonoBehaviour:
   walkSpeed: 6
   sprintSpeed: 12
   speedCap: 6
+  superSpeedCap: 15
   nightMultiplier: 1.1
   finalMove: {x: 0, y: 0, z: 0}
   jumpDir: {x: 0, y: 0, z: 0}
   crouched: 0
   jumpForce: 300
   ungroundDouble: 1
+  superSpeed: 0
+  hasSuperSpeed: 0
   standOffset: {x: 0, y: 0.5369999, z: 0}
   crouchOffset: {x: 0, y: 0, z: 0}
   camOffset: {x: 0, y: 0, z: 0}
   isTping: 0
   bs: {fileID: 0}
   tpIndicator: {fileID: 0}
+  shadowCreationObj: {fileID: 0}
 --- !u!54 &4871555641258040542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -513,6 +518,45 @@ MonoBehaviour:
   currentBloodText: {fileID: 0}
   totalBloodText: {fileID: 0}
   successText: {fileID: 0}
+  ressurectionUpgrade: 0
+  ressurectmenu: {fileID: 0}
+--- !u!114 &5096532143778078217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4871555641258040541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17b0aaffb614e4242b5bac6ee2056e3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 0
+  damage:
+  - 4
+  - 3
+  - 0
+  - 0
+  reach:
+  - 1
+  - 0
+  - 1
+  - 1
+  stun:
+  - 20
+  - 15
+  - 500
+  - 500
+  cooldown:
+  - 0.25
+  - 0.15
+  - 0
+  - 0
+  attack: 00000000
+  projectile: {fileID: 0}
+  rangeDamage: 0
+  projectileSpeed: 0
 --- !u!1 &4871555642086868490
 GameObject:
   m_ObjectHideFlags: 0
