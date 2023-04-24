@@ -6,25 +6,26 @@ using UnityEngine.InputSystem;
 public class AbilityController : MonoBehaviour
 {
 
-    List<InputAction> abilities = new List<InputAction>();
+    public static List<InputAction> abilities = new List<InputAction>();
     int numIndex = 0;
 
     public MovementBehaviour mb;
     public BatAbility ba;
     private PlayerControls pcsMB;
+    public BloodSucking bs;
+    public Hypnotism hyp;
 
     // Start is called before the first frame update
     void Start()
     {
         pcsMB = mb.pcs;
-        abilities.Add(pcsMB.Gameplay.Ability1);
-        abilities.Add(pcsMB.Gameplay.Ability2);
-        abilities.Add(pcsMB.Gameplay.Ability3);
-        
+        if (abilities.Count < 1)
+        {
+            abilities.Add(pcsMB.Gameplay.Ability1);
+            abilities.Add(pcsMB.Gameplay.Ability2);
+            abilities.Add(pcsMB.Gameplay.Ability3);
+        }
     }
-
-
-    
 
     public void SetKeyBind(string name)
     {
@@ -40,10 +41,12 @@ public class AbilityController : MonoBehaviour
                 abilities[numIndex].performed += mb.ShadowCreation;
                 break;
             case ("Hypno"):
+                abilities[numIndex].performed += hyp.OnAbilityPerformed;
                 break;
             case ("VampireSpeed"):
                 break;
             case ("Ressurection"):
+                bs.ressurectionUpgrade = true;
                 break;
             default:
                 break;
