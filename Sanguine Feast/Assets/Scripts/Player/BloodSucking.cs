@@ -28,6 +28,7 @@ public class BloodSucking : MonoBehaviour
 
     private GameController gc;
     private weirdBattle wb;
+    private ressurectionMenu rm;
 
     private GameObject player;
     private GameObject npc;
@@ -42,6 +43,7 @@ public class BloodSucking : MonoBehaviour
     private void Start()
     {
         gc = GameObject.Find("GameController").GetComponent<GameController>();
+        rm = GameObject.Find("GameController").GetComponent<ressurectionMenu>();
         wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
         currentBloodText.text = "Blood: " + (int)currentBlood;
@@ -72,7 +74,7 @@ public class BloodSucking : MonoBehaviour
             SceneManager.LoadScene("Lose Scene");
         }
         else{
-            ressurectmenu.SetActive(true);
+            rm.onRessurectBegin();
         }
     }
 

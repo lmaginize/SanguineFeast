@@ -13,11 +13,21 @@ public class ressurectionMenu : MonoBehaviour
         BS = GameObject.Find("Player").GetComponent<BloodSucking>();
     }
 
+    public void onRessurectBegin(){
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        ressurectmenu.SetActive(true);
+    }
+
     public void OnButtonRessurect(){
         if(BS.totalBlood >= 1000){
             BS.totalBlood = BS.totalBlood - 1000;
             BS.ressurectionUpgrade = false;
             ressurectmenu.SetActive(false);
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
         
     }

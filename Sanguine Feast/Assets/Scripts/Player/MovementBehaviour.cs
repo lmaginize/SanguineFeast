@@ -59,6 +59,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public bool ungroundDouble = true;
     public bool superSpeed = false;
+    public bool hasSuperSpeed = false;
 
     /// <summary>
     /// Cam and Collider Shit
