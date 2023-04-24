@@ -24,7 +24,7 @@ public class PatrollerBehaviour : MonoBehaviour
     private bool playerSeen;
     private bool playerHeard;
     private Vector3 checkSpot = new Vector3(0, -100, 0);
-    private bool aggression;
+    public bool aggression;
     private Vector3 playerPos;
     private bool startPatrol;
 

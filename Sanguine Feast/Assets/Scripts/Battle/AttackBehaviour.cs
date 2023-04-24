@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
     private LayerMask lm;
+
+    private PlayerControls pcs;
+
+    private InputAction attack_;
+    private InputAction interact;
 
     private int type = 0;
 
@@ -26,12 +32,44 @@ public class AttackBehaviour : MonoBehaviour
         if (CompareTag("Player"))
         {
             type = 1;
+
+            pcs = new PlayerControls();
+
+            attack_ = pcs.Gameplay.Attack1;
+            interact = pcs.Gameplay.Hold;
+
+            attack_.performed += _ => attack[0] = true;
+            interact.performed += _ => attack[2] = true;
         }
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
         lm = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
 
         StartCoroutine("AttackLoop");
+    }
+
+    private void OnEnable()
+    {
+        if (type == 1)
+        {
+            attack_.Enable();
+            interact.Enable();
+
+            attack_.performed += _ => attack[0] = true;
+            interact.performed += _ => attack[2] = true;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (type == 1)
+        {
+            attack_.performed -= _ => attack[0] = true;
+            interact.performed -= _ => attack[2] = true;
+
+            attack_.Disable();
+            interact.Disable();
+        }
     }
 
     public void Punch()

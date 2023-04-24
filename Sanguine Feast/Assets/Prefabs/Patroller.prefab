@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5689520863457550516}
   - component: {fileID: 5689520863457550514}
   - component: {fileID: 5689520863457550504}
-  - component: {fileID: 137093059474357065}
+  - component: {fileID: 1075942252162222411}
   m_Layer: 0
   m_Name: Patroller
   m_TagString: Untagged
@@ -139,6 +139,7 @@ MonoBehaviour:
   patrolLoop: {fileID: 0}
   detectRange: 7
   detectAngle: 0
+  aggression: 0
   catchChance: 5
   dayMultiplier: 5
   beenThere: []
@@ -147,7 +148,7 @@ MonoBehaviour:
   wanderRadius: 5
   wanderTime: 3
   canWander: 1
---- !u!114 &137093059474357065
+--- !u!114 &1075942252162222411
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -163,16 +164,24 @@ MonoBehaviour:
   damage:
   - 50
   - 0
+  - 0
+  - 0
   reach:
   - 1
   - 0
+  - 0
+  - 0
   stun:
+  - 0
+  - 0
   - 0
   - 0
   cooldown:
   - 0.25
   - 0.35
-  attack: 0000
+  - 0
+  - 0
+  attack: 00000000
   projectile: {fileID: 0}
   rangeDamage: 0
   projectileSpeed: 0
