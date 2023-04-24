@@ -68,13 +68,16 @@ public class BloodSucking : MonoBehaviour
     {
         currentBloodText.text = "Blood: " + (int)currentBlood;
 
-        if (currentBlood < 0 && !ressurectionUpgrade)
+        if (currentBlood <= 0)
         {
-            Menus.endBlood = totalBlood;
-            SceneManager.LoadScene("Lose Scene");
-        }
-        else{
-            rm.onRessurectBegin();
+            if(!ressurectionUpgrade){
+                Menus.endBlood = totalBlood;
+                SceneManager.LoadScene("Lose Scene");
+            }
+            else{
+                rm.onRessurectBegin();
+            }
+            
         }
     }
 
