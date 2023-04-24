@@ -31,7 +31,7 @@ public class Hypnotism : MonoBehaviour
     //    ability.performed -= OnAbilityPerformed;
     //}
 
-    private void OnAbilityPerformed(InputAction.CallbackContext context)
+    public void OnAbilityPerformed(InputAction.CallbackContext context)
     {
 
         GetComponent<BloodSucking>().currentBlood -= bloodCost;

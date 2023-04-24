@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 752292914078463908}
   - component: {fileID: 752292914078463911}
+  - component: {fileID: 7624763388384879511}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -51,6 +52,16 @@ MonoBehaviour:
   sunObject: {fileID: 0}
   moonObject: {fileID: 0}
   dayNightCycleSlider: {fileID: 0}
-  morningShade: {fileID: 0}
-  noonShade: {fileID: 0}
-  eveningShade: {fileID: 0}
+--- !u!114 &7624763388384879511
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752292914078463906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bdb4bc23674b3248956ae637de56c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ressurectmenu: {fileID: 0}

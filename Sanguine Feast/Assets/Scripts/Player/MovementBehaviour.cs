@@ -18,9 +18,9 @@ public class MovementBehaviour : MonoBehaviour
     private InputAction sprint_;
     private InputAction jump_;
     private InputAction crouch;
-    private InputAction shadowStep;
+    //private InputAction shadowStep;
     private InputAction cancelShadowStep;
-    private InputAction shadowCreation;
+    //private InputAction shadowCreation;
 
     public float sensitivity = 50;
     public float maxLook = 90;
@@ -59,6 +59,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public bool ungroundDouble = true;
     public bool superSpeed = false;
+    public bool hasSuperSpeed = false;
 
     /// <summary>
     /// Cam and Collider Shit
@@ -87,17 +88,17 @@ public class MovementBehaviour : MonoBehaviour
         sprint_ = pcs.Gameplay.Sprint;
         jump_ = pcs.Gameplay.Jump;
         crouch = pcs.Gameplay.Crouch;
-        shadowStep = pcs.Gameplay.ShadowStep;
+        //shadowStep = pcs.Gameplay.ShadowStep;
         cancelShadowStep = pcs.Gameplay.CancelShadowStep;
-        shadowCreation = pcs.Gameplay.ShadowCreation;
+        //shadowCreation = pcs.Gameplay.ShadowCreation;
 
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
-        shadowStep.performed += ShadowStep;
+        //shadowStep.performed += ShadowStep;
         cancelShadowStep.performed += CancelShadowStep;
-        shadowCreation.performed += ShadowCreation;
+        //shadowCreation.performed += ShadowCreation;
 
         up = Vector3.up;
         gc = FindObjectOfType<GameController>();
@@ -117,20 +118,20 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.Enable();
         jump_.Enable();
         crouch.Enable();
-        shadowStep.Enable();
+        //shadowStep.Enable();
         cancelShadowStep.Enable();
-        shadowCreation.Enable();
+        //shadowCreation.Enable();
 
         sprint_.performed += Sprint;
         sprint_.canceled += Sprint;
         jump_.performed += Jump;
         crouch.performed += OnCrouch;
-        shadowStep.performed += ShadowStep;
-        shadowStep.canceled += ShadowStep;
+        //shadowStep.performed += ShadowStep;
+        //shadowStep.canceled += ShadowStep;
         cancelShadowStep.performed += CancelShadowStep;
         cancelShadowStep.canceled += CancelShadowStep;
-        shadowCreation.performed += ShadowCreation;
-        shadowCreation.canceled += ShadowCreation;
+        //shadowCreation.performed += ShadowCreation;
+        //shadowCreation.canceled += ShadowCreation;
 
     }
 
@@ -144,7 +145,7 @@ public class MovementBehaviour : MonoBehaviour
         sprint_.Disable();
         jump_.Disable();
         crouch.Disable();
-        shadowStep.Disable();
+        //shadowStep.Disable();
     }
 
     void Start()
@@ -180,10 +181,6 @@ public class MovementBehaviour : MonoBehaviour
             if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
             {
                 if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck") && isTping)
-                {
-                    tpIndicator.transform.position = rh.point;
-                }
-                else if (rh.collider.gameObject.tag.Equals("Shade") && isTping)
                 {
                     tpIndicator.transform.position = rh.point;
                 }
@@ -391,7 +388,7 @@ public class MovementBehaviour : MonoBehaviour
         }
 
     }
-    private void ShadowStep(InputAction.CallbackContext context)
+    public void ShadowStep(InputAction.CallbackContext context)
     {
         if (context.performed && bs.currentBlood - 15 > 0 && !gc.night && !ba.isActive)
         {
@@ -412,12 +409,8 @@ public class MovementBehaviour : MonoBehaviour
             }
 
         }
-        else if(context.canceled)
-        {
-
-        }
     }
-    private void ShadowCreation(InputAction.CallbackContext context)
+    public void ShadowCreation(InputAction.CallbackContext context)
     {
         if(context.performed && bs.currentBlood - 5 > 0 && !ba.isActive)
         {

@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 2346777947012561892}
   - component: {fileID: 2619909813642838135}
   - component: {fileID: 3508057651071624605}
+  - component: {fileID: 41725505091747195}
   m_Layer: 0
   m_Name: NPC PlaceHolder
   m_TagString: Untagged
@@ -183,6 +184,28 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &41725505091747195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2346777947012561898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0733bbb633e90142aa9867cea3f82d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  blocked: 0
+  isWandering: 0
+  isWalking: 0
+  rotateR: 0
+  rotateL: 0
+  killList: []
+  goKill: {fileID: 0}
+  isHypnotised: 0
+  isTurned: 0
 --- !u!1 &2393978976848634587
 GameObject:
   m_ObjectHideFlags: 0
