@@ -3623,6 +3623,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1423000841}
     - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: ressurectmenu
+      value: 
+      objectReference: {fileID: 7284126261516723393}
+    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: totalBloodText
       value: 
       objectReference: {fileID: 1706873521}
