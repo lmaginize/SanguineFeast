@@ -3630,6 +3630,10 @@ PrefabInstance:
       propertyPath: currentBloodText
       value: 
       objectReference: {fileID: 1962783045}
+    - target: {fileID: 3609223416291803940, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1774259348}
     - target: {fileID: 4871555641258040514, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -22627,6 +22631,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 2346777947012561893, guid: b69f7871099d4364b8d00247b724e3de, type: 3}
   m_PrefabInstance: {fileID: 1768262816}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1774259348 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 4871555642086868492, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
+  m_PrefabInstance: {fileID: 242320255}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1776576669
 PrefabInstance:
