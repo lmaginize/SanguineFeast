@@ -13,11 +13,16 @@ public class NPCBehaviour : MonoBehaviour
     private NavMeshHit hit;
     public bool blocked = false;
 
+    public bool isWandering = false;
+    public bool isWalking = false;
+
     public List<PatrollerBehaviour> killList;
     public GameObject goKill;
 
     public bool isHypnotised = false;
     public bool isTurned = false;
+
+    Vector3 des;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +32,8 @@ public class NPCBehaviour : MonoBehaviour
         StartCoroutine("Turned");
 
         killList = FindObjectOfType<PatrollerManager>().gameObject.GetComponent<PatrollerManager>().patrollers;
+        nAgent.speed = 2f;
+        target = GameObject.Find("Player");
     }
 
     // Update is called once per frame
@@ -48,6 +55,31 @@ public class NPCBehaviour : MonoBehaviour
                 Debug.Log("not see");
             }
         }
+
+        if(isWandering == false)
+        {
+            StartCoroutine(Wander());
+        }
+
+        if(isWalking == true)
+        {
+            nAgent.destination = des;
+        }
+    }
+
+    public IEnumerator Wander()
+    {
+        isWandering = true;
+        isWalking = true;
+        yield return new WaitForSeconds(Random.Range(8, 10));
+        isWalking = false;
+        yield return new WaitForSeconds(1);
+
+        des = new Vector3(Random.Range(transform.position.x + 15, transform.position.x - 15), transform.position.y, Random.Range(transform.position.z + 15, transform.position.z - 15));
+
+        yield return new WaitForSeconds(2);
+
+        isWandering = false;
     }
 
     public IEnumerator Hypnotised()
