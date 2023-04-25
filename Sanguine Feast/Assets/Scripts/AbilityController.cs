@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class AbilityController : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class AbilityController : MonoBehaviour
     private BloodSucking bs;
     private Hypnotism hyp;
     private GameController gc;
+    [Tooltip("Ability text under the day night cycle ui")]
+    public TMP_Text text;
+    public static List<string> abilityText = new List<string>();
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +38,9 @@ public class AbilityController : MonoBehaviour
             abilities.Add(pcsMB.Gameplay.Ability1);
             abilities.Add(pcsMB.Gameplay.Ability2);
             abilities.Add(pcsMB.Gameplay.Ability3);
+            abilityText.Add("Q");
+            abilityText.Add("E");
+            abilityText.Add("R");
         }
         PlayerActivation(false);
     }
@@ -61,6 +68,7 @@ public class AbilityController : MonoBehaviour
                 numIndex = 2;
                 break;
         }
+        abilityText[numIndex] = button;
         switch (name)
         {
             case ("Bat Transformation"):
@@ -126,9 +134,27 @@ public class AbilityController : MonoBehaviour
             default:
                 break;
         }
-
+        
+        if(name != "Resurection")
+            abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + "X" + " blood";
         abilities[numIndex].Enable();
         
+    }
+
+    public void SetAbilityTextUI()
+    {
+        text.text = "";
+        foreach (string t in abilityText)
+        {
+            if (t.Equals("Q") || t.Equals("E") || t.Equals("R"))
+            {
+
+            }
+            else
+            {
+                text.text += t + "\n\n";
+            }
+        }
     }
 
     public void PlayerActivation(bool enable)

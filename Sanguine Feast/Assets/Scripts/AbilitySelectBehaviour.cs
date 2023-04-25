@@ -24,6 +24,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
         ab.player.SetActive(true);
         gameObject.SetActive(false);
         ab.PlayerActivation(true);
+        ab.SetAbilityTextUI();
     }
 
     public void QButton()
