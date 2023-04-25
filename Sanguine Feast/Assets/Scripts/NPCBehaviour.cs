@@ -23,9 +23,7 @@ public class NPCBehaviour : MonoBehaviour
     public bool isTurned = false;
 
     Vector3 des;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         nAgent = gameObject.GetComponent<NavMeshAgent>();
         StartCoroutine("Hypnotised");
@@ -35,6 +33,7 @@ public class NPCBehaviour : MonoBehaviour
         nAgent.speed = 2f;
         target = GameObject.Find("Player");
     }
+
 
     // Update is called once per frame
     void Update()

@@ -21,8 +21,7 @@ public class HealthBehaviour : MonoBehaviour
     public float stunLength;
     private float stunTime;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         healthBarObj = transform.GetChild(0).GetChild(0).gameObject;
         healthBar = healthBarObj.GetComponent<Slider>();
@@ -36,6 +35,7 @@ public class HealthBehaviour : MonoBehaviour
         stunBar.value = 0;
         players = GameObject.Find("Player").transform;
     }
+
 
     // Update is called once per frame
     void Update()

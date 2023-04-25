@@ -9,22 +9,25 @@ public class AbilityController : MonoBehaviour
     public static List<InputAction> abilities = new List<InputAction>();
     int numIndex = 0;
 
+    public GameObject player;
     private MovementBehaviour mb;
     private BatAbility ba;
     private PlayerControls pcsMB;
     private BloodSucking bs;
     private Hypnotism hyp;
+    private GameController gc;
 
     // Start is called before the first frame update
     void Start()
     {
         //pcsMB = mb.pcs;
-        GameObject g = GameObject.FindGameObjectWithTag("Player");
-        mb = g.GetComponent<MovementBehaviour>();
-        ba = g.GetComponent<BatAbility>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        mb = player.GetComponent<MovementBehaviour>();
+        gc = mb.gc;
+        ba = player.GetComponent<BatAbility>();
         bs = mb.bs;
         pcsMB = mb.pcs;
-        hyp = g.GetComponent<Hypnotism>();
+        hyp = player.GetComponent<Hypnotism>();
         print(abilities.Count);
         if (abilities.Count < 1)
         {
@@ -32,8 +35,7 @@ public class AbilityController : MonoBehaviour
             abilities.Add(pcsMB.Gameplay.Ability2);
             abilities.Add(pcsMB.Gameplay.Ability3);
         }
-        mb.gc.enabled = false;
-        g.active = false;
+        PlayerActivation(false);
     }
 
     private void Update()
@@ -127,5 +129,14 @@ public class AbilityController : MonoBehaviour
 
         abilities[numIndex].Enable();
         
+    }
+
+    public void PlayerActivation(bool enable)
+    {
+        gc.enabled = enable;
+        mb.enabled = enable;
+        ba.enabled = enable;
+        bs.enabled = enable;
+        hyp.enabled = enable;
     }
 }

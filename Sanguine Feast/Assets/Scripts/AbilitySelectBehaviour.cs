@@ -16,9 +16,14 @@ public class AbilitySelectBehaviour : MonoBehaviour
     public Button eButton;
     public Button rButton;
 
+    
+
     public void Continue()
     {
         print("would start game");
+        ab.player.SetActive(true);
+        gameObject.SetActive(false);
+        ab.PlayerActivation(true);
     }
 
     public void QButton()
