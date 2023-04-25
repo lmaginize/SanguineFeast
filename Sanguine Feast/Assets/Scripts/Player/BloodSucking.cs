@@ -43,8 +43,11 @@ public class BloodSucking : MonoBehaviour
         gc = GameObject.Find("GameController").GetComponent<GameController>();
         wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
-        currentBloodText.text = "Blood: " + (int)currentBlood;
-        totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+        if (currentBloodText != null)
+        {
+            currentBloodText.text = "Blood: " + (int)currentBlood;
+            totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+        }
     }
 
     private void OnEnable()
@@ -60,15 +63,20 @@ public class BloodSucking : MonoBehaviour
 
     public void Update()
     {
-        currentBloodText.text = "Blood: " + (int)currentBlood;
-
-        if (currentBlood < 0 && !ressurectionUpgrade)
+        if (currentBloodText != null)
         {
-            Menus.endBlood = totalBlood;
-            SceneManager.LoadScene("Lose Scene");
-        }
-        else{
-            ressurectmenu.SetActive(true);
+            currentBloodText.text = "Blood: " + (int)currentBlood;
+
+
+            if (currentBlood < 0 && !ressurectionUpgrade)
+            {
+                Menus.endBlood = totalBlood;
+                SceneManager.LoadScene("Lose Scene");
+            }
+            else
+            {
+                ressurectmenu.SetActive(true);
+            }
         }
     }
 

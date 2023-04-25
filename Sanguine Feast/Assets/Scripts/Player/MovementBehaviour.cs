@@ -436,6 +436,11 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
+    public void DefaultAction(InputAction.CallbackContext context)
+    {
+        return;
+    }
+
     /// <summary>
     /// On Call Decreases blood amount by set value and 
     /// </summary>

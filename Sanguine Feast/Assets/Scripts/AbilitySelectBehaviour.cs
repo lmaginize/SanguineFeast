@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AbilitySelectBehaviour : MonoBehaviour
 {
 
+    public AbilityController ab;
     public GameObject abilitySelection;
 
     public string currentButton;
@@ -62,6 +63,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
         currentButton = "R";
     }
 
+    /*
     public void BatTransformButton()
     {
 
@@ -83,7 +85,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Bat Transform";
 
         }
-
+        ab.SetKeyBind("Bat Transform", currentButton);
         abilitySelection.SetActive(false);
 
     }
@@ -109,7 +111,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Shadow Step";
 
         }
-
+        ab.SetKeyBind("Shadow Step", currentButton);
         abilitySelection.SetActive(false);
 
     }
@@ -135,7 +137,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Hypnotism";
 
         }
-
+        ab.SetKeyBind("Hypnotism", currentButton);
         abilitySelection.SetActive(false);
 
     }
@@ -161,7 +163,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Turn NPC";
 
         }
-
+        ab.SetKeyBind("Turn NPC", currentButton);
         abilitySelection.SetActive(false);
 
     }
@@ -187,7 +189,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Vampiric Speed";
 
         }
-
+        ab.SetKeyBind("Vampiric Speed", currentButton);
         abilitySelection.SetActive(false);
 
     }
@@ -196,8 +198,7 @@ public class AbilitySelectBehaviour : MonoBehaviour
     {
 
         if (currentButton == "Q")
-        {
-
+        { 
             qButton.GetComponentInChildren<TMP_Text>().text = "Resurection";
 
         }
@@ -213,14 +214,14 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Resurection";
 
         }
-
+        ab.SetKeyBind("Resurection", currentButton);
         abilitySelection.SetActive(false);
 
     }
 
     public void ShadowCreationButton()
     {
-
+        
         if (currentButton == "Q")
         {
 
@@ -239,9 +240,49 @@ public class AbilitySelectBehaviour : MonoBehaviour
             rButton.GetComponentInChildren<TMP_Text>().text = "Shadow Creation";
 
         }
+        ab.SetKeyBind("Shadow Creation", currentButton);
+        abilitySelection.SetActive(false);
+
+    }
+    */
+
+    public void Button(Button g)
+    {
+        ButtonSetup(g);
+        
+        if (currentButton == "Q")
+        {
+            qButton.GetComponentInChildren<TMP_Text>().text = g.GetComponentInChildren<TMP_Text>().text;
+            ab.SetKeyBind(g.GetComponentInChildren<TMP_Text>().text, currentButton);
+        }
+        else if (currentButton == "E")
+        {
+            eButton.GetComponentInChildren<TMP_Text>().text = g.GetComponentInChildren<TMP_Text>().text;
+            ab.SetKeyBind(g.GetComponentInChildren<TMP_Text>().text, currentButton);
+        }
+        else if (currentButton == "R")
+        {
+            rButton.GetComponentInChildren<TMP_Text>().text = g.GetComponentInChildren<TMP_Text>().text;
+            ab.SetKeyBind(g.GetComponentInChildren<TMP_Text>().text, currentButton);
+        }
 
         abilitySelection.SetActive(false);
 
     }
-
+    
+    private void ButtonSetup(Button g)
+    {
+        if(g.GetComponentInChildren<TMP_Text>().text == rButton.GetComponentInChildren<TMP_Text>().text && g != rButton)
+        {
+            rButton.GetComponentInChildren<TMP_Text>().text = "NONE";
+        }
+        else if(g.GetComponentInChildren<TMP_Text>().text == eButton.GetComponentInChildren<TMP_Text>().text && g != eButton)
+        {
+            eButton.GetComponentInChildren<TMP_Text>().text = "NONE";
+        }
+        else if(g.GetComponentInChildren<TMP_Text>().text == qButton.GetComponentInChildren<TMP_Text>().text && g != qButton)
+        {
+            qButton.GetComponentInChildren<TMP_Text>().text = "NONE";
+        }
+    }
 }

@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 606309660229220378}
   - component: {fileID: 1590669522104084653}
   - component: {fileID: 5096532143778078217}
+  - component: {fileID: 2522079928272324704}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -445,7 +446,7 @@ MonoBehaviour:
   isTping: 0
   bs: {fileID: 0}
   tpIndicator: {fileID: 0}
-  shadowCreationObj: {fileID: 0}
+  shadowCreationObj: {fileID: 2693132336547833886, guid: e568e29de09d37249b581be2a1a57bfe, type: 3}
 --- !u!54 &4871555641258040542
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -512,9 +513,6 @@ MonoBehaviour:
   totalBlood: 5
   nightChance: 95
   dayChance: 60
-  promptText: {fileID: 0}
-  yesButton: {fileID: 0}
-  noButton: {fileID: 0}
   currentBloodText: {fileID: 0}
   totalBloodText: {fileID: 0}
   successText: {fileID: 0}
@@ -557,6 +555,21 @@ MonoBehaviour:
   projectile: {fileID: 0}
   rangeDamage: 0
   projectileSpeed: 0
+--- !u!114 &2522079928272324704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4871555641258040541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f0c4473952e42f7b0e1a940f57ff66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodCost: 0
+  maxHypnotismDistance: 0
+  timeHypnotised: 0
 --- !u!1 &4871555642086868490
 GameObject:
   m_ObjectHideFlags: 0
