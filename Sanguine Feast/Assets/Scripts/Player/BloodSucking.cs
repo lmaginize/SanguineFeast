@@ -57,21 +57,28 @@ public class BloodSucking : MonoBehaviour
     {
         attack.Enable();
         attack.performed += OnAttackPerformed;
+        attack.performed += OnAttackStarted;
+        attack.performed += OnAttackCanceled;
     }
     private void OnDisable()
     {
         attack.Disable();
         attack.performed -= OnAttackPerformed;
+        attack.performed -= OnAttackPerformed;
+        attack.performed -= OnAttackCanceled;
     }
 
     private void OnAttackStarted(InputAction.CallbackContext context)
     {
         isHoldingAttack = true;
+        StartCoroutine(DrainBlood());
     }
 
     private void OnAttackCanceled(InputAction.CallbackContext context)
     {
         isHoldingAttack = false;
+        StopCoroutine(DrainBlood());
+        pm.bloodSucking = false;
     }
 
     public void Update()
@@ -91,27 +98,28 @@ public class BloodSucking : MonoBehaviour
                 ressurectmenu.SetActive(true);
             }
         }
-        if (isHoldingAttack)
-        {
-            DrainBlood();
-        }
     }
 
-    private void DrainBlood()
+    private IEnumerator DrainBlood()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
+        while (isHoldingAttack)
         {
-            if (hit.collider.transform.gameObject.name.Contains("NPC") && hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
             {
-                npc = hit.transform.gameObject;
-                hb = npc.GetComponent<HealthBehaviour>();
-                hb.health--;
-                currentBlood++;
-                totalBlood++;
-                currentBloodText.text = "Blood: " + currentBlood.ToString();
-                totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+                if (hit.collider.transform.gameObject.name.Contains("NPC") && hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
+                {
+                    npc = hit.transform.gameObject;
+                    hb = npc.GetComponent<HealthBehaviour>();
+                    hb.health--;
+                    currentBlood++;
+                    totalBlood++;
+                    currentBloodText.text = "Blood: " + currentBlood.ToString();
+                    totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+                }
             }
+            pm.bloodSucking = true;
+            yield return null;
         }
     }
 
@@ -120,19 +128,12 @@ public class BloodSucking : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             isHoldingAttack = true;
+            StartCoroutine(DrainBlood());
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             isHoldingAttack = false;
-        }
-
-        if (isHoldingAttack)
-        {
-            DrainBlood();
-            pm.bloodSucking = true;
-        }
-        else
-        {
+            StopCoroutine(DrainBlood());
             pm.bloodSucking = false;
         }
     }
