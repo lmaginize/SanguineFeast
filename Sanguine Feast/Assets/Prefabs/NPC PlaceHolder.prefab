@@ -162,6 +162,7 @@ MonoBehaviour:
   npcBeh: {fileID: 0}
   maxStun: 100
   stunLength: 0
+  alertRadius: 10
 --- !u!195 &3508057651071624605
 NavMeshAgent:
   m_ObjectHideFlags: 0

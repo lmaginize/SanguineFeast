@@ -108,7 +108,6 @@ public class NPCBehaviour : MonoBehaviour
 
     public IEnumerator Turned()
     {
-
         bool targeting = false;
 
         while (isTurned)
@@ -127,10 +126,8 @@ public class NPCBehaviour : MonoBehaviour
 
                     if (pos < closestPos)
                     {
-
                         closestPos = pos;
                         goKill = pb.transform.gameObject;
-
                     }
                 }
 

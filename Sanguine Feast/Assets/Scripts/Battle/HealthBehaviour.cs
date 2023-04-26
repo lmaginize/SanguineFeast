@@ -21,6 +21,8 @@ public class HealthBehaviour : MonoBehaviour
     public float stunLength;
     private float stunTime;
 
+    public float alertRadius;
+
     private void Awake()
     {
         healthBarObj = transform.GetChild(0).GetChild(0).gameObject;
@@ -72,15 +74,12 @@ public class HealthBehaviour : MonoBehaviour
 
     public void ReceiveHit(float damage, float stun_)
     {
-        print(stun + " " + (maxStun - stun_));
         if (stun < maxStun - stun_)
         {
-            print("in");
             stun += stun_;
         }
         else
         {
-            print("stunned");
             stun = maxStun;
             npcBeh.StunNPC();
         }
@@ -97,6 +96,14 @@ public class HealthBehaviour : MonoBehaviour
         }
 
         healthBar.value = health;
+
+        Collider[] arr = Physics.OverlapSphere(transform.position, alertRadius, LayerMask.GetMask("Patroller"));
+
+        for (int x = 0; x < arr.Length; x++)
+        {
+            print("found");
+            arr[x].gameObject.GetComponent<PatrollerBehaviour>().WokeUpAndChoseAnger();
+        }
     }
 
     public void UnStun()

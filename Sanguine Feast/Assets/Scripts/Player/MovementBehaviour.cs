@@ -369,8 +369,7 @@ public class MovementBehaviour : MonoBehaviour
         if (cb.grounded == true && canMove && context.performed && rb != null)
         {
             ungroundDouble = false;
-            cb.grounded = true;
-            rb.AddForce(up * jumpForce * ((moveDir != Vector3.zero) ? rb.velocity.magnitude * 0.1f + 1 : 1f), ForceMode.Impulse);
+            rb.AddForce(up * jumpForce, ForceMode.VelocityChange);
         }          
     }
 

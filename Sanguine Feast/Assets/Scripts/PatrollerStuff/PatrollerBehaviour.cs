@@ -20,6 +20,7 @@ public class PatrollerBehaviour : MonoBehaviour
     public float detectRange;
     public float detectAngle;
 
+    public bool canShoot = false;
     private bool distracted = false;
     private bool playerSeen;
     private bool playerHeard;
@@ -115,7 +116,7 @@ public class PatrollerBehaviour : MonoBehaviour
 
     void FightingWords()
     {
-        transform.LookAt(transform.position + Vector3.ProjectOnPlane(transform.position - player.transform.position, Vector3.up));
+        transform.LookAt(transform.position - Vector3.ProjectOnPlane(transform.position - player.transform.position, Vector3.up));
 
         if (Vector3.Distance(player.transform.position, transform.position) > .5f)
         {
@@ -215,6 +216,7 @@ public class PatrollerBehaviour : MonoBehaviour
 
     public void WokeUpAndChoseAnger()
     {
+        print("anger");
         aggression = true;
 
         StartCoroutine("Anger");
@@ -226,10 +228,12 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (Vector3.Distance(player.transform.position, transform.position) <= ab.reach[0])
             {
+                nma.isStopped = true;
                 ab.attack[0] = true;
             }
             else
             {
+                nma.isStopped = false;
                 ab.attack[0] = false;
             }
 

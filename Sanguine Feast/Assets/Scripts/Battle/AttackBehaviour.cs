@@ -84,16 +84,23 @@ public class AttackBehaviour : MonoBehaviour
             {
                 case 1:
 
-                    if (hit.collider.gameObject.CompareTag("NPC") && !hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
+                    if (hit.collider.gameObject.CompareTag("NPC"))
                     {
-                        if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
+                        if (!hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                         {
-                            print(Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward));
-                            hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
+                            if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
+                            {
+                                print(Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward));
+                                hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
+                            }
+                            else
+                            {
+                                hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                            }
                         }
                         else
                         {
-                            hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                            StartDrain();
                         }
                     }
 
@@ -127,7 +134,6 @@ public class AttackBehaviour : MonoBehaviour
 
     public void StartDrain()
     {
-        HealthBehaviour hb;
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, reach[2]))
@@ -156,13 +162,6 @@ public class AttackBehaviour : MonoBehaviour
 
                 attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
-            }
-            else if (attack[3])
-            {
-                StartDrain();
-
-                attack[3] = false;
-                yield return new WaitForSeconds(cooldown[3]);
             }
 
             yield return null;
