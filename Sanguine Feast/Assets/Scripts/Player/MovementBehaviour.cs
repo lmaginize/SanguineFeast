@@ -59,6 +59,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public bool ungroundDouble = true;
     public bool superSpeed = false;
+    public bool canSuperSpeed = false;
     public bool hasSuperSpeed = false;
 
     /// <summary>
@@ -152,6 +153,9 @@ public class MovementBehaviour : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        if(hasSuperSpeed){
+            canSuperSpeed = true;
+        }
     }
 
     /// <summary>
@@ -351,6 +355,13 @@ public class MovementBehaviour : MonoBehaviour
         superSpeed = true;
         yield return new WaitForSeconds(10);
         superSpeed = false;
+        StartCoroutine(superSpeedCooldown());
+    }
+
+    IEnumerator superSpeedCooldown(){
+        canSuperSpeed = false;
+        yield return new WaitForSeconds(5);
+        canSuperSpeed = true;
     }
 
     private void Sprint(InputAction.CallbackContext context)
