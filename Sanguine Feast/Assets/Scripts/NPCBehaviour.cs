@@ -61,38 +61,42 @@ public class NPCBehaviour : MonoBehaviour
                 {
                     Debug.Log("not see");
                 }
-            }
 
-            if (!isWandering)
-            {
-                StartCoroutine(Wander());
-            }
 
-            if (!isWalking)
-            {
-                nAgent.destination = des;
+                if (!isWandering)
+                {
+                    StartCoroutine(Wander());
+                }
+
+                if (!isWalking)
+                {
+                    nAgent.destination = des;
+                }
             }
         }
     }
 
     public IEnumerator Wander()
     {
-        isWandering = true;
-        isWalking = true;
-        yield return new WaitForSeconds(Random.Range(6, 9));
-        isWalking = false;
-        yield return new WaitForSeconds(1);
+        while (!isHypnotised && !isTurned)
+        {
+            isWandering = true;
+            isWalking = true;
+            yield return new WaitForSeconds(Random.Range(6, 9));
+            isWalking = false;
+            yield return new WaitForSeconds(1);
 
-        des = new Vector3(Random.Range(transform.position.x + 15, transform.position.x - 15), transform.position.y, Random.Range(transform.position.z + 15, transform.position.z - 15));
+            des = new Vector3(Random.Range(transform.position.x + 15, transform.position.x - 15), transform.position.y, Random.Range(transform.position.z + 15, transform.position.z - 15));
 
-        yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(2);
 
-        isWandering = false;
+            isWandering = false;
+        }
     }
 
     public IEnumerator Hypnotised()
     {
-
+        
         while (isHypnotised)
         {
 
