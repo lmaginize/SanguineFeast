@@ -347,6 +347,12 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
+    IEnumerator superSpeedEnabler(){
+        superSpeed = true;
+        yield return new WaitForSeconds(10);
+        superSpeed = false;
+    }
+
     private void Sprint(InputAction.CallbackContext context)
     {
         if (context.performed)
