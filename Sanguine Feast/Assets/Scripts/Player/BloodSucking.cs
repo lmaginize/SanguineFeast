@@ -95,7 +95,7 @@ public class BloodSucking : MonoBehaviour
             }
            else if(currentBlood < 0)
             {
-                ressurectmenu.SetActive(true);
+                ressurectmenu.onRessurectBegin();
             }
         }
     }
