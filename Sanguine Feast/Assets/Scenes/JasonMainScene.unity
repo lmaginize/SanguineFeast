@@ -4350,32 +4350,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 828223941}
     - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: walkSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: crouchSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: sprintSpeed
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: tpIndicator
       value: 
       objectReference: {fileID: 1822592507}
     - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: airMoveSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: player.m_Bits
       value: 68
-      objectReference: {fileID: 0}
-    - target: {fileID: 4871555641258040515, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: nightMultiplier
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 4871555641258040516, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: mb
@@ -16554,8 +16534,13 @@ MonoBehaviour:
   isWalking: 0
   killList: []
   goKill: {fileID: 0}
+  lastPos: {x: 0, y: 0, z: 0}
   isHypnotised: 0
   isTurned: 0
+  stunTime: 0
+  isStunned: 0
+  locked: 0
+  lockedRange: 0
 --- !u!1001 &1153801604
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30541,6 +30526,7 @@ MonoBehaviour:
   - 0
   - 0
   attack: 00000000
+  stunAngle: 0
   projectile: {fileID: 0}
   rangeDamage: 0
   projectileSpeed: 0
@@ -33185,6 +33171,7 @@ MonoBehaviour:
   - 0.25
   - 0.35
   attack: 0000
+  stunAngle: 0
   projectile: {fileID: 0}
   rangeDamage: 0
   projectileSpeed: 0
