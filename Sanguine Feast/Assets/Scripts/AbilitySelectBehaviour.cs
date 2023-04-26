@@ -16,7 +16,14 @@ public class AbilitySelectBehaviour : MonoBehaviour
     public Button eButton;
     public Button rButton;
 
-    
+    private void Update()
+    {
+        if (gameObject.activeInHierarchy == true)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
 
     public void Continue()
     {
@@ -25,6 +32,8 @@ public class AbilitySelectBehaviour : MonoBehaviour
         gameObject.SetActive(false);
         ab.PlayerActivation(true);
         ab.SetAbilityTextUI();
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void QButton()

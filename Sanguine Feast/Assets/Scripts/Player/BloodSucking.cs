@@ -31,7 +31,7 @@ public class BloodSucking : MonoBehaviour
 
     private GameObject player;
     private GameObject npc;
-    private bool isSucking = false;
+    private bool isHoldingAttack = false;
 
     private void Awake()
     {
@@ -64,6 +64,16 @@ public class BloodSucking : MonoBehaviour
         attack.performed -= OnAttackPerformed;
     }
 
+    private void OnAttackStarted(InputAction.CallbackContext context)
+    {
+        isHoldingAttack = true;
+    }
+
+    private void OnAttackCanceled(InputAction.CallbackContext context)
+    {
+        isHoldingAttack = false;
+    }
+
     public void Update()
     {
         if (currentBloodText != null)
@@ -76,14 +86,18 @@ public class BloodSucking : MonoBehaviour
                 Menus.endBlood = totalBlood;
                 SceneManager.LoadScene("Lose Scene");
             }
-            else
+           else if(currentBlood < 0)
             {
                 ressurectmenu.SetActive(true);
             }
         }
+        if (isHoldingAttack)
+        {
+            DrainBlood();
+        }
     }
 
-    private void OnAttackPerformed(InputAction.CallbackContext context)
+    private void DrainBlood()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
@@ -92,30 +106,30 @@ public class BloodSucking : MonoBehaviour
             {
                 npc = hit.transform.gameObject;
                 hb = npc.GetComponent<HealthBehaviour>();
-                if (!pm.bloodSucking)
-                {
-                    hb.health--;
-                    currentBlood++;
-                    totalBlood++;
-                    currentBloodText.text = "Blood: " + currentBlood.ToString();
-                    totalBloodText.text = "Total Blood: " + totalBlood.ToString();
-                    /*Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
-                    promptText.enabled = true;
-                    yesButton.gameObject.SetActive(true);
-                    noButton.gameObject.SetActive(true);
-                    if (gc.night)
-                    {
-                        successText.text = "Success: " + nightChance + "%";
-                    }
-                    else
-                    {
-                        successText.text = "Success: " + dayChance + "%";
-                    }*/
+                hb.health--;
+                currentBlood++;
+                totalBlood++;
+                currentBloodText.text = "Blood: " + currentBlood.ToString();
+                totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+            }
+        }
+    }
 
-                    pm.bloodSucking = true;
-                }
-            }    
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            isHoldingAttack = true;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            isHoldingAttack = false;
+        }
+
+        if (isHoldingAttack)
+        {
+            DrainBlood();
+            pm.bloodSucking = true;
         }
         else
         {

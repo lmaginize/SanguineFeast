@@ -45,14 +45,14 @@ public class AbilityController : MonoBehaviour
         PlayerActivation(false);
     }
 
-    private void Update()
-    {
-        if(Cursor.lockState == CursorLockMode.Locked || Cursor.visible == false)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-    }
+    //private void Update()
+    //{
+    //    if(Cursor.lockState == CursorLockMode.Locked || Cursor.visible == false)
+    //    {
+    //        Cursor.lockState = CursorLockMode.None;
+    //        Cursor.visible = true;
+    //    }
+    //}
 
     public void SetKeyBind(string name, string button)
     {
@@ -137,7 +137,34 @@ public class AbilityController : MonoBehaviour
         }
         
         if(name != "Resurection")
-            abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + "X" + " blood";
+        {
+            if (name == "Shadow Step")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 15 + " blood";
+            }
+            if (name == "Shadow Creation")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 5 + " blood";
+            }
+            if (name == "Bat Transformation")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 25 + " blood";
+            }
+            if (name == "Vampiric Speed")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 5 + " blood per second";
+            }
+            if (name == "Turn NPC")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 30 + " blood";
+            }
+            if (name == "Hypnosis")
+            {
+                abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 10 + " blood";
+            }
+        }
+
+            //abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + "X" + " blood";
         abilities[numIndex].Enable();
         
     }
