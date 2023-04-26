@@ -95,7 +95,7 @@ public class BloodSucking : MonoBehaviour
             }
             else if(currentBlood < 0)
             {
-                ressurectmenu.SetActive(true);
+                ressurectmenu.onRessurectBegin();
             }
         }
     }
@@ -132,7 +132,6 @@ public class BloodSucking : MonoBehaviour
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
-            print("Hello");
             isHoldingAttack = false;
             StopCoroutine(DrainBlood());
             pm.bloodSucking = false;
