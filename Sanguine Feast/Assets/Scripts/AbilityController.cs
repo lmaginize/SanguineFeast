@@ -112,6 +112,7 @@ public class AbilityController : MonoBehaviour
                 abilities[numIndex].performed -= mb.ShadowStep;
                 abilities[numIndex].performed -= mb.DefaultAction;
 
+                mb.hasSuperSpeed = true;
                 break;
             case ("Resurection"):
                 abilities[numIndex].performed -= ba.ShapeShift;
