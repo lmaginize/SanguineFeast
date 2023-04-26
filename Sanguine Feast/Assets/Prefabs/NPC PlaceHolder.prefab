@@ -160,7 +160,7 @@ MonoBehaviour:
   canvas: {fileID: 8749815911018402673}
   players: {fileID: 0}
   npcBeh: {fileID: 0}
-  maxStun: 0
+  maxStun: 100
   stunLength: 0
 --- !u!195 &3508057651071624605
 NavMeshAgent:
@@ -205,7 +205,7 @@ MonoBehaviour:
   lastPos: {x: 0, y: 0, z: 0}
   isHypnotised: 0
   isTurned: 0
-  stunTime: 0
+  stunTime: 5
   isStunned: 0
   locked: 0
 --- !u!1 &2393978976848634587

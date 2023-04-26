@@ -86,8 +86,9 @@ public class AttackBehaviour : MonoBehaviour
 
                     if (hit.collider.gameObject.CompareTag("NPC") && !hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                     {
-                        if (Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
+                        if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
                         {
+                            print(Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward));
                             hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
                         }
                         else

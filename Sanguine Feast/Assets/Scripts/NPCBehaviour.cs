@@ -44,31 +44,34 @@ public class NPCBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isHypnotised && !isTurned && !locked)
+        if (!isStunned && !locked)
         {
-            // Checks if player is not blocked by buildings
-            blocked = NavMesh.Raycast(transform.position, target.transform.position, out hit, NavMesh.AllAreas);
-            Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
-
-
-            if (!blocked && Vector3.Distance(target.transform.position, transform.position) < sightRange)
+            if (!isHypnotised && !isTurned)
             {
-                Debug.Log("see");
+                // Checks if player is not blocked by buildings
+                blocked = NavMesh.Raycast(transform.position, target.transform.position, out hit, NavMesh.AllAreas);
+                Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
+
+
+                if (!blocked && Vector3.Distance(target.transform.position, transform.position) < sightRange)
+                {
+                    Debug.Log("see");
+                }
+                else
+                {
+                    Debug.Log("not see");
+                }
             }
-            else
+
+            if (!isWandering)
             {
-                Debug.Log("not see");
+                StartCoroutine(Wander());
             }
-        }
 
-        if(!isWandering && !locked)
-        {
-            StartCoroutine(Wander());
-        }
-
-        if(!isWalking && !locked)
-        {
-            nAgent.destination = des;
+            if (!isWalking)
+            {
+                nAgent.destination = des;
+            }
         }
     }
 
@@ -151,6 +154,7 @@ public class NPCBehaviour : MonoBehaviour
 
     public void StunNPC()
     {
+        print("Stunned");
         isStunned = true;
         lastPos = nAgent.destination;
         nAgent.isStopped = true;
@@ -161,6 +165,7 @@ public class NPCBehaviour : MonoBehaviour
     IEnumerator UnStun()
     {
         yield return new WaitForSeconds(stunTime);
+        print("unstun");
         isStunned = false;
 
         while (locked)
