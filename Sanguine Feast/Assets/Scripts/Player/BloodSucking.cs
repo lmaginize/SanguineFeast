@@ -27,6 +27,7 @@ public class BloodSucking : MonoBehaviour
     private GameController gc;
     private weirdBattle wb;
     private HealthBehaviour hb;
+    private PatrollerManager pm;
 
     private GameObject player;
     private GameObject npc;
@@ -36,6 +37,8 @@ public class BloodSucking : MonoBehaviour
     {
         pcs = new PlayerControls();
         attack = pcs.Gameplay.Attack1;
+
+        pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
     }
 
     private void Start()
@@ -89,7 +92,7 @@ public class BloodSucking : MonoBehaviour
             {
                 npc = hit.transform.gameObject;
                 hb = npc.GetComponent<HealthBehaviour>();
-                if (!isSucking)
+                if (!pm.bloodSucking)
                 {
                     hb.health--;
                     currentBlood++;
@@ -110,13 +113,13 @@ public class BloodSucking : MonoBehaviour
                         successText.text = "Success: " + dayChance + "%";
                     }*/
 
-                    isSucking = true;
+                    pm.bloodSucking = true;
                 }
             }    
         }
         else
         {
-            isSucking = false;
+            pm.bloodSucking = false;
         }
     }
     
