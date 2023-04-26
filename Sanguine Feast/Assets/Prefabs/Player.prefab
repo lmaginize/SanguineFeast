@@ -426,19 +426,20 @@ MonoBehaviour:
   moveDir: {x: 0, y: 0, z: 0}
   moveForce: 100
   airMoveForce: 50
-  airMoveSpeed: 6
-  crouchSpeed: 3
-  walkSpeed: 6
-  sprintSpeed: 12
+  airMoveSpeed: 5
+  crouchSpeed: 2
+  walkSpeed: 5
+  sprintSpeed: 9
   speedCap: 6
   superSpeedCap: 15
-  nightMultiplier: 1.1
+  nightMultiplier: 1.5
   finalMove: {x: 0, y: 0, z: 0}
   jumpDir: {x: 0, y: 0, z: 0}
   crouched: 0
-  jumpForce: 300
+  jumpForce: 5
   ungroundDouble: 1
   superSpeed: 0
+  canSuperSpeed: 0
   hasSuperSpeed: 0
   standOffset: {x: 0, y: 0.5369999, z: 0}
   crouchOffset: {x: 0, y: 0, z: 0}

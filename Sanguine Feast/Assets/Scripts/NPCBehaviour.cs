@@ -26,6 +26,7 @@ public class NPCBehaviour : MonoBehaviour
     public float stunTime;
     public bool isStunned = false;
     public bool locked = false;
+    public float lockedRange;
 
     Vector3 des;
     private void Awake()
@@ -72,6 +73,15 @@ public class NPCBehaviour : MonoBehaviour
                 {
                     nAgent.destination = des;
                 }
+            }
+        }
+        else if (locked)
+        {
+            Collider[] arr = Physics.OverlapSphere(transform.position, lockedRange, LayerMask.GetMask("Player"));
+
+            if (arr.Length == 0)
+            {
+                locked = false;
             }
         }
     }
@@ -165,14 +175,14 @@ public class NPCBehaviour : MonoBehaviour
 
     IEnumerator UnStun()
     {
-        yield return new WaitForSeconds(stunTime);
-        print("unstun");
-        isStunned = false;
-
         while (locked)
         {
             yield return null;
         }
+
+        yield return new WaitForSeconds(stunTime);
+        print("unstun");
+        isStunned = false;
 
         if (!locked)
         {

@@ -77,9 +77,12 @@ public class AttackBehaviour : MonoBehaviour
     public void Punch()
     {
         RaycastHit hit;
+        print("punch");
 
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, reach[0]))
         {
+            print(hit.collider.gameObject.name);
+
             switch (type)
             {
                 case 1:
