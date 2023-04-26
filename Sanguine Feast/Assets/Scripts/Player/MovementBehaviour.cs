@@ -176,6 +176,7 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
+        //Shadow Creation
         if (!ba.isActive)
         {
             if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
@@ -201,11 +202,13 @@ public class MovementBehaviour : MonoBehaviour
             Debug.DrawRay(coll.bounds.center, -Vector3.up, Color.green);
             if (Physics.Raycast(rch.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && f.collider.gameObject.name.Equals("SunHitCheck"))
             {
+                Debug.DrawLine(rch.point, f.point, Color.blue);
                 gameObject.GetComponent<PlayerHealth>().weak = true;
                 Debug.Log("Not in shade");
             }
             else
             {
+                Debug.DrawLine(rch.point, f.point, Color.cyan);
                 gameObject.GetComponent<PlayerHealth>().weak = false;
                 Debug.Log("In Shade");
             }
@@ -416,7 +419,9 @@ public class MovementBehaviour : MonoBehaviour
         {
             if(isCreatingShadow)
             {
-                Instantiate(shadowCreationObj, tpIndicator.transform.position, Quaternion.identity);
+                Vector3 h = tpIndicator.transform.position;
+                h.y += 2;
+                Instantiate(shadowCreationObj, h, Quaternion.identity);
                 bs.currentBlood -= 5;
                 isCreatingShadow = false;
                 tpIndicator.SetActive(false);
@@ -429,6 +434,11 @@ public class MovementBehaviour : MonoBehaviour
             }
                 
         }
+    }
+
+    public void DefaultAction(InputAction.CallbackContext context)
+    {
+        return;
     }
 
     /// <summary>

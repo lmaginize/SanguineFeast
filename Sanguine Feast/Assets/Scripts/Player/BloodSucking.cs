@@ -14,9 +14,7 @@ public class BloodSucking : MonoBehaviour
     public int totalBlood = 0;
     public int nightChance = 95;
     public int dayChance = 60;
-    public TMP_Text promptText;
-    public Button yesButton;
-    public Button noButton;
+   
     public TMP_Text currentBloodText;
     public TMP_Text totalBloodText;
     public TMP_Text successText;
@@ -28,11 +26,11 @@ public class BloodSucking : MonoBehaviour
 
     private GameController gc;
     private weirdBattle wb;
-    private ressurectionMenu rm;
+    private HealthBehaviour hb;
 
     private GameObject player;
     private GameObject npc;
-    private bool isPrompting = false;
+    private bool isSucking = false;
 
     private void Awake()
     {
@@ -43,14 +41,13 @@ public class BloodSucking : MonoBehaviour
     private void Start()
     {
         gc = GameObject.Find("GameController").GetComponent<GameController>();
-        rm = GameObject.Find("GameController").GetComponent<ressurectionMenu>();
         wb = GameObject.Find("GameController").GetComponent<weirdBattle>();
         player = GameObject.FindGameObjectWithTag("Player");
-        currentBloodText.text = "Blood: " + (int)currentBlood;
-        totalBloodText.text = "Total Blood: " + totalBlood.ToString();
-        promptText.enabled = false;
-        yesButton.gameObject.SetActive(false);
-        noButton.gameObject.SetActive(false);
+        if (currentBloodText != null)
+        {
+            currentBloodText.text = "Blood: " + (int)currentBlood;
+            totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+        }
     }
 
     private void OnEnable()
@@ -66,18 +63,20 @@ public class BloodSucking : MonoBehaviour
 
     public void Update()
     {
-        currentBloodText.text = "Blood: " + (int)currentBlood;
-
-        if (currentBlood <= 0)
+        if (currentBloodText != null)
         {
-            if(!ressurectionUpgrade){
+            currentBloodText.text = "Blood: " + (int)currentBlood;
+
+
+            if (currentBlood < 0 && !ressurectionUpgrade)
+            {
                 Menus.endBlood = totalBlood;
                 SceneManager.LoadScene("Lose Scene");
             }
-            else{
-                rm.onRessurectBegin();
+            else
+            {
+                ressurectmenu.SetActive(true);
             }
-            
         }
     }
 
@@ -89,14 +88,20 @@ public class BloodSucking : MonoBehaviour
             if (hit.transform.gameObject.name.Contains("NPC"))
             {
                 npc = hit.transform.gameObject;
-                if (!isPrompting)
+                hb = npc.GetComponent<HealthBehaviour>();
+                if (!isSucking)
                 {
                     Time.timeScale = 0f;
-                    Cursor.lockState = CursorLockMode.None;
-                    Cursor.visible = true;
-                    promptText.enabled = true;
-                    yesButton.gameObject.SetActive(true);
-                    noButton.gameObject.SetActive(true);
+                    hb.health--;
+                    currentBlood++;
+                    totalBlood++;
+                    currentBloodText.text = "Blood: " + currentBlood.ToString();
+                    totalBloodText.text = "Total Blood: " + totalBlood.ToString();
+                    //Cursor.lockState = CursorLockMode.None;
+                    //Cursor.visible = true;
+                    //promptText.enabled = true;
+                    //yesButton.gameObject.SetActive(true);
+                    //noButton.gameObject.SetActive(true);
                     if (gc.night)
                     {
                         successText.text = "Success: " + nightChance + "%";
@@ -105,92 +110,15 @@ public class BloodSucking : MonoBehaviour
                     {
                         successText.text = "Success: " + dayChance + "%";
                     }
-                    isPrompting = true;
+                    isSucking = true;
 
                 }
             }    
         }
         else
         {
-            if (isPrompting)
-            {
-                promptText.enabled = false;
-                yesButton.gameObject.SetActive(false);
-                noButton.gameObject.SetActive(false);
-                isPrompting = false;
-            }
+            isSucking = false;
         }
     }
-
-    public void YesButtonClick()
-    {
-        currentBlood = (int)currentBlood;
-        currentBlood += bloodGainAmount;
-        totalBlood += bloodGainAmount;
-        currentBloodText.text = "Blood: " + currentBlood.ToString();
-        totalBloodText.text = "Total Blood: " + totalBlood.ToString();
-        Destroy(npc);
-        promptText.enabled = false;
-        yesButton.gameObject.SetActive(false);
-        noButton.gameObject.SetActive(false);
-        isPrompting = false;
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
-        if (gc.night)
-        {
-            if (Random.Range(0, 101) >= nightChance)
-            {
-                wb.battleBegin();
-            }
-        }
-        else
-        {
-            if (Random.Range(0, 101) >= dayChance)
-            {
-                wb.battleBegin();
-            }
-        }
-    }
-
-    public void NoButtonClick()
-    {
-        promptText.enabled = false;
-        yesButton.gameObject.SetActive(false);
-        noButton.gameObject.SetActive(false);
-        isPrompting = false;
-        Time.timeScale = 1f;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
-    /*
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.collider.name.Contains("NPC"))
-        {
-            npc = collision.collider.gameObject;
-            if (!isPrompting)
-            {
-                Time.timeScale = 0f;
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                promptText.enabled = true;
-                yesButton.gameObject.SetActive(true);
-                noButton.gameObject.SetActive(true);
-                isPrompting = true;
-            }
-        }
-        else
-        {
-            if (isPrompting)
-            {
-                promptText.enabled = false;
-                yesButton.gameObject.SetActive(false);
-                noButton.gameObject.SetActive(false);
-                isPrompting = false;
-            }
-        }
-    }
-    */
+    
 }

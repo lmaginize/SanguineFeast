@@ -9,7 +9,8 @@ public class ressurectionMenu : MonoBehaviour
     private BloodSucking BS;
     public GameObject ressurectmenu;
 
-    private void Start(){
+    private void Awake()
+    {
         BS = GameObject.Find("Player").GetComponent<BloodSucking>();
     }
 
