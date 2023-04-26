@@ -93,7 +93,7 @@ public class BloodSucking : MonoBehaviour
                 Menus.endBlood = totalBlood;
                 SceneManager.LoadScene("Lose Scene");
             }
-           else if(currentBlood < 0)
+            else if(currentBlood < 0)
             {
                 ressurectmenu.SetActive(true);
             }

@@ -165,7 +165,6 @@ public class NPCBehaviour : MonoBehaviour
 
     public void StunNPC()
     {
-        print("Stunned");
         isStunned = true;
         lastPos = nAgent.destination;
         nAgent.isStopped = true;
@@ -181,7 +180,6 @@ public class NPCBehaviour : MonoBehaviour
         }
 
         yield return new WaitForSeconds(stunTime);
-        print("unstun");
         isStunned = false;
 
         if (!locked)

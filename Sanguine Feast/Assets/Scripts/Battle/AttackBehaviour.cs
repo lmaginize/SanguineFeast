@@ -77,12 +77,9 @@ public class AttackBehaviour : MonoBehaviour
     public void Punch()
     {
         RaycastHit hit;
-        print("punch");
 
         if (Physics.SphereCast(transform.position, radius, transform.forward, out hit, reach[0]))
         {
-            print(hit.collider.gameObject.name);
-
             switch (type)
             {
                 case 1:
@@ -93,7 +90,6 @@ public class AttackBehaviour : MonoBehaviour
                         {
                             if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
                             {
-                                print(Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward));
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
                             }
                             else

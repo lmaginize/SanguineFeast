@@ -196,7 +196,6 @@ public class PatrollerBehaviour : MonoBehaviour
                 if (Random.Range(1f, 100f) < wanderChance)
                 {
                     Collider[] arr = Physics.OverlapSphere(transform.position, wanderDetectRange, LayerMask.GetMask("WanderPoints"));
-                    print(arr.Length);
 
                     if (arr.Length > 0)
                     {
@@ -216,7 +215,6 @@ public class PatrollerBehaviour : MonoBehaviour
 
     public void WokeUpAndChoseAnger()
     {
-        print("anger");
         aggression = true;
 
         StartCoroutine("Anger");
