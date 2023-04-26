@@ -209,6 +209,7 @@ MonoBehaviour:
   stunTime: 5
   isStunned: 0
   locked: 0
+  lockedRange: 3
 --- !u!1 &2393978976848634587
 GameObject:
   m_ObjectHideFlags: 0
