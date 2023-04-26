@@ -41,6 +41,7 @@ public class Hypnotism : MonoBehaviour
         {
             if (hit.transform.gameObject.name.Contains("NPC"))
             {
+                Debug.Log("hypno");
                 //best to put this as a bool on a script on the npcs
                 //this way all the nav mesh stuff could be all on one script
                 hit.transform.gameObject.GetComponent<NPCBehaviour>().isHypnotised = true;
