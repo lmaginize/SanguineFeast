@@ -22,6 +22,8 @@ public class AttackBehaviour : MonoBehaviour
     public float[] cooldown;
     public bool[] attack;
 
+    public float stunAngle;
+
     public GameObject projectile;
     public float rangeDamage;
     public float projectileSpeed;
@@ -82,9 +84,16 @@ public class AttackBehaviour : MonoBehaviour
             {
                 case 1:
 
-                    if (hit.collider.gameObject.CompareTag("NPC"))
+                    if (hit.collider.gameObject.CompareTag("NPC") && !hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                     {
-                        hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                        if (Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
+                        {
+                            hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
+                        }
+                        else
+                        {
+                            hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                        }
                     }
 
                     break;
@@ -115,25 +124,18 @@ public class AttackBehaviour : MonoBehaviour
         rb_.velocity = dir * projectileSpeed;
     }
 
-    public void SneakAttack()
+    public void StartDrain()
     {
         HealthBehaviour hb;
         RaycastHit hit;
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, reach[2]))
         {
-            if (hit.collider.gameObject.CompareTag("NPC"))
+            if (hit.collider.gameObject.CompareTag("NPC") && hit.collider.gameObject.GetComponent<HealthBehaviour>() && Vector3.Angle(hit.collider.gameObject.transform.position - transform.position, hit.collider.gameObject.transform.forward) > 90)
             {
-                hb = hit.collider.gameObject.GetComponent<HealthBehaviour>();
-                hb.ReceiveHit(hb.health, stun[2]);
-                //BS receive blood ^
+                hit.collider.gameObject.GetComponent<NPCBehaviour>().Lock();
             }
         }
-    }
-
-    public void StartDrain()
-    {
-
     }
 
     IEnumerator AttackLoop()
@@ -144,24 +146,21 @@ public class AttackBehaviour : MonoBehaviour
             {
                 Punch();
 
+                attack[0] = false;
                 yield return new WaitForSeconds(cooldown[0]);
             }
             else if (attack[1])
             {
                 Shoot(transform.forward);
 
+                attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
-            }
-            else if (attack[2])
-            {
-                SneakAttack();
-
-                yield return new WaitForSeconds(cooldown[2]);
             }
             else if (attack[3])
             {
                 StartDrain();
 
+                attack[3] = false;
                 yield return new WaitForSeconds(cooldown[3]);
             }
 

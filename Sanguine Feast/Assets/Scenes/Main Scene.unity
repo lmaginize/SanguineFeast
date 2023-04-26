@@ -3436,6 +3436,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC PlaceHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 2619909813642838135, guid: b69f7871099d4364b8d00247b724e3de, type: 3}
+      propertyPath: maxStun
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619909813642838135, guid: b69f7871099d4364b8d00247b724e3de, type: 3}
+      propertyPath: stunLength
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7270592807942610333, guid: b69f7871099d4364b8d00247b724e3de, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -14885,8 +14893,12 @@ MonoBehaviour:
   isWalking: 0
   killList: []
   goKill: {fileID: 0}
+  lastPos: {x: 0, y: 0, z: 0}
   isHypnotised: 0
   isTurned: 0
+  stunTime: 0
+  isStunned: 0
+  locked: 0
 --- !u!1001 &1153801604
 PrefabInstance:
   m_ObjectHideFlags: 0

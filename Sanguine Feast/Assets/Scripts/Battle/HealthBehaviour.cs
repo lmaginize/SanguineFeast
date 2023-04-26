@@ -14,8 +14,8 @@ public class HealthBehaviour : MonoBehaviour
     public Slider stunBar;
     public GameObject canvas;
     public Transform players;
+    public NPCBehaviour npcBeh;
 
-    public bool isStunned;
     private float stun;
     public float maxStun;
     public float stunLength;
@@ -27,6 +27,7 @@ public class HealthBehaviour : MonoBehaviour
         healthBar = healthBarObj.GetComponent<Slider>();
         stunBarObj = transform.GetChild(0).GetChild(1).gameObject;
         stunBar = stunBarObj.GetComponent<Slider>();
+        npcBeh = GetComponent<NPCBehaviour>();
 
         healthBar.maxValue = maxHealth;
         health = maxHealth;
@@ -67,28 +68,21 @@ public class HealthBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        else if (stun >= maxStun)
-        {
-            stunTime += Time.deltaTime;
-
-            if (stunTime > stunLength)
-            {
-                stun = 0;
-                isStunned = false;
-            }
-        }
     }
 
     public void ReceiveHit(float damage, float stun_)
     {
+        print(stun + " " + (maxStun - stun_));
         if (stun < maxStun - stun_)
         {
-            stun += stun;
+            print("in");
+            stun += stun_;
         }
         else
         {
+            print("stunned");
             stun = maxStun;
-            isStunned = true;
+            npcBeh.StunNPC();
         }
 
         stunBar.value = stun;
@@ -103,5 +97,10 @@ public class HealthBehaviour : MonoBehaviour
         }
 
         healthBar.value = health;
+    }
+
+    public void UnStun()
+    {
+        stun = 0;
     }
 }

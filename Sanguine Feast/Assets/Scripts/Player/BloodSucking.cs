@@ -85,23 +85,22 @@ public class BloodSucking : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxSuckDistance))
         {
-            if (hit.transform.gameObject.name.Contains("NPC"))
+            if (hit.collider.transform.gameObject.name.Contains("NPC") && hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
             {
                 npc = hit.transform.gameObject;
                 hb = npc.GetComponent<HealthBehaviour>();
                 if (!isSucking)
                 {
-                    Time.timeScale = 0f;
                     hb.health--;
                     currentBlood++;
                     totalBlood++;
                     currentBloodText.text = "Blood: " + currentBlood.ToString();
                     totalBloodText.text = "Total Blood: " + totalBlood.ToString();
-                    //Cursor.lockState = CursorLockMode.None;
-                    //Cursor.visible = true;
-                    //promptText.enabled = true;
-                    //yesButton.gameObject.SetActive(true);
-                    //noButton.gameObject.SetActive(true);
+                    /*Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                    promptText.enabled = true;
+                    yesButton.gameObject.SetActive(true);
+                    noButton.gameObject.SetActive(true);
                     if (gc.night)
                     {
                         successText.text = "Success: " + nightChance + "%";
@@ -109,9 +108,9 @@ public class BloodSucking : MonoBehaviour
                     else
                     {
                         successText.text = "Success: " + dayChance + "%";
-                    }
-                    isSucking = true;
+                    }*/
 
+                    isSucking = true;
                 }
             }    
         }

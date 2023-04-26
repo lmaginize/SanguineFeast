@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class NPCBehaviour : MonoBehaviour
 {
     NavMeshAgent nAgent;
+    HealthBehaviour hb;
     int sightRange = 25;
 
     // NavMesh sight components
@@ -18,14 +19,19 @@ public class NPCBehaviour : MonoBehaviour
 
     public List<PatrollerBehaviour> killList;
     public GameObject goKill;
+    public Vector3 lastPos;
 
     public bool isHypnotised = false;
     public bool isTurned = false;
+    public float stunTime;
+    public bool isStunned = false;
+    public bool locked = false;
 
     Vector3 des;
     private void Awake()
     {
         nAgent = gameObject.GetComponent<NavMeshAgent>();
+        hb = GetComponent<HealthBehaviour>();
         StartCoroutine("Hypnotised");
         StartCoroutine("Turned");
 
@@ -38,7 +44,7 @@ public class NPCBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isHypnotised == false && isTurned == false)
+        if (!isHypnotised && !isTurned && !locked)
         {
             // Checks if player is not blocked by buildings
             blocked = NavMesh.Raycast(transform.position, target.transform.position, out hit, NavMesh.AllAreas);
@@ -55,12 +61,12 @@ public class NPCBehaviour : MonoBehaviour
             }
         }
 
-        if(isWandering == false)
+        if(!isWandering && !locked)
         {
             StartCoroutine(Wander());
         }
 
-        if(isWalking == true)
+        if(!isWalking && !locked)
         {
             nAgent.destination = des;
         }
@@ -84,7 +90,7 @@ public class NPCBehaviour : MonoBehaviour
     public IEnumerator Hypnotised()
     {
 
-        while (isHypnotised == true)
+        while (isHypnotised)
         {
 
             Vector3 destination = target.transform.position;
@@ -102,9 +108,9 @@ public class NPCBehaviour : MonoBehaviour
 
         bool targeting = false;
 
-        while (isTurned == true)
+        while (isTurned)
         {
-            if (targeting == false)
+            if (!targeting)
             {
 
                 float closestPos = 300;
@@ -141,5 +147,40 @@ public class NPCBehaviour : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void StunNPC()
+    {
+        isStunned = true;
+        lastPos = nAgent.destination;
+        nAgent.isStopped = true;
+
+        StartCoroutine("UnStun");
+    }
+
+    IEnumerator UnStun()
+    {
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+
+        while (locked)
+        {
+            yield return null;
+        }
+
+        if (!locked)
+        {
+            nAgent.isStopped = false;
+            nAgent.destination = lastPos;
+            hb.UnStun();
+        }
+
+        yield return null;
+    }
+
+    public void Lock()
+    {
+        locked = true;
+        nAgent.isStopped = true;
     }
 }
