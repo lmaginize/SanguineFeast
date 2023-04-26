@@ -2,6 +2,9 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
+
 public class PauseMenu : MonoBehaviour
 {
     private InputAction pause;
@@ -11,7 +14,10 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject UI;
+    [SerializeField] Slider mouseSlider;
 
+    [SerializeField] TMP_Text mouseValue;
+    private CamBehaviour camScript;
     private void Awake()
     {
         pcs = new PlayerControls();
@@ -20,6 +26,13 @@ public class PauseMenu : MonoBehaviour
         pause.started += OnPause;
     }
 
+    private void Start()
+    {
+        camScript = FindObjectOfType<CamBehaviour>();
+        mouseSlider.maxValue = camScript.sensitivity;
+        mouseSlider.value = camScript.sensitivity;
+        mouseValue.text = camScript.sensitivity.ToString();
+    }
     private void OnEnable()
     {
         pause.Enable();
@@ -80,6 +93,12 @@ public class PauseMenu : MonoBehaviour
     public void Menu()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void MouseSlider()
+    {
+        mouseValue.text = mouseSlider.value.ToString("F0");
+        camScript.sensitivity = mouseSlider.value;
     }
 
 }
