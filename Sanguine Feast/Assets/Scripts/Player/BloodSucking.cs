@@ -58,14 +58,14 @@ public class BloodSucking : MonoBehaviour
         attack.Enable();
         attack.performed += OnAttackPerformed;
         attack.performed += OnAttackStarted;
-        attack.performed += OnAttackCanceled;
+        attack.canceled += OnAttackCanceled;
     }
     private void OnDisable()
     {
         attack.Disable();
         attack.performed -= OnAttackPerformed;
         attack.performed -= OnAttackPerformed;
-        attack.performed -= OnAttackCanceled;
+        attack.canceled -= OnAttackCanceled;
     }
 
     private void OnAttackStarted(InputAction.CallbackContext context)
@@ -111,7 +111,7 @@ public class BloodSucking : MonoBehaviour
                 {
                     npc = hit.transform.gameObject;
                     hb = npc.GetComponent<HealthBehaviour>();
-                    hb.health--;
+                    hb.ReceiveHit(1, 0);
                     currentBlood++;
                     totalBlood++;
                     currentBloodText.text = "Blood: " + currentBlood.ToString();
@@ -132,6 +132,7 @@ public class BloodSucking : MonoBehaviour
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
+            print("Hello");
             isHoldingAttack = false;
             StopCoroutine(DrainBlood());
             pm.bloodSucking = false;
