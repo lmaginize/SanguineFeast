@@ -156,7 +156,7 @@ public class AttackBehaviour : MonoBehaviour
 
     public void BatAttack()
     {
-        if (Physics.SphereCast(transform.position, radius, transform.forward, out RaycastHit hit, reach[3]))
+        if (Physics.SphereCast(transform.position, radius, transform.forward, out RaycastHit hit, reach[5]))
         {
             print(true);
             if(hit.collider.gameObject.TryGetComponent<HealthBehaviour>(out HealthBehaviour hb) && hit.collider.gameObject.CompareTag("NPC"))

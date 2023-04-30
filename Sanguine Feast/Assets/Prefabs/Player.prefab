@@ -560,7 +560,7 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  attack: 0000000000
+  attack: 000000000000
   stunAngle: 110
   projectile: {fileID: 0}
   rangeDamage: 0
