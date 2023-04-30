@@ -86,6 +86,7 @@ public class BloodSucking : MonoBehaviour
         if (currentBloodText != null)
         {
             currentBloodText.text = "Blood: " + (int)currentBlood;
+            totalBloodText.text = "Total Blood: " + totalBlood;
 
 
             if (currentBlood < 0 && !ressurectionUpgrade)

@@ -15,6 +15,7 @@ public class HealthBehaviour : MonoBehaviour
     public GameObject canvas;
     public Transform players;
     public NPCBehaviour npcBeh;
+    private ParticleSystemForceField psff;
 
     private float stun;
     public float maxStun;
@@ -37,6 +38,8 @@ public class HealthBehaviour : MonoBehaviour
         stunBar.maxValue = maxStun;
         stunBar.value = 0;
         players = GameObject.Find("Player").transform;
+        psff = GetComponent<ParticleSystemForceField>();
+        psff.enabled = false;
     }
 
 

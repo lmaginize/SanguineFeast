@@ -43,6 +43,7 @@ public class AbilityController : MonoBehaviour
             abilityText.Add("R");
         }
         PlayerActivation(false);
+        SetAbilityTextUI();
     }
 
     //private void Update()

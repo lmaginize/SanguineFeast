@@ -170,6 +170,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BatAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""8c7a1c1f-ddcf-4c36-aac3-10a2a8a24d89"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -392,6 +401,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Ability3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aada673a-0ea3-4758-a5be-3f8831f9fd93"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BatAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -422,6 +442,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Gameplay_Ability1 = m_Gameplay.FindAction("Ability1", throwIfNotFound: true);
         m_Gameplay_Ability2 = m_Gameplay.FindAction("Ability2", throwIfNotFound: true);
         m_Gameplay_Ability3 = m_Gameplay.FindAction("Ability3", throwIfNotFound: true);
+        m_Gameplay_BatAttack = m_Gameplay.FindAction("BatAttack", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -497,6 +518,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Ability1;
     private readonly InputAction m_Gameplay_Ability2;
     private readonly InputAction m_Gameplay_Ability3;
+    private readonly InputAction m_Gameplay_BatAttack;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -517,6 +539,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Ability1 => m_Wrapper.m_Gameplay_Ability1;
         public InputAction @Ability2 => m_Wrapper.m_Gameplay_Ability2;
         public InputAction @Ability3 => m_Wrapper.m_Gameplay_Ability3;
+        public InputAction @BatAttack => m_Wrapper.m_Gameplay_BatAttack;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -574,6 +597,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Ability3.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
                 @Ability3.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
                 @Ability3.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnAbility3;
+                @BatAttack.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBatAttack;
+                @BatAttack.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBatAttack;
+                @BatAttack.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnBatAttack;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -626,6 +652,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Ability3.started += instance.OnAbility3;
                 @Ability3.performed += instance.OnAbility3;
                 @Ability3.canceled += instance.OnAbility3;
+                @BatAttack.started += instance.OnBatAttack;
+                @BatAttack.performed += instance.OnBatAttack;
+                @BatAttack.canceled += instance.OnBatAttack;
             }
         }
     }
@@ -657,5 +686,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnAbility1(InputAction.CallbackContext context);
         void OnAbility2(InputAction.CallbackContext context);
         void OnAbility3(InputAction.CallbackContext context);
+        void OnBatAttack(InputAction.CallbackContext context);
     }
 }

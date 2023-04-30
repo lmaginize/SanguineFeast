@@ -12,6 +12,7 @@ public class AttackBehaviour : MonoBehaviour
 
     private InputAction attack_;
     private InputAction interact;
+    private InputAction batAttack;
 
     private int type = 0;
 
@@ -28,6 +29,9 @@ public class AttackBehaviour : MonoBehaviour
     public float rangeDamage;
     public float projectileSpeed;
 
+    public GameObject batAttackObj;
+    private GameObject batAttackSpawned;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -39,9 +43,11 @@ public class AttackBehaviour : MonoBehaviour
 
             attack_ = pcs.Gameplay.Attack1;
             interact = pcs.Gameplay.Hold;
+            batAttack = pcs.Gameplay.BatAttack;
 
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
+            batAttack.performed += _ => attack[3] = true;
         }
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
@@ -56,9 +62,11 @@ public class AttackBehaviour : MonoBehaviour
         {
             attack_.Enable();
             interact.Enable();
+            batAttack.Enable();
 
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
+            batAttack.performed += _ => attack[3] = true;
         }
     }
 
@@ -68,9 +76,11 @@ public class AttackBehaviour : MonoBehaviour
         {
             attack_.performed -= _ => attack[0] = true;
             interact.performed -= _ => attack[2] = true;
+            batAttack.performed -= _ => attack[3] = true;
 
             attack_.Disable();
             interact.Disable();
+            batAttack.Disable();
         }
     }
 
@@ -144,6 +154,20 @@ public class AttackBehaviour : MonoBehaviour
         }
     }
 
+    public void BatAttack()
+    {
+        if (Physics.SphereCast(transform.position, radius, transform.forward, out RaycastHit hit, reach[3]))
+        {
+            print(true);
+            if(hit.collider.gameObject.TryGetComponent<HealthBehaviour>(out HealthBehaviour hb) && hit.collider.gameObject.CompareTag("NPC"))
+            {
+                batAttackSpawned = Instantiate(batAttackObj, transform.position, Quaternion.identity);
+                BatAttack b = batAttackSpawned.GetComponent<BatAttack>();
+                b.startAttack(hit.collider.gameObject, bs);
+            }
+        }
+    }
+
     IEnumerator AttackLoop()
     {
         while (true)
@@ -161,6 +185,13 @@ public class AttackBehaviour : MonoBehaviour
 
                 attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
+            }
+            else if(attack[3])
+            {
+                BatAttack();
+
+                attack[3] = false;
+                yield return new WaitUntil(() => batAttackSpawned == null);
             }
 
             yield return null;
