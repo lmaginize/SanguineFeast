@@ -4266,10 +4266,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-      propertyPath: currentBlood
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 1590669522104084653, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
       propertyPath: ressurectmenu
       value: 
       objectReference: {fileID: 7284126261516723393}
