@@ -541,7 +541,7 @@ MonoBehaviour:
   - 1.5
   - 0
   - 1.5
-  - 1.5
+  - 5
   stun:
   - 20
   - 15
@@ -557,6 +557,7 @@ MonoBehaviour:
   projectile: {fileID: 0}
   rangeDamage: 0
   projectileSpeed: 0
+  batAttackObj: {fileID: 7086324629474762519, guid: fae8ffe8ddc9e63478a6f3a42f45c690, type: 3}
 --- !u!114 &2522079928272324704
 MonoBehaviour:
   m_ObjectHideFlags: 0
