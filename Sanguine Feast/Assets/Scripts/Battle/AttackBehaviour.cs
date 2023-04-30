@@ -47,7 +47,7 @@ public class AttackBehaviour : MonoBehaviour
 
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
-            batAttack.performed += _ => attack[3] = true;
+            batAttack.performed += _ => attack[5] = true;
         }
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
@@ -66,7 +66,7 @@ public class AttackBehaviour : MonoBehaviour
 
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
-            batAttack.performed += _ => attack[3] = true;
+            batAttack.performed += _ => attack[5] = true;
         }
     }
 
@@ -76,7 +76,7 @@ public class AttackBehaviour : MonoBehaviour
         {
             attack_.performed -= _ => attack[0] = true;
             interact.performed -= _ => attack[2] = true;
-            batAttack.performed -= _ => attack[3] = true;
+            batAttack.performed -= _ => attack[5] = true;
 
             attack_.Disable();
             interact.Disable();
@@ -186,11 +186,11 @@ public class AttackBehaviour : MonoBehaviour
                 attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
             }
-            else if(attack[3])
+            else if(attack[5])
             {
                 BatAttack();
 
-                attack[3] = false;
+                attack[5] = false;
                 yield return new WaitUntil(() => batAttackSpawned == null);
             }
 

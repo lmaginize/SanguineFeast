@@ -537,22 +537,30 @@ MonoBehaviour:
   - 3
   - 4
   - 0
+  - 0
+  - 0
   reach:
   - 1.5
   - 0
   - 1.5
+  - 1.5
+  - 0
   - 5
   stun:
   - 20
   - 15
   - 500
   - 500
+  - 0
+  - 0
   cooldown:
   - 0.25
   - 0.15
   - 0
   - 0
-  attack: 00000000
+  - 0
+  - 0
+  attack: 0000000000
   stunAngle: 110
   projectile: {fileID: 0}
   rangeDamage: 0
