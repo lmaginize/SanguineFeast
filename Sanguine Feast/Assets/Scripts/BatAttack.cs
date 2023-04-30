@@ -5,10 +5,11 @@ using UnityEngine;
 public class BatAttack : MonoBehaviour
 {
     public ParticleSystem pS;
-    [SerializeField] private int damagePerBat = 2;
-    [SerializeField] private float stunPerBat = .33f;
+     private int damagePerBat = 1;
+     private float stunPerBat = 5;
     public BloodSucking playerBS;
     public GameObject target;
+    private bool attacking;
 
     //NEED TO ADD PARTICLE SYSTEM FORCE FIELD FROM CUBE PREFAB TO ENEMIES
 
@@ -52,9 +53,18 @@ public class BatAttack : MonoBehaviour
     {
         if(other.gameObject.TryGetComponent<HealthBehaviour>(out HealthBehaviour hb))
         {
+            if (!attacking)
+                StartCoroutine(damageOverTime(hb));
+        }
+    }
+
+    IEnumerator damageOverTime(HealthBehaviour hb)
+    {
+        attacking = true;
+        while(true)
+        {
+            yield return new WaitForSeconds(.5f);
             hb.ReceiveHit(damagePerBat, stunPerBat);
-            playerBS.currentBlood += damagePerBat;
-            playerBS.totalBlood += damagePerBat;
         }
     }
 
