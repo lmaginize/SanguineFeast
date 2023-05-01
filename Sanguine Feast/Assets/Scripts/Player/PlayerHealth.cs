@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public int sunDamage;
+
     public bool weak;
     public bool inShade;
 
@@ -20,7 +22,7 @@ public class PlayerHealth : MonoBehaviour
         if (weak == true)
         {
 
-            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 7f * Time.deltaTime;
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= sunDamage * Time.deltaTime;
 
         }
 

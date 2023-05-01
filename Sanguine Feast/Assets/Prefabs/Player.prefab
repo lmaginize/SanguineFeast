@@ -494,6 +494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5bf4c6b7fb80b4f876762a28b154d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sunDamage: 50
   weak: 0
   inShade: 0
 --- !u!114 &1590669522104084653
@@ -566,6 +567,7 @@ MonoBehaviour:
   rangeDamage: 0
   projectileSpeed: 0
   batAttackObj: {fileID: 7086324629474762519, guid: fae8ffe8ddc9e63478a6f3a42f45c690, type: 3}
+  target: {fileID: 0}
 --- !u!114 &2522079928272324704
 MonoBehaviour:
   m_ObjectHideFlags: 0
