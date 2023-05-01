@@ -8,6 +8,7 @@ public class AbilityController : MonoBehaviour
 {
 
     public static List<InputAction> abilities = new List<InputAction>();
+    
     int numIndex = 0;
 
     public GameObject player;
@@ -20,9 +21,12 @@ public class AbilityController : MonoBehaviour
     public TMP_Text text;
     public static List<string> abilityText = new List<string>();
 
+    public static Dictionary<string, int> bloodCost = new Dictionary<string, int>();
+
     // Start is called before the first frame update
     void Start()
     {
+        
         //pcsMB = mb.pcs;
         player = GameObject.FindGameObjectWithTag("Player");
         mb = player.GetComponent<MovementBehaviour>();
@@ -40,8 +44,18 @@ public class AbilityController : MonoBehaviour
             abilityText.Add("E");
             abilityText.Add("R");
         }
-        PlayerActivation(false);
+        if (bloodCost.Count < 1)
+        {
+            bloodCost.Add("Bat Transformation", 25);
+            bloodCost.Add("Shadow Step", 15);
+            bloodCost.Add("Shadow Creation", 5);
+            bloodCost.Add("Vampiric Speed", 5);
+            bloodCost.Add("Turn NPC", 15);
+            bloodCost.Add("Hypnosis", 15);
+        }
+            PlayerActivation(false);
         SetAbilityTextUI();
+        //bloodCost.Add("Resurection", 0);
         //superSpeedEnabler
     }
 
@@ -156,7 +170,22 @@ public class AbilityController : MonoBehaviour
         
         if(name != "Resurection")
         {
-            if (name == "Shadow Step")
+            bloodCost.TryGetValue(name, out int value);
+            switch(name)
+            {
+                case ("Shadow Step"):
+                case ("Shadow Creation"):
+                case ("Vampiric Speed"):
+                case ("Turn NPC"):
+                case ("Hypnosis"):
+                case ("Bat Transformation"):
+                    abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + value + " blood";
+                    break;
+                default:
+                    break;
+
+            }
+            /*if (name == "Shadow Step")
             {
                 abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 15 + " blood";
             }
@@ -180,10 +209,9 @@ public class AbilityController : MonoBehaviour
             {
                 abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 10 + " blood";
             }
-            
+            */
         }
 
-            //abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + "X" + " blood";
         abilities[numIndex].Enable();
         
     }
@@ -195,7 +223,6 @@ public class AbilityController : MonoBehaviour
         {
             if (t.Equals("Q") || t.Equals("E") || t.Equals("R"))
             {
-
             }
             else
             {
@@ -212,3 +239,4 @@ public class AbilityController : MonoBehaviour
         bs.enabled = enable;
     }
 }
+

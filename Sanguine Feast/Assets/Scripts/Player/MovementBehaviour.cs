@@ -353,7 +353,6 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
-
     private void Sprint(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -400,14 +399,15 @@ public class MovementBehaviour : MonoBehaviour
 
     public void ShadowStep(InputAction.CallbackContext context)
     {
-        if (context.performed && bs.currentBlood - 15 > 0 && !gc.night && !ba.isActive)
+        AbilityController.bloodCost.TryGetValue("Shadow Step", out int value);
+        if (context.performed && bs.currentBlood - value > 0 && !gc.night && !ba.isActive)
         {
             if(isTping)
             {
                 Vector3 h = tpIndicator.transform.position;
                 h.y = transform.position.y;
                 transform.position = h;
-                bs.currentBlood -= 15;
+                bs.currentBlood -= value;
                 tpIndicator.SetActive(false);
                 isTping = false;
             }
@@ -423,14 +423,15 @@ public class MovementBehaviour : MonoBehaviour
 
     public void ShadowCreation(InputAction.CallbackContext context)
     {
-        if(context.performed && bs.currentBlood - 5 > 0 && !ba.isActive)
+        AbilityController.bloodCost.TryGetValue("Shadow Creation", out int value);
+        if (context.performed && bs.currentBlood - value > 0 && !ba.isActive)
         {
             if(isCreatingShadow)
             {
                 Vector3 h = tpIndicator.transform.position;
                 h.y += 2;
                 Instantiate(shadowCreationObj, h, Quaternion.identity);
-                bs.currentBlood -= 5;
+                bs.currentBlood -= value;
                 isCreatingShadow = false;
                 tpIndicator.SetActive(false);
             }
@@ -451,23 +452,24 @@ public class MovementBehaviour : MonoBehaviour
 
     public void SuperSpeedEnabler(InputAction.CallbackContext context)
     {
-        if (context.performed && canSuperSpeed)
+        AbilityController.bloodCost.TryGetValue("Vampiric Speed", out int value);
+        if (context.performed && canSuperSpeed && bs.currentBlood - value > 0 && !ba.isActive)
         {
-            StartCoroutine(SuperSpeedCooldown());
+            StartCoroutine(SuperSpeedCooldown(value));
         }
     }
 
     public void Turning(InputAction.CallbackContext context)
     {
-
+        AbilityController.bloodCost.TryGetValue("Turn NPC", out int value);
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 20))
+        if (context.performed && Physics.Raycast(transform.position, transform.forward, out hit, 20) && bs.currentBlood - value > 0)
         {
             if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
             {
                 //best to put this as a bool on a script on the npcs
                 //this way all the nav mesh stuff could be all on one script
-                bs.currentBlood -= 20;
+                bs.currentBlood -= value;
                 npc.isTurned = true;
                 npc.StartCoroutine(npc.Turned());
                 StartCoroutine(UnTurnOrUnHypno(npc, true));
@@ -477,14 +479,14 @@ public class MovementBehaviour : MonoBehaviour
 
     public void Hypnotism(InputAction.CallbackContext context)
     {
-
+        AbilityController.bloodCost.TryGetValue("Hypnosis", out int value);
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, 20))
+        if (context.performed && Physics.Raycast(transform.position, transform.forward, out hit, 20) && bs.currentBlood - value > 0)
         {
             if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
             {
                 Debug.Log("hypno");
-                GetComponent<BloodSucking>().currentBlood -= 10;
+                bs.currentBlood -= value;
                 //best to put this as a bool on a script on the npcs
                 //this way all the nav mesh stuff could be all on one script
                 npc.isHypnotised = true;
@@ -505,11 +507,11 @@ public class MovementBehaviour : MonoBehaviour
         StopAllCoroutines();
     }
 
-    public IEnumerator SuperSpeedCooldown()
+    public IEnumerator SuperSpeedCooldown(int value)
     {
         canSuperSpeed = false;
         superSpeed = true;
-        bs.currentBlood -= 5;
+        bs.currentBlood -= value;
         yield return new WaitForSeconds(10);
         superSpeed = false;
         yield return new WaitForSeconds(5);
