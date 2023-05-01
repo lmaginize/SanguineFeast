@@ -41,6 +41,8 @@ public class PatrollerBehaviour : MonoBehaviour
     public bool canWander;
     private bool wandered;
 
+    public bool isStunned;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -70,36 +72,43 @@ public class PatrollerBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        ListenForPlayer();
-        TheEyes();
-
-        RaycastHit hit;
-
-        if (playerHeard && playerSeen && !aggression)
+        if (!isStunned)
         {
-            WokeUpAndChoseAnger();
-        }
-        else if (playerHeard)
-        {
-            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) < detectAngle && Physics.Raycast(transform.position, transform.position - player.transform.position, out hit))
+            ListenForPlayer();
+            TheEyes();
+
+            RaycastHit hit;
+
+            if (playerHeard && playerSeen && !aggression)
             {
-                if (hit.collider.gameObject == player)
+                WokeUpAndChoseAnger();
+            }
+            else if (playerHeard)
+            {
+                if (Vector3.Angle(transform.forward, transform.position - player.transform.position) < detectAngle && Physics.Raycast(transform.position, transform.position - player.transform.position, out hit))
                 {
-                    playerSeen = true;
+                    if (hit.collider.gameObject == player)
+                    {
+                        playerSeen = true;
+                    }
                 }
             }
-        }
 
-        if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
-        {
-            FightingWords();
+            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
+            {
+                FightingWords();
+            }
+            else
+            {
+                PatrolLoop();
+            }
+
+            Wander();
         }
         else
         {
-            PatrolLoop();
+            nma.isStopped = true;
         }
-
-        Wander();
     }
 
     void TheEyes()

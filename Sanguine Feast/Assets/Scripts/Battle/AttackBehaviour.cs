@@ -104,9 +104,9 @@ public class AttackBehaviour : MonoBehaviour
 
                     if (hit.collider.gameObject.CompareTag("NPC"))
                     {
-                        if (!hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
+                        if (hit.collider.name.Contains("Patroller") || !hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                         {
-                            if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle && !hit.collider.gameObject.name.Contains("Patroller"))
+                            if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
                             {
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
                             }

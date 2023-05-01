@@ -599,6 +599,7 @@ MonoBehaviour:
   wanderRadius: 5
   wanderTime: 3
   canWander: 1
+  isStunned: 0
 --- !u!114 &1075942252162222411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -660,7 +661,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   players: {fileID: 0}
   npcBeh: {fileID: 0}
-  maxStun: 2000
+  maxStun: 1000
   stunLength: 10
   alertRadius: 0
 --- !u!1 &5776057341620364274
