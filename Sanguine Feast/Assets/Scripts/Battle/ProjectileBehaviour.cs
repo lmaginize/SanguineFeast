@@ -4,9 +4,21 @@ using UnityEngine;
 
 public class ProjectileBehaviour : MonoBehaviour
 {
+    public Rigidbody rb;
     public BloodSucking bs;
     public float damage;
     public float stun;
+
+    private void Awake()
+    {
+        bs = GameObject.Find("Player").GetComponent<BloodSucking>();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        transform.up = rb.velocity.normalized;
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,5 +36,7 @@ public class ProjectileBehaviour : MonoBehaviour
                 bs.currentBlood -= damage;
             }
         }
+
+        Destroy(gameObject);
     }
 }

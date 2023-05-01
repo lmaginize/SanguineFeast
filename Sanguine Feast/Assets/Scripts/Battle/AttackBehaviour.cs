@@ -7,6 +7,7 @@ public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
     private LayerMask lm;
+    private Rigidbody prb;
 
     private PlayerControls pcs;
 
@@ -54,6 +55,7 @@ public class AttackBehaviour : MonoBehaviour
         else
         {
             target = GameObject.Find("Player");
+            prb = target.GetComponent<Rigidbody>();
         }
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
@@ -135,7 +137,8 @@ public class AttackBehaviour : MonoBehaviour
 
     public void Shoot(Vector3 dir)
     {
-        Rigidbody rb_ = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
+        print("pew");
+        Rigidbody rb_ = Instantiate(projectile, transform.position + transform.forward * 1, Quaternion.identity).GetComponent<Rigidbody>();
         ProjectileBehaviour pb = rb_.gameObject.GetComponent<ProjectileBehaviour>();
         pb.damage = damage[1];
 
@@ -144,7 +147,7 @@ public class AttackBehaviour : MonoBehaviour
             pb.stun = stun[1];
         }
 
-        rb_.velocity = dir * projectileSpeed;
+        rb_.AddForce(dir.normalized * projectileSpeed, ForceMode.VelocityChange);
     }
 
     public void StartDrain()
@@ -191,7 +194,8 @@ public class AttackBehaviour : MonoBehaviour
 
                 if (type == 0)
                 {
-                    dir = transform.position - (target.transform.position + Vector3.up * Mathf.Pow(Vector3.Distance(transform.position, target.transform.position) / projectileSpeed * Physics.gravity.magnitude, 2));
+                    float acrossTime = Vector3.Distance(transform.position, target.transform.position) / projectileSpeed;
+                    dir = ((target.transform.position + Vector3.up * acrossTime * Mathf.Sqrt(Physics.gravity.magnitude)) - transform.position) + prb.velocity * acrossTime;
                 }
                 else
                 {

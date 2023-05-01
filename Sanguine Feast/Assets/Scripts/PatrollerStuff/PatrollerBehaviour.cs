@@ -227,10 +227,18 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (canShoot)
             {
-                if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange)
+                if (Vector3.Distance(player.transform.position, transform.position) <= detectRange)
                 {
-                    nma.isStopped = true;
                     ab.attack[1] = true;
+
+                    if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange)
+                    {
+                        nma.isStopped = true;
+                    }
+                    else
+                    {
+                        nma.isStopped = false;
+                    }
                 }
                 else
                 {

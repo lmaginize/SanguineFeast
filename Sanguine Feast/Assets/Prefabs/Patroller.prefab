@@ -137,9 +137,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolLoop: {fileID: 0}
-  detectRange: 15
+  detectRange: 25
   detectAngle: 0
-  canShoot: 0
+  canShoot: 1
+  shootingRange: 15
   aggression: 0
   catchChance: 5
   dayMultiplier: 5
@@ -164,7 +165,7 @@ MonoBehaviour:
   radius: 0.25
   damage:
   - 50
-  - 0
+  - 100
   - 0
   - 0
   reach:
@@ -179,14 +180,16 @@ MonoBehaviour:
   - 0
   cooldown:
   - 0.25
-  - 0.35
+  - 1
   - 0
   - 0
-  attack: 00000000
+  attack: 000000000000
   stunAngle: 0
-  projectile: {fileID: 0}
-  rangeDamage: 0
-  projectileSpeed: 0
+  projectile: {fileID: 644180482686753195, guid: 220c1c0e9fffa5d44935b9936b934b6a, type: 3}
+  rangeDamage: 100
+  projectileSpeed: 20
+  batAttackObj: {fileID: 0}
+  target: {fileID: 0}
 --- !u!1 &6448992208878645170
 GameObject:
   m_ObjectHideFlags: 0
