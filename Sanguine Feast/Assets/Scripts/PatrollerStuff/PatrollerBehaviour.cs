@@ -131,6 +131,7 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (!wandered)
             {
+                playerHeard = false;
                 loopPos++;
                 canWander = true;
 
@@ -172,13 +173,12 @@ public class PatrollerBehaviour : MonoBehaviour
                 if (pm.bloodSucking)
                 {
                     playerHeard = true;
-                    checkSpot = player.transform.position;
+                    checkSpot = player.transform.position + Random.insideUnitSphere;
                 }
             }
             else
             {
                 playerHeard = false;
-
             }
         }
 

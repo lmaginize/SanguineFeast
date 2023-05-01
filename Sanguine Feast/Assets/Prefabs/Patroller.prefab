@@ -137,8 +137,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolLoop: {fileID: 0}
-  detectRange: 25
-  detectAngle: 0
+  detectRange: 30
+  detectAngle: 70
   canShoot: 0
   shootingRange: 15
   aggression: 0
