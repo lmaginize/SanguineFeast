@@ -198,7 +198,7 @@ public class AttackBehaviour : MonoBehaviour
                     dir = Camera.main.transform.forward;
                 }
 
-                Shoot(transform.forward);
+                Shoot(dir);
 
                 attack[1] = false;
                 yield return new WaitForSeconds(cooldown[1]);
