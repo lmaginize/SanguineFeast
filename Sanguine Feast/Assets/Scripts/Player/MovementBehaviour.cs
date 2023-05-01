@@ -353,18 +353,6 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator superSpeedEnabler(){
-        superSpeed = true;
-        yield return new WaitForSeconds(10);
-        superSpeed = false;
-        StartCoroutine(superSpeedCooldown());
-    }
-
-    IEnumerator superSpeedCooldown(){
-        canSuperSpeed = false;
-        yield return new WaitForSeconds(5);
-        canSuperSpeed = true;
-    }
 
     private void Sprint(InputAction.CallbackContext context)
     {
@@ -409,6 +397,7 @@ public class MovementBehaviour : MonoBehaviour
         }
 
     }
+
     public void ShadowStep(InputAction.CallbackContext context)
     {
         if (context.performed && bs.currentBlood - 15 > 0 && !gc.night && !ba.isActive)
@@ -431,6 +420,7 @@ public class MovementBehaviour : MonoBehaviour
 
         }
     }
+
     public void ShadowCreation(InputAction.CallbackContext context)
     {
         if(context.performed && bs.currentBlood - 5 > 0 && !ba.isActive)
@@ -457,6 +447,72 @@ public class MovementBehaviour : MonoBehaviour
     public void DefaultAction(InputAction.CallbackContext context)
     {
         return;
+    }
+
+    public void SuperSpeedEnabler(InputAction.CallbackContext context)
+    {
+        if (context.performed && canSuperSpeed)
+        {
+            StartCoroutine(SuperSpeedCooldown());
+        }
+    }
+
+    public void Turning(InputAction.CallbackContext context)
+    {
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 20))
+        {
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
+            {
+                //best to put this as a bool on a script on the npcs
+                //this way all the nav mesh stuff could be all on one script
+                bs.currentBlood -= 20;
+                npc.isTurned = true;
+                npc.StartCoroutine(npc.Turned());
+                StartCoroutine(UnTurnOrUnHypno(npc, true));
+            }
+        }
+    }
+
+    public void Hypnotism(InputAction.CallbackContext context)
+    {
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 20))
+        {
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
+            {
+                Debug.Log("hypno");
+                GetComponent<BloodSucking>().currentBlood -= 10;
+                //best to put this as a bool on a script on the npcs
+                //this way all the nav mesh stuff could be all on one script
+                npc.isHypnotised = true;
+                npc.StartCoroutine(npc.Hypnotised());
+                StartCoroutine(UnTurnOrUnHypno(npc, false));
+            }
+        }
+    }
+
+    public IEnumerator UnTurnOrUnHypno(NPCBehaviour npc, bool isTurn)
+    {
+        yield return new WaitForSeconds(10);
+        if (isTurn)
+            npc.isTurned = false;
+        else
+            npc.isHypnotised = false;
+        yield return new WaitForEndOfFrame();
+        StopAllCoroutines();
+    }
+
+    public IEnumerator SuperSpeedCooldown()
+    {
+        canSuperSpeed = false;
+        superSpeed = true;
+        yield return new WaitForSeconds(10);
+        superSpeed = false;
+        yield return new WaitForSeconds(5);
+        canSuperSpeed = true;
     }
 
     /// <summary>
