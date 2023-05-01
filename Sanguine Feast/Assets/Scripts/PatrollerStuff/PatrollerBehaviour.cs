@@ -75,7 +75,6 @@ public class PatrollerBehaviour : MonoBehaviour
         if (!isStunned)
         {
             ListenForPlayer();
-            TheEyes();
 
             RaycastHit hit;
 
@@ -85,20 +84,10 @@ public class PatrollerBehaviour : MonoBehaviour
             }
             else if (playerHeard)
             {
-                if (Vector3.Angle(transform.forward, transform.position - player.transform.position) < detectAngle && Physics.Raycast(transform.position, transform.position - player.transform.position, out hit))
-                {
-                    if (hit.collider.gameObject == player)
-                    {
-                        playerSeen = true;
-                    }
-                }
-                else
-                {
-                    playerSeen = false;
-                }
+                TheEyes();
             }
 
-            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
+            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange && playerSeen)
             {
                 FightingWords();
             }
@@ -119,12 +108,13 @@ public class PatrollerBehaviour : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange))
+        if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange) && hit.collider.gameObject == player)
         {
-            if (hit.collider.gameObject == player)
-            {
-                playerSeen = true;
-            }
+            playerSeen = true;
+        }
+        else
+        {
+            playerSeen = false;
         }
     }
 
@@ -244,7 +234,7 @@ public class PatrollerBehaviour : MonoBehaviour
                 {
                     ab.attack[1] = true;
 
-                    if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange)
+                    if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange && playerSeen)
                     {
                         nma.isStopped = true;
                     }
