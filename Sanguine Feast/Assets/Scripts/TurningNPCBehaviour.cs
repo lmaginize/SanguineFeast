@@ -32,17 +32,17 @@ public class TurningNPCBehaviour : MonoBehaviour
     private void OnAbilityPerformed(InputAction.CallbackContext context)
     {
 
-        GetComponent<BloodSucking>().currentBlood -= bloodCost;
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxTurningDistance))
         {
-            if (hit.transform.gameObject.name.Contains("NPC"))
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
             {
                 //best to put this as a bool on a script on the npcs
                 //this way all the nav mesh stuff could be all on one script
-                hit.transform.gameObject.GetComponent<NPCBehaviour>().isTurned = true;
-                StartCoroutine(UnTurn(hit.transform.gameObject.GetComponent<NPCBehaviour>()));
+                GetComponent<BloodSucking>().currentBlood -= bloodCost;
+                npc.isTurned = true;
+                npc.StartCoroutine(npc.Turned());
+                StartCoroutine(UnTurn(npc));
             }
         }
     }
