@@ -92,6 +92,10 @@ public class PatrollerBehaviour : MonoBehaviour
                         playerSeen = true;
                     }
                 }
+                else
+                {
+                    playerSeen = false;
+                }
             }
 
             if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
