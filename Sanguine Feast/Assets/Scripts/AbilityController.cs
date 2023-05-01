@@ -148,7 +148,6 @@ public class AbilityController : MonoBehaviour
                 abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
                 abilities[numIndex].performed += mb.Turning;
-
                 break;
 
             default:
