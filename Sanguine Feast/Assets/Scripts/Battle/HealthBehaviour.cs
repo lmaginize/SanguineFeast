@@ -15,6 +15,7 @@ public class HealthBehaviour : MonoBehaviour
     public GameObject canvas;
     public Transform players;
     public NPCBehaviour npcBeh;
+    public PatrollerBehaviour pb;
     private ParticleSystemForceField psff;
 
     private float stun;
@@ -30,7 +31,6 @@ public class HealthBehaviour : MonoBehaviour
         healthBar = healthBarObj.GetComponent<Slider>();
         stunBarObj = transform.GetChild(0).GetChild(1).gameObject;
         stunBar = stunBarObj.GetComponent<Slider>();
-        npcBeh = GetComponent<NPCBehaviour>();
 
         healthBar.maxValue = maxHealth;
         health = maxHealth;
@@ -40,8 +40,13 @@ public class HealthBehaviour : MonoBehaviour
         players = GameObject.Find("Player").transform;
         if (!name.Contains("Patroller"))
         {
+            npcBeh = GetComponent<NPCBehaviour>();
             psff = GetComponent<ParticleSystemForceField>();
             psff.enabled = false;
+        }
+        else
+        {
+            pb = GetComponent<PatrollerBehaviour>();
         }
     }
 
@@ -87,7 +92,15 @@ public class HealthBehaviour : MonoBehaviour
         else
         {
             stun = maxStun;
-            npcBeh.StunNPC();
+            
+            if (!name.Contains("Patroller"))
+            {
+                npcBeh.StunNPC();
+            }
+            else
+            {
+                pb.StunNPC();
+            }
         }
 
         stunBar.value = stun;

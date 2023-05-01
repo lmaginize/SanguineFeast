@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
+    private PatrollerManager pm;
     private LayerMask lm;
     private Rigidbody prb;
 
@@ -60,6 +61,7 @@ public class AttackBehaviour : MonoBehaviour
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
         lm = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+        pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
 
         StartCoroutine("AttackLoop");
     }
@@ -113,6 +115,7 @@ public class AttackBehaviour : MonoBehaviour
                             else
                             {
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                                pm.bloodSucking = true;
                             }
                         }
                         else
