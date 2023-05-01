@@ -21,6 +21,7 @@ public class PatrollerBehaviour : MonoBehaviour
     public float detectAngle;
 
     public bool canShoot = false;
+    public float shootingRange;
     private bool distracted = false;
     private bool playerSeen;
     private bool playerHeard;
@@ -224,15 +225,31 @@ public class PatrollerBehaviour : MonoBehaviour
     {
         while (aggression)
         {
-            if (Vector3.Distance(player.transform.position, transform.position) <= ab.reach[0])
+            if (canShoot)
             {
-                nma.isStopped = true;
-                ab.attack[0] = true;
+                if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange)
+                {
+                    nma.isStopped = true;
+                    ab.attack[1] = true;
+                }
+                else
+                {
+                    nma.isStopped = false;
+                    ab.attack[1] = false;
+                }
             }
             else
             {
-                nma.isStopped = false;
-                ab.attack[0] = false;
+                if (Vector3.Distance(player.transform.position, transform.position) <= ab.reach[0])
+                {
+                    nma.isStopped = true;
+                    ab.attack[0] = true;
+                }
+                else
+                {
+                    nma.isStopped = false;
+                    ab.attack[0] = false;
+                }
             }
 
             yield return null;

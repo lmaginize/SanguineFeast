@@ -32,6 +32,8 @@ public class AttackBehaviour : MonoBehaviour
     public GameObject batAttackObj;
     private GameObject batAttackSpawned;
 
+    public GameObject target;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -48,6 +50,10 @@ public class AttackBehaviour : MonoBehaviour
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
             batAttack.performed += _ => attack[5] = true;
+        }
+        else
+        {
+            target = GameObject.Find("Player");
         }
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
@@ -181,6 +187,17 @@ public class AttackBehaviour : MonoBehaviour
             }
             else if (attack[1])
             {
+                Vector3 dir;
+
+                if (type == 0)
+                {
+                    dir = transform.position - (target.transform.position + Vector3.up * Mathf.Pow(Vector3.Distance(transform.position, target.transform.position) / projectileSpeed * Physics.gravity.magnitude, 2));
+                }
+                else
+                {
+                    dir = Camera.main.transform.forward;
+                }
+
                 Shoot(transform.forward);
 
                 attack[1] = false;
