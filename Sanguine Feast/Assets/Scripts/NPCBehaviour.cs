@@ -162,6 +162,8 @@ public class NPCBehaviour : MonoBehaviour
                 targeting = false;
             }
 
+            yield return new WaitForEndOfFrame();
+
         }
 
         yield return null;
