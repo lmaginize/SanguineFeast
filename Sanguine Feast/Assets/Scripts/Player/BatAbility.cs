@@ -162,6 +162,7 @@ public class BatAbility : MonoBehaviour
 
     public void ShapeShift(InputAction.CallbackContext context)
     {
+        AbilityController.bloodCost.TryGetValue("Bat Transformation", out int value);
         if (!isActive)
         {
             isActive = true;
@@ -175,8 +176,7 @@ public class BatAbility : MonoBehaviour
             gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z);
 
             camBeh.SetCamMode(1);
-
-            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 25;
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= value;
 
         }
         else
