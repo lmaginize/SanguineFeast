@@ -38,8 +38,11 @@ public class HealthBehaviour : MonoBehaviour
         stunBar.maxValue = maxStun;
         stunBar.value = 0;
         players = GameObject.Find("Player").transform;
-        psff = GetComponent<ParticleSystemForceField>();
-        psff.enabled = false;
+        if (!name.Contains("Patroller"))
+        {
+            psff = GetComponent<ParticleSystemForceField>();
+            psff.enabled = false;
+        }
     }
 
 

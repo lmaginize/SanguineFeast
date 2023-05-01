@@ -482,8 +482,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 9057617415891365267}
   - {fileID: 5476683791516721048}
+  - {fileID: 9057617415891365267}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -636,7 +636,7 @@ MonoBehaviour:
   stunAngle: 0
   projectile: {fileID: 644180482686753195, guid: 220c1c0e9fffa5d44935b9936b934b6a, type: 3}
   rangeDamage: 100
-  projectileSpeed: 20
+  projectileSpeed: 30
   batAttackObj: {fileID: 0}
   target: {fileID: 0}
 --- !u!114 &2650215927816619258
@@ -769,7 +769,7 @@ RectTransform:
   - {fileID: 7329811330256586518}
   - {fileID: 8805725998079837451}
   m_Father: {fileID: 5689520863457550519}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -869,7 +869,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5689520863457550519}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5450536437147537531
 MeshFilter:
