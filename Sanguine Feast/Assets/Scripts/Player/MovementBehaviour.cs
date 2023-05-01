@@ -180,15 +180,17 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
-        //Shadow Creation
+        //Shadow stuff
         if (!ba.isActive)
         {
             if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
             {
+                //Shadow Step
                 if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck") && isTping)
                 {
                     tpIndicator.transform.position = rh.point;
                 }
+                //Shadow Creation
                 else if(isCreatingShadow)
                 {
                     tpIndicator.transform.position = rh.point;

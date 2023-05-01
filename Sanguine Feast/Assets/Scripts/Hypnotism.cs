@@ -34,18 +34,18 @@ public class Hypnotism : MonoBehaviour
     public void OnAbilityPerformed(InputAction.CallbackContext context)
     {
 
-        GetComponent<BloodSucking>().currentBlood -= bloodCost;
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxHypnotismDistance))
         {
-            if (hit.transform.gameObject.name.Contains("NPC"))
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
             {
                 Debug.Log("hypno");
+                GetComponent<BloodSucking>().currentBlood -= bloodCost;
                 //best to put this as a bool on a script on the npcs
                 //this way all the nav mesh stuff could be all on one script
-                hit.transform.gameObject.GetComponent<NPCBehaviour>().isHypnotised = true;
-                StartCoroutine(Unhypnotised(hit.transform.gameObject.GetComponent<NPCBehaviour>()));
+                npc.isHypnotised = true;
+                npc.StartCoroutine(npc.Hypnotised());
+                StartCoroutine(Unhypnotised(npc));
             }
         }
     }

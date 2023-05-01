@@ -51,7 +51,7 @@ public class NPCBehaviour : MonoBehaviour
             {
                 // Checks if player is not blocked by buildings
                 blocked = NavMesh.Raycast(transform.position, target.transform.position, out hit, NavMesh.AllAreas);
-                Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
+                //Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
 
 
                 if (!blocked && Vector3.Distance(target.transform.position, transform.position) < sightRange)
@@ -112,8 +112,12 @@ public class NPCBehaviour : MonoBehaviour
 
             Vector3 destination = target.transform.position;
             NavMeshHit hit;
-            NavMesh.SamplePosition(destination, out hit, 0, 1);
-            nAgent.destination = hit.position;
+
+            //NavMesh.SamplePosition(destination, out hit, 0, 1);
+            //print(hit.position);
+            //nAgent.ResetPath();
+            nAgent.destination = target.transform.position;
+            yield return new WaitForEndOfFrame();
 
         }
 

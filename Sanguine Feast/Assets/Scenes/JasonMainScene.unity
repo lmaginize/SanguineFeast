@@ -14140,11 +14140,6 @@ CapsuleCollider:
   m_CorrespondingSourceObject: {fileID: 4871555641258040543, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
   m_PrefabInstance: {fileID: 242320255}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &828223946 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4871555641258040514, guid: 0e15ce45d5371f04c83a9ba669f14629, type: 3}
-  m_PrefabInstance: {fileID: 242320255}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &829019137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30209,7 +30204,7 @@ GameObject:
   - component: {fileID: 1822592509}
   - component: {fileID: 1822592508}
   m_Layer: 6
-  m_Name: Sphere
+  m_Name: ShadowIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30272,13 +30267,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822592507}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.198, z: -0.484}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 828223946}
-  m_RootOrder: 4
+  m_Father: {fileID: 0}
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1824384859
 PrefabInstance:
