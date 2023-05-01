@@ -139,7 +139,7 @@ MonoBehaviour:
   patrolLoop: {fileID: 0}
   detectRange: 25
   detectAngle: 0
-  canShoot: 1
+  canShoot: 0
   shootingRange: 15
   aggression: 0
   catchChance: 5
