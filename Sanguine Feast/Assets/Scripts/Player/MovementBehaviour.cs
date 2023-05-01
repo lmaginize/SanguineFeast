@@ -59,7 +59,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public bool ungroundDouble = true;
     public bool superSpeed = false;
-    public bool canSuperSpeed = false;
+    private bool canSuperSpeed = true;
     public bool hasSuperSpeed = false;
 
     /// <summary>
@@ -509,6 +509,7 @@ public class MovementBehaviour : MonoBehaviour
     {
         canSuperSpeed = false;
         superSpeed = true;
+        bs.currentBlood -= 5;
         yield return new WaitForSeconds(10);
         superSpeed = false;
         yield return new WaitForSeconds(5);
