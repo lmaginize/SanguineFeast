@@ -106,7 +106,7 @@ public class AttackBehaviour : MonoBehaviour
                     {
                         if (!hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                         {
-                            if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
+                            if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle && !hit.collider.gameObject.name.Contains("Patroller"))
                             {
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
                             }
@@ -194,8 +194,8 @@ public class AttackBehaviour : MonoBehaviour
 
                 if (type == 0)
                 {
-                    float acrossTime = Vector3.Distance(transform.position, target.transform.position) / projectileSpeed;
-                    dir = ((target.transform.position + Vector3.up * acrossTime * Mathf.Sqrt(Physics.gravity.magnitude)) - transform.position) + prb.velocity * acrossTime;
+                    float acrossTime = Vector3.Distance(transform.position, target.transform.position + prb.velocity / projectileSpeed) / projectileSpeed;
+                    dir = ((target.transform.position + prb.velocity * acrossTime + Vector3.up * acrossTime * Mathf.Sqrt(Physics.gravity.magnitude)) - transform.position);
                 }
                 else
                 {
