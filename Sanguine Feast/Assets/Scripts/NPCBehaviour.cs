@@ -51,7 +51,7 @@ public class NPCBehaviour : MonoBehaviour
             {
                 // Checks if player is not blocked by buildings
                 blocked = NavMesh.Raycast(transform.position, target.transform.position, out hit, NavMesh.AllAreas);
-                Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
+                //Debug.DrawLine(transform.position, target.transform.position, blocked ? Color.red : Color.green);
 
 
                 if (!blocked && Vector3.Distance(target.transform.position, transform.position) < sightRange)
@@ -90,6 +90,7 @@ public class NPCBehaviour : MonoBehaviour
     {
         while (!isHypnotised && !isTurned)
         {
+            nAgent.speed = 2;
             isWandering = true;
             isWalking = true;
             yield return new WaitForSeconds(Random.Range(6, 9));
@@ -112,8 +113,12 @@ public class NPCBehaviour : MonoBehaviour
 
             Vector3 destination = target.transform.position;
             NavMeshHit hit;
-            NavMesh.SamplePosition(destination, out hit, 0, 1);
-            nAgent.destination = hit.position;
+
+            //NavMesh.SamplePosition(destination, out hit, 0, 1);
+            //print(hit.position);
+            //nAgent.ResetPath();
+            nAgent.destination = target.transform.position;
+            yield return new WaitForEndOfFrame();
 
         }
 
@@ -122,6 +127,8 @@ public class NPCBehaviour : MonoBehaviour
 
     public IEnumerator Turned()
     {
+        isWandering = false;
+
         bool targeting = false;
 
         while (isTurned)
@@ -149,14 +156,18 @@ public class NPCBehaviour : MonoBehaviour
             }
 
             Vector3 destination = goKill.transform.position;
-            NavMeshHit hit;
-            NavMesh.SamplePosition(destination, out hit, 0, 1);
-            nAgent.destination = hit.position;
+            //NavMeshHit hit;
+            //NavMesh.SamplePosition(destination, out hit, 0, 1);
+            //nAgent.destination = hit.position;
+            nAgent.destination = destination;
+            nAgent.speed = 4f;
 
             if (goKill.gameObject == null)
             {
                 targeting = false;
             }
+
+            yield return new WaitForEndOfFrame();
 
         }
 

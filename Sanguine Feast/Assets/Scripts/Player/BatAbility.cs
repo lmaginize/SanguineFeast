@@ -41,7 +41,6 @@ public class BatAbility : MonoBehaviour
         jump_.canceled += OnJump;
         crouch.started += OnCrouch;
         crouch.canceled += OnCrouch;
-        sprint.started += OnSprint;
         //shapeShift.performed += ShapeShift;
 
         gc = FindObjectOfType<GameController>();
@@ -63,7 +62,6 @@ public class BatAbility : MonoBehaviour
         jump_.canceled += OnJump;
         crouch.performed += OnCrouch;
         crouch.canceled += OnCrouch;
-        sprint.performed += OnSprint;
         //shapeShift.performed += ShapeShift;
     }
 
@@ -73,7 +71,6 @@ public class BatAbility : MonoBehaviour
         jump_.canceled -= OnJump;
         crouch.performed -= OnCrouch;
         crouch.canceled -= OnCrouch;
-        sprint.performed -= OnSprint;
         //shapeShift.performed -= ShapeShift;
         move.Disable();
         jump_.Disable();
@@ -141,14 +138,6 @@ public class BatAbility : MonoBehaviour
         }
     }
 
-    private void OnSprint(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            speedControl = !speedControl;
-        }
-    }
-
     void BatMovement()
     {
         if (rb.useGravity)
@@ -161,16 +150,7 @@ public class BatAbility : MonoBehaviour
             mb.ungroundDouble = false;
         }
 
-        Vector3 finalMove;
-
-        if (speedControl && camBeh.camMode != 2)
-        {
-            finalMove = camBeh.camObjs[camBeh.camMode].gameObject.transform.TransformDirection(moveDir);
-        }
-        else
-        {
-            finalMove = gameObject.transform.TransformDirection(moveDir);
-        }
+        Vector3 finalMove = camBeh.camObjs[camBeh.camMode].gameObject.transform.TransformDirection(moveDir);
 
         rb.AddForce(finalMove.normalized * moveForce, ForceMode.Acceleration);
 
@@ -182,6 +162,7 @@ public class BatAbility : MonoBehaviour
 
     public void ShapeShift(InputAction.CallbackContext context)
     {
+        AbilityController.bloodCost.TryGetValue("Bat Transformation", out int value);
         if (!isActive)
         {
             isActive = true;
@@ -195,8 +176,7 @@ public class BatAbility : MonoBehaviour
             gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z);
 
             camBeh.SetCamMode(1);
-
-            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= 25;
+            transform.gameObject.GetComponent<BloodSucking>().currentBlood -= value;
 
         }
         else

@@ -65,6 +65,7 @@ public class BatAttack : MonoBehaviour
         {
             yield return new WaitForSeconds(.5f);
             hb.ReceiveHit(damagePerBat, stunPerBat);
+            playerBS.currentBlood += damagePerBat;
         }
     }
 

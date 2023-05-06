@@ -8,6 +8,7 @@ public class AbilityController : MonoBehaviour
 {
 
     public static List<InputAction> abilities = new List<InputAction>();
+    
     int numIndex = 0;
 
     public GameObject player;
@@ -15,15 +16,17 @@ public class AbilityController : MonoBehaviour
     private BatAbility ba;
     private PlayerControls pcsMB;
     private BloodSucking bs;
-    private Hypnotism hyp;
     private GameController gc;
     [Tooltip("Ability text under the day night cycle ui")]
     public TMP_Text text;
     public static List<string> abilityText = new List<string>();
 
+    public static Dictionary<string, int> bloodCost = new Dictionary<string, int>();
+
     // Start is called before the first frame update
     void Start()
     {
+        
         //pcsMB = mb.pcs;
         player = GameObject.FindGameObjectWithTag("Player");
         mb = player.GetComponent<MovementBehaviour>();
@@ -31,7 +34,6 @@ public class AbilityController : MonoBehaviour
         ba = player.GetComponent<BatAbility>();
         bs = mb.bs;
         pcsMB = mb.pcs;
-        hyp = player.GetComponent<Hypnotism>();
         print(abilities.Count);
         if (abilities.Count < 1)
         {
@@ -42,8 +44,19 @@ public class AbilityController : MonoBehaviour
             abilityText.Add("E");
             abilityText.Add("R");
         }
-        PlayerActivation(false);
+        if (bloodCost.Count < 1)
+        {
+            bloodCost.Add("Bat Transformation", 25);
+            bloodCost.Add("Shadow Step", 15);
+            bloodCost.Add("Shadow Creation", 5);
+            bloodCost.Add("Vampiric Speed", 5);
+            bloodCost.Add("Turn NPC", 15);
+            bloodCost.Add("Hypnosis", 15);
+        }
+            PlayerActivation(false);
         SetAbilityTextUI();
+        //bloodCost.Add("Resurection", 0);
+        //superSpeedEnabler
     }
 
     //private void Update()
@@ -69,22 +82,28 @@ public class AbilityController : MonoBehaviour
                 numIndex = 2;
                 break;
         }
+
         abilityText[numIndex] = button;
+
         switch (name)
         {
             case ("Bat Transformation"):
                 abilities[numIndex].performed -= mb.ShadowStep;
                 abilities[numIndex].performed -= mb.ShadowCreation;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.DefaultAction;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
                 abilities[numIndex].performed += ba.ShapeShift;
                 break;
             case ("Shadow Step"):
                 abilities[numIndex].performed -= ba.ShapeShift;
                 abilities[numIndex].performed -= mb.ShadowCreation;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.DefaultAction;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
                 abilities[numIndex].performed += mb.ShadowStep;
                 break;
@@ -92,8 +111,10 @@ public class AbilityController : MonoBehaviour
 
                 abilities[numIndex].performed -= ba.ShapeShift;
                 abilities[numIndex].performed -= mb.ShadowStep;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.DefaultAction;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
                 abilities[numIndex].performed += mb.ShadowCreation;
                 break;
@@ -103,43 +124,68 @@ public class AbilityController : MonoBehaviour
                 abilities[numIndex].performed -= mb.ShadowCreation;
                 abilities[numIndex].performed -= mb.ShadowStep;
                 abilities[numIndex].performed -= mb.DefaultAction;
+                abilities[numIndex].performed -= mb.Turning;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
-                abilities[numIndex].performed += hyp.OnAbilityPerformed;
+                abilities[numIndex].performed += mb.Hypnotism;
                 break;
             case ("Vampiric Speed"):
                 abilities[numIndex].performed -= ba.ShapeShift;
                 abilities[numIndex].performed -= mb.ShadowCreation;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.ShadowStep;
                 abilities[numIndex].performed -= mb.DefaultAction;
 
-                mb.hasSuperSpeed = true;
+                abilities[numIndex].performed += mb.SuperSpeedEnabler;
+
                 break;
             case ("Resurection"):
                 abilities[numIndex].performed -= ba.ShapeShift;
                 abilities[numIndex].performed -= mb.ShadowCreation;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.ShadowStep;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
                 bs.ressurectionUpgrade = true;
                 abilities[numIndex].performed += mb.DefaultAction;
+
                 break;
             case ("Turn NPC"):
                 abilities[numIndex].performed -= ba.ShapeShift;
                 abilities[numIndex].performed -= mb.ShadowCreation;
-                abilities[numIndex].performed -= hyp.OnAbilityPerformed;
+                abilities[numIndex].performed -= mb.Hypnotism;
+                abilities[numIndex].performed -= mb.Turning;
                 abilities[numIndex].performed -= mb.ShadowStep;
                 abilities[numIndex].performed -= mb.DefaultAction;
+                abilities[numIndex].performed -= mb.SuperSpeedEnabler;
 
-
+                abilities[numIndex].performed += mb.Turning;
                 break;
+
             default:
                 break;
         }
         
         if(name != "Resurection")
         {
-            if (name == "Shadow Step")
+            bloodCost.TryGetValue(name, out int value);
+            switch(name)
+            {
+                case ("Shadow Step"):
+                case ("Shadow Creation"):
+                case ("Vampiric Speed"):
+                case ("Turn NPC"):
+                case ("Hypnosis"):
+                case ("Bat Transformation"):
+                    abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + value + " blood";
+                    break;
+                default:
+                    break;
+
+            }
+            /*if (name == "Shadow Step")
             {
                 abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 15 + " blood";
             }
@@ -163,9 +209,9 @@ public class AbilityController : MonoBehaviour
             {
                 abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + 10 + " blood";
             }
+            */
         }
 
-            //abilityText[numIndex] = name + ": " + abilityText[numIndex] + " - " + "X" + " blood";
         abilities[numIndex].Enable();
         
     }
@@ -177,7 +223,6 @@ public class AbilityController : MonoBehaviour
         {
             if (t.Equals("Q") || t.Equals("E") || t.Equals("R"))
             {
-
             }
             else
             {
@@ -192,6 +237,6 @@ public class AbilityController : MonoBehaviour
         mb.enabled = enable;
         ba.enabled = enable;
         bs.enabled = enable;
-        hyp.enabled = enable;
     }
 }
+

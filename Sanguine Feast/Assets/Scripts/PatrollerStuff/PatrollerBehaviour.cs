@@ -11,7 +11,6 @@ public class PatrollerBehaviour : MonoBehaviour
     private GameObject player;
     private GameObject eyes;
     private BloodSucking bs;
-    private weirdBattle wb;
     private AttackBehaviour ab;
     private PatrollerManager pm;
     private HealthBehaviour hb;
@@ -45,12 +44,17 @@ public class PatrollerBehaviour : MonoBehaviour
     public bool canWander;
     private bool wandered;
 
+    public bool isStunned;
+    public float stunTime;
+    private Vector3 lastPos;
+    public bool locked;
+    public float lockedRange;
+
     // Start is called before the first frame update
     void Awake()
     {
         nma = GetComponent<NavMeshAgent>();
         gc = GameObject.Find("GameController").GetComponent<GameController>();
-        wb = gc.gameObject.GetComponent<weirdBattle>();
         player = GameObject.Find("Player");
         bs = player.GetComponent<BloodSucking>();
         eyes = transform.GetChild(0).gameObject;
@@ -76,24 +80,36 @@ public class PatrollerBehaviour : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        ListenForPlayer();
-        TheEyes();
-
-        if (playerHeard && playerSeen && !aggression)
+        if (!isStunned && !locked)
         {
-            WokeUpAndChoseAnger();
-        }
+            ListenForPlayer();
+            TheEyes();
 
-        if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange[pm.playerCrouched ? 1 : 0] && playerSeen)
-        {
-            FightingWords();
-        }
-        else
-        {
-            PatrolLoop();
-        }
+            if (playerHeard && playerSeen && !aggression)
+            {
+                WokeUpAndChoseAnger();
+            }
 
-        Wander();
+            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange[pm.playerCrouched ? 1 : 0] && playerSeen)
+            {
+                FightingWords();
+            }
+            else
+            {
+                PatrolLoop();
+            }
+
+            Wander();
+        }
+        else if (locked)
+        {
+            Collider[] arr = Physics.OverlapSphere(transform.position, lockedRange, LayerMask.GetMask("Player"));
+
+            if (arr.Length == 0)
+            {
+                locked = false;
+            }
+        }
     }
 
     void TheEyes()
@@ -109,6 +125,10 @@ public class PatrollerBehaviour : MonoBehaviour
             {
                 WokeUpAndChoseAnger();
             }
+        }
+        else
+        {
+            playerSeen = false;
         }
     }
 
@@ -128,6 +148,7 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (!wandered)
             {
+                playerHeard = false;
                 loopPos++;
                 canWander = true;
 
@@ -231,9 +252,12 @@ public class PatrollerBehaviour : MonoBehaviour
             {
                 if (Vector3.Distance(player.transform.position, transform.position) <= detectRange[pm.playerCrouched ? 1 : 0])
                 {
-                    ab.attack[1] = true;
+                    if (playerSeen)
+                    {
+                        ab.attack[1] = true;
+                    }
 
-                    if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange)
+                    if (Vector3.Distance(player.transform.position, transform.position) <= shootingRange && playerSeen)
                     {
                         nma.isStopped = true;
                     }
@@ -264,5 +288,40 @@ public class PatrollerBehaviour : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void StunNPC()
+    {
+        isStunned = true;
+        lastPos = nma.destination;
+        nma.isStopped = true;
+
+        StartCoroutine("UnStun");
+    }
+
+    IEnumerator UnStun()
+    {
+        while (locked)
+        {
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(stunTime);
+        isStunned = false;
+
+        if (!locked)
+        {
+            nma.isStopped = false;
+            nma.destination = lastPos;
+            hb.UnStun();
+        }
+
+        yield return null;
+    }
+
+    public void Lock()
+    {
+        locked = true;
+        nma.isStopped = true;
     }
 }

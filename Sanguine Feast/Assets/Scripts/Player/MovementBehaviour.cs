@@ -60,7 +60,7 @@ public class MovementBehaviour : MonoBehaviour
 
     public bool ungroundDouble = true;
     public bool superSpeed = false;
-    public bool canSuperSpeed = false;
+    private bool canSuperSpeed = true;
     public bool hasSuperSpeed = false;
 
     /// <summary>
@@ -182,15 +182,17 @@ public class MovementBehaviour : MonoBehaviour
             }
         }
 
-        //Shadow Creation
+        //Shadow stuff
         if (!ba.isActive)
         {
             if (Physics.Raycast(coll.bounds.center, Camera.main.transform.forward, out RaycastHit rh, 100, ~player))
             {
+                //Shadow Step
                 if (Physics.Raycast(rh.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && !f.collider.gameObject.name.Equals("SunHitCheck") && isTping)
                 {
                     tpIndicator.transform.position = rh.point;
                 }
+                //Shadow Creation
                 else if(isCreatingShadow)
                 {
                     tpIndicator.transform.position = rh.point;
@@ -355,19 +357,6 @@ public class MovementBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator superSpeedEnabler(){
-        superSpeed = true;
-        yield return new WaitForSeconds(10);
-        superSpeed = false;
-        StartCoroutine(superSpeedCooldown());
-    }
-
-    IEnumerator superSpeedCooldown(){
-        canSuperSpeed = false;
-        yield return new WaitForSeconds(5);
-        canSuperSpeed = true;
-    }
-
     private void Sprint(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -411,16 +400,18 @@ public class MovementBehaviour : MonoBehaviour
         }
 
     }
+
     public void ShadowStep(InputAction.CallbackContext context)
     {
-        if (context.performed && bs.currentBlood - 15 > 0 && !gc.night && !ba.isActive)
+        AbilityController.bloodCost.TryGetValue("Shadow Step", out int value);
+        if (context.performed && bs.currentBlood - value > 0 && !gc.night && !ba.isActive)
         {
             if(isTping)
             {
                 Vector3 h = tpIndicator.transform.position;
                 h.y = transform.position.y;
                 transform.position = h;
-                bs.currentBlood -= 15;
+                bs.currentBlood -= value;
                 tpIndicator.SetActive(false);
                 isTping = false;
             }
@@ -433,16 +424,18 @@ public class MovementBehaviour : MonoBehaviour
 
         }
     }
+
     public void ShadowCreation(InputAction.CallbackContext context)
     {
-        if(context.performed && bs.currentBlood - 5 > 0 && !ba.isActive)
+        AbilityController.bloodCost.TryGetValue("Shadow Creation", out int value);
+        if (context.performed && bs.currentBlood - value > 0 && !ba.isActive)
         {
             if(isCreatingShadow)
             {
                 Vector3 h = tpIndicator.transform.position;
                 h.y += 2;
                 Instantiate(shadowCreationObj, h, Quaternion.identity);
-                bs.currentBlood -= 5;
+                bs.currentBlood -= value;
                 isCreatingShadow = false;
                 tpIndicator.SetActive(false);
             }
@@ -459,6 +452,74 @@ public class MovementBehaviour : MonoBehaviour
     public void DefaultAction(InputAction.CallbackContext context)
     {
         return;
+    }
+
+    public void SuperSpeedEnabler(InputAction.CallbackContext context)
+    {
+        AbilityController.bloodCost.TryGetValue("Vampiric Speed", out int value);
+        if (context.performed && canSuperSpeed && bs.currentBlood - value > 0 && !ba.isActive)
+        {
+            StartCoroutine(SuperSpeedCooldown(value));
+        }
+    }
+
+    public void Turning(InputAction.CallbackContext context)
+    {
+        AbilityController.bloodCost.TryGetValue("Turn NPC", out int value);
+        RaycastHit hit;
+        if (context.performed && Physics.Raycast(transform.position, transform.forward, out hit, 20) && bs.currentBlood - value > 0)
+        {
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
+            {
+                //best to put this as a bool on a script on the npcs
+                //this way all the nav mesh stuff could be all on one script
+                bs.currentBlood -= value;
+                npc.isTurned = true;
+                npc.StartCoroutine(npc.Turned());
+                StartCoroutine(UnTurnOrUnHypno(npc, true));
+            }
+        }
+    }
+
+    public void Hypnotism(InputAction.CallbackContext context)
+    {
+        AbilityController.bloodCost.TryGetValue("Hypnosis", out int value);
+        RaycastHit hit;
+        if (context.performed && Physics.Raycast(transform.position, transform.forward, out hit, 20) && bs.currentBlood - value > 0)
+        {
+            if (hit.transform.gameObject.name.Contains("NPC") && hit.transform.gameObject.TryGetComponent<NPCBehaviour>(out NPCBehaviour npc))
+            {
+                Debug.Log("hypno");
+                bs.currentBlood -= value;
+                //best to put this as a bool on a script on the npcs
+                //this way all the nav mesh stuff could be all on one script
+                npc.isHypnotised = true;
+                npc.StartCoroutine(npc.Hypnotised());
+                StartCoroutine(UnTurnOrUnHypno(npc, false));
+            }
+        }
+    }
+
+    public IEnumerator UnTurnOrUnHypno(NPCBehaviour npc, bool isTurn)
+    {
+        yield return new WaitForSeconds(10);
+        if (isTurn)
+            npc.isTurned = false;
+        else
+            npc.isHypnotised = false;
+        yield return new WaitForEndOfFrame();
+        StopAllCoroutines();
+    }
+
+    public IEnumerator SuperSpeedCooldown(int value)
+    {
+        canSuperSpeed = false;
+        superSpeed = true;
+        bs.currentBlood -= value;
+        yield return new WaitForSeconds(10);
+        superSpeed = false;
+        yield return new WaitForSeconds(5);
+        canSuperSpeed = true;
     }
 
     /// <summary>

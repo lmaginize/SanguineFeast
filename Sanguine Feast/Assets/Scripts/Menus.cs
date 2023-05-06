@@ -29,7 +29,7 @@ public class Menus : MonoBehaviour
     }
 
     public void OnButtonStartGame(){
-        SceneManager.LoadScene("Main Scene");
+        SceneManager.LoadScene("JasonMainScene");
     }
     public void OnButtonMainMenu(){
         SceneManager.LoadScene("Main Menu");

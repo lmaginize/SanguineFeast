@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class AttackBehaviour : MonoBehaviour
 {
     private BloodSucking bs;
+    private PatrollerManager pm;
     private LayerMask lm;
     private Rigidbody prb;
     private PatrollerManager pm;
@@ -63,6 +64,7 @@ public class AttackBehaviour : MonoBehaviour
 
         bs = GameObject.Find("Player").GetComponent<BloodSucking>();
         lm = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+        pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
 
         StartCoroutine("AttackLoop");
     }
@@ -107,7 +109,7 @@ public class AttackBehaviour : MonoBehaviour
 
                     if (hit.collider.gameObject.CompareTag("NPC"))
                     {
-                        if (!hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
+                        if (hit.collider.name.Contains("Patroller") || !hit.collider.gameObject.GetComponent<NPCBehaviour>().isStunned)
                         {
                             if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
                             {
@@ -118,6 +120,7 @@ public class AttackBehaviour : MonoBehaviour
                             else
                             {
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[0], stun[0]);
+                                pm.bloodSucking = true;
                             }
                         }
                         else
@@ -199,8 +202,8 @@ public class AttackBehaviour : MonoBehaviour
 
                 if (type == 0)
                 {
-                    float acrossTime = Vector3.Distance(transform.position, target.transform.position) / projectileSpeed;
-                    dir = ((target.transform.position + Vector3.up * acrossTime * Mathf.Sqrt(Physics.gravity.magnitude)) - transform.position) + prb.velocity * acrossTime;
+                    float acrossTime = Vector3.Distance(transform.position, target.transform.position + prb.velocity / projectileSpeed) / projectileSpeed;
+                    dir = ((target.transform.position + prb.velocity * acrossTime + Vector3.up * acrossTime * Mathf.Sqrt(Physics.gravity.magnitude)) - transform.position);
                 }
                 else
                 {
