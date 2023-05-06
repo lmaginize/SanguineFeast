@@ -14,10 +14,14 @@ public class PatrollerBehaviour : MonoBehaviour
     private weirdBattle wb;
     private AttackBehaviour ab;
     private PatrollerManager pm;
+    private HealthBehaviour hb;
+    private MovementBehaviour mb;
 
     public Route patrolLoop;
     private int loopPos;
-    public float detectRange;
+    public float[] detectRange;
+    public float precision;
+    public float sightRange;
     public float detectAngle;
 
     public bool canShoot = false;
@@ -52,6 +56,8 @@ public class PatrollerBehaviour : MonoBehaviour
         eyes = transform.GetChild(0).gameObject;
         ab = GetComponent<AttackBehaviour>();
         pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
+        hb = GetComponent<HealthBehaviour>();
+        mb = GameObject.Find("Player").GetComponent<MovementBehaviour>();
 
         if (startPatrol)
         {
@@ -73,24 +79,12 @@ public class PatrollerBehaviour : MonoBehaviour
         ListenForPlayer();
         TheEyes();
 
-        RaycastHit hit;
-
         if (playerHeard && playerSeen && !aggression)
         {
             WokeUpAndChoseAnger();
         }
-        else if (playerHeard)
-        {
-            if (Vector3.Angle(transform.forward, transform.position - player.transform.position) < detectAngle && Physics.Raycast(transform.position, transform.position - player.transform.position, out hit))
-            {
-                if (hit.collider.gameObject == player)
-                {
-                    playerSeen = true;
-                }
-            }
-        }
 
-        if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange)
+        if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange[pm.playerCrouched ? 1 : 0] && playerSeen)
         {
             FightingWords();
         }
@@ -106,11 +100,14 @@ public class PatrollerBehaviour : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange))
+        if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && 
+            Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange[pm.playerCrouched ? 1 : 0]) && hit.collider.gameObject == player)
         {
-            if (hit.collider.gameObject == player)
+            playerSeen = true;
+
+            if (pm.bloodSucking)
             {
-                playerSeen = true;
+                WokeUpAndChoseAnger();
             }
         }
     }
@@ -163,7 +160,7 @@ public class PatrollerBehaviour : MonoBehaviour
 
     void ListenForPlayer()
     {
-        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange, LayerMask.GetMask("Player"));
+        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange[pm.playerCrouched ? 1 : 0], LayerMask.GetMask("Player"));
 
         for (int x = 0; x < arr.Length; x++)
         {
@@ -172,13 +169,18 @@ public class PatrollerBehaviour : MonoBehaviour
                 if (pm.bloodSucking)
                 {
                     playerHeard = true;
-                    checkSpot = player.transform.position;
+                    checkSpot = player.transform.position + Random.insideUnitSphere * precision;
+                }
+
+                if (aggression && mb.moveDir != Vector3.zero)
+                {
+                    playerHeard = true;
+                    checkSpot = player.transform.position + Random.insideUnitSphere * precision;
                 }
             }
             else
             {
                 playerHeard = false;
-
             }
         }
 
@@ -227,7 +229,7 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (canShoot)
             {
-                if (Vector3.Distance(player.transform.position, transform.position) <= detectRange)
+                if (Vector3.Distance(player.transform.position, transform.position) <= detectRange[pm.playerCrouched ? 1 : 0])
                 {
                     ab.attack[1] = true;
 

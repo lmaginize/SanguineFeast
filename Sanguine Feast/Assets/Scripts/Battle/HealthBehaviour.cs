@@ -16,6 +16,7 @@ public class HealthBehaviour : MonoBehaviour
     public Transform players;
     public NPCBehaviour npcBeh;
     private ParticleSystemForceField psff;
+    private PatrollerManager pm;
 
     private float stun;
     public float maxStun;
@@ -23,6 +24,8 @@ public class HealthBehaviour : MonoBehaviour
     private float stunTime;
 
     public float alertRadius;
+
+    private bool isPatroller = false;
 
     private void Awake()
     {
@@ -40,8 +43,13 @@ public class HealthBehaviour : MonoBehaviour
         players = GameObject.Find("Player").transform;
         psff = GetComponent<ParticleSystemForceField>();
         psff.enabled = false;
-    }
 
+        if (gameObject.name.Contains("Patroller"))
+        {
+            isPatroller = true;
+            pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -71,6 +79,11 @@ public class HealthBehaviour : MonoBehaviour
 
         if (health <= 0)
         {
+            if (isPatroller)
+            {
+                pm.InvokeOneDown(pm.patrollers.IndexOf(gameObject.GetComponent<PatrollerBehaviour>()));
+            }
+
             Destroy(gameObject);
         }
     }

@@ -11,6 +11,7 @@ public class PatrollerManager : MonoBehaviour
 
     public bool anotherOne = false;
     public bool bloodSucking;
+    public bool playerCrouched = false;
 
     private void Awake()
     {
@@ -43,5 +44,19 @@ public class PatrollerManager : MonoBehaviour
     void AddRoute(GameObject[] markers)
     {
         patrolMarkers.Add(new Route(markers));
+    }
+
+    public IEnumerator InvokeOneDown(int who)
+    {
+        yield return new WaitForSeconds(1);
+
+        OneDown(who);
+    }
+
+    public void OneDown(int who)
+    {
+        patrollers.Insert(who, Instantiate(patrollerPrefab, patrolMarkers[who].route[0].transform.position, Quaternion.identity).GetComponent<PatrollerBehaviour>());
+        patrollers[who].patrolLoop = patrolMarkers[patrollers.Count - 1];
+        patrollers[who].StartPatrol();
     }
 }

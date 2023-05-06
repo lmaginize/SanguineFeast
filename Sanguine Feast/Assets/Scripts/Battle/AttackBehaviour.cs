@@ -8,6 +8,7 @@ public class AttackBehaviour : MonoBehaviour
     private BloodSucking bs;
     private LayerMask lm;
     private Rigidbody prb;
+    private PatrollerManager pm;
 
     private PlayerControls pcs;
 
@@ -51,6 +52,8 @@ public class AttackBehaviour : MonoBehaviour
             attack_.performed += _ => attack[0] = true;
             interact.performed += _ => attack[2] = true;
             batAttack.performed += _ => attack[5] = true;
+
+            pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
         }
         else
         {
@@ -109,6 +112,8 @@ public class AttackBehaviour : MonoBehaviour
                             if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > stunAngle)
                             {
                                 hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(damage[2], stun[2]);
+
+                                
                             }
                             else
                             {

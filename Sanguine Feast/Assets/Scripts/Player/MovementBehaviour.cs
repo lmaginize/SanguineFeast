@@ -11,6 +11,7 @@ public class MovementBehaviour : MonoBehaviour
     public CollisionBehaviour cb;
     public CapsuleCollider coll;
     public CamBehaviour camBeh;
+    public PatrollerManager pm;
 
     public PlayerControls pcs;
 
@@ -111,6 +112,7 @@ public class MovementBehaviour : MonoBehaviour
         bs = GetComponent<BloodSucking>();
         ba = GetComponent<BatAbility>();
         tpIndicator.SetActive(false);
+        pm = GameObject.Find("PatrollerManager").GetComponent<PatrollerManager>();
     }
 
     private void OnEnable()
@@ -305,10 +307,12 @@ public class MovementBehaviour : MonoBehaviour
             if (context.performed && !crouched)
             {
                 Crouch();
+                pm.playerCrouched = true;
             }
             else if (context.performed)
             {
                 UnCrouch();
+                pm.playerCrouched = false;
             }
         }
     }
