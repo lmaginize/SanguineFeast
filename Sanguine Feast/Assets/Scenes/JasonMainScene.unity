@@ -37173,25 +37173,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: precision
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
       propertyPath: patrolLoop
       value: 
       objectReference: {fileID: 6173189722727043345}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: detectRange.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: detectRange.Array.data[0]
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5689520863457550504, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
-      propertyPath: detectRange.Array.data[1]
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 5689520863457550513, guid: b240b0966b206564b9b30ad2d0fc8638, type: 3}
       propertyPath: m_Name
       value: Patroller

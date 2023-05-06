@@ -30,6 +30,7 @@ public class HealthBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        canvas = transform.GetChild(0).gameObject;
         healthBarObj = transform.GetChild(0).GetChild(0).gameObject;
         healthBar = healthBarObj.GetComponent<Slider>();
         stunBarObj = transform.GetChild(0).GetChild(1).gameObject;
