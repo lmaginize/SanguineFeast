@@ -309,12 +309,10 @@ public class MovementBehaviour : MonoBehaviour
             if (context.performed && !crouched)
             {
                 Crouch();
-                pm.playerCrouched = true;
             }
             else if (context.performed)
             {
                 UnCrouch();
-                pm.playerCrouched = false;
             }
         }
     }

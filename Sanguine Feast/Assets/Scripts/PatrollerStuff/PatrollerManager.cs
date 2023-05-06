@@ -11,7 +11,6 @@ public class PatrollerManager : MonoBehaviour
 
     public bool anotherOne = false;
     public bool bloodSucking;
-    public bool playerCrouched = false;
 
     private void Awake()
     {

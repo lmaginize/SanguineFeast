@@ -9,7 +9,6 @@ public class AttackBehaviour : MonoBehaviour
     private PatrollerManager pm;
     private LayerMask lm;
     private Rigidbody prb;
-    private PatrollerManager pm;
 
     private PlayerControls pcs;
 

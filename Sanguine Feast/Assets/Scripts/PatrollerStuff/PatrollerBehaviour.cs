@@ -20,7 +20,7 @@ public class PatrollerBehaviour : MonoBehaviour
     private int loopPos;
     public float[] detectRange;
     public float precision;
-    public float sightRange;
+    public float[] sightRange;
     public float detectAngle;
 
     public bool canShoot = false;
@@ -90,7 +90,7 @@ public class PatrollerBehaviour : MonoBehaviour
                 WokeUpAndChoseAnger();
             }
 
-            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange[pm.playerCrouched ? 1 : 0] && playerSeen)
+            if (aggression == true && Vector3.Distance(player.transform.position, gameObject.transform.position) < detectRange[mb.crouched ? 1 : 0] && playerSeen)
             {
                 FightingWords();
             }
@@ -117,7 +117,7 @@ public class PatrollerBehaviour : MonoBehaviour
         RaycastHit hit;
 
         if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && 
-            Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, detectRange[pm.playerCrouched ? 1 : 0]) && hit.collider.gameObject == player)
+            Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, sightRange[mb.crouched ? 1 : 0]) && hit.collider.gameObject == player)
         {
             playerSeen = true;
 
@@ -181,7 +181,7 @@ public class PatrollerBehaviour : MonoBehaviour
 
     void ListenForPlayer()
     {
-        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange[pm.playerCrouched ? 1 : 0], LayerMask.GetMask("Player"));
+        Collider[] arr = Physics.OverlapSphere(transform.position, detectRange[mb.crouched ? 1 : 0], LayerMask.GetMask("Player"));
 
         for (int x = 0; x < arr.Length; x++)
         {
@@ -250,7 +250,7 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (canShoot)
             {
-                if (Vector3.Distance(player.transform.position, transform.position) <= detectRange[pm.playerCrouched ? 1 : 0])
+                if (Vector3.Distance(player.transform.position, transform.position) <= detectRange[mb.crouched ? 1 : 0])
                 {
                     if (playerSeen)
                     {
