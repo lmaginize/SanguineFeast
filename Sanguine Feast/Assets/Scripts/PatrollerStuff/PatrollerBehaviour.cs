@@ -20,7 +20,7 @@ public class PatrollerBehaviour : MonoBehaviour
     private int loopPos;
     public float[] detectRange;
     public float precision;
-    public float[] sightRange;
+    public float sightRange;
     public float detectAngle;
 
     public bool canShoot = false;
@@ -117,7 +117,7 @@ public class PatrollerBehaviour : MonoBehaviour
         RaycastHit hit;
 
         if (Vector3.Angle(player.transform.position - eyes.transform.position, eyes.transform.forward) <= detectAngle && 
-            Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, sightRange[mb.crouched ? 1 : 0]) && hit.collider.gameObject == player)
+            Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out hit, sightRange) && hit.collider.gameObject == player)
         {
             playerSeen = true;
 
