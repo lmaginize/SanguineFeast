@@ -187,12 +187,6 @@ public class PatrollerBehaviour : MonoBehaviour
         {
             if (arr[x].gameObject == player)
             {
-                if (pm.bloodSucking)
-                {
-                    playerHeard = true;
-                    checkSpot = player.transform.position + Random.insideUnitSphere * precision;
-                }
-
                 if (aggression && mb.moveDir != Vector3.zero)
                 {
                     playerHeard = true;
@@ -205,7 +199,25 @@ public class PatrollerBehaviour : MonoBehaviour
             }
         }
 
-        if (arr.Length == 0)
+        Collider[] arr_ = Physics.OverlapSphere(transform.position, detectRange[0], LayerMask.GetMask("Player"));
+
+        for (int x = 0; x < arr_.Length; x++)
+        {
+            if (arr_[x].gameObject == player)
+            {
+                if (pm.bloodSucking)
+                {
+                    playerHeard = true;
+                    checkSpot = player.transform.position + Random.insideUnitSphere * precision;
+                }
+            }
+            else
+            {
+                playerHeard = false;
+            }
+        }
+
+        if (arr.Length == 0 && arr_.Length == 0)
         {
             playerHeard = false;
         }

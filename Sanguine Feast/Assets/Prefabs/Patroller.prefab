@@ -589,6 +589,7 @@ MonoBehaviour:
   detectRange:
   - 15
   - 0.3
+  detectFighting: 15
   precision: 3
   sightRange: 25
   detectAngle: 70
