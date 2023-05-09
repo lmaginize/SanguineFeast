@@ -133,6 +133,23 @@ public class NPCBehaviour : MonoBehaviour
 
         while (isTurned)
         {
+            RaycastHit hit;
+
+            if (Physics.SphereCast(transform.position, 0.25f, transform.forward, out hit))
+            {
+                if (hit.collider.gameObject.CompareTag("NPC"))
+                {
+                    if (hit.collider.name.Contains("Patroller"))
+                    {
+                        if (Vector3.Angle(transform.position - hit.collider.gameObject.transform.position, hit.collider.gameObject.transform.forward) > 0)
+                        {
+                            hit.collider.gameObject.GetComponent<HealthBehaviour>().ReceiveHit(0.5f,0);
+                        }
+                    }
+                }
+            }
+
+
             if (!targeting)
             {
 
