@@ -205,7 +205,7 @@ public class MovementBehaviour : MonoBehaviour
             tpIndicator.SetActive(false);
         }
 
-        if (Physics.Raycast(coll.bounds.center, -Vector3.up, out RaycastHit rch, 5, ~player))
+        if (Physics.Raycast(coll.bounds.center, -Vector3.up, out RaycastHit rch, 100, ~player))
         {
             Debug.DrawRay(coll.bounds.center, -Vector3.up, Color.green);
             if (Physics.Raycast(rch.point, gc.sunObject.transform.forward * -1, out RaycastHit f, 10000) && f.collider != null && f.collider.gameObject.name.Equals("SunHitCheck"))
